@@ -131,3 +131,30 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - index.ts
+  getMoviesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getMovies
+      CodeUri: functions/getMovies
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /getMovies
+            Method: GET
+            Auth:
+              Authorizer: NONE
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - index.ts
+
+Outputs:
+  API:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${Api}.execute-api.${AWS::Region}.amazonaws.com/v1"
