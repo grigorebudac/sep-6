@@ -1,17 +1,15 @@
 import React from "react";
 import { Auth } from "@aws-amplify/auth";
+import { AuthenticationLayout } from "components/Layouts/AuthenticationLayout";
+import { RegisterForm } from "components/components/RegisterForm";
+import { User } from "types";
 
 const Register = () => {
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const email = e.target[0].value;
-    const password = e.target[1].value;
-
+  async function handleSubmit(credentials: User.RegisterInput) {
     try {
       const res = await Auth.signUp({
-        username: email,
-        password: password,
+        username: credentials.email,
+        password: credentials.password,
       });
 
       console.log({ res });
@@ -21,15 +19,9 @@ const Register = () => {
   }
 
   return (
-    <div>
-      Register
-      <form onSubmit={handleSubmit}>
-        <input placeholder="Email" type="email" name="email" />
-        <input placeholder="Password" type="password" name="password" />
-
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
+    <AuthenticationLayout title="Register">
+      <RegisterForm onSubmit={handleSubmit} />
+    </AuthenticationLayout>
   );
 };
 

@@ -1,15 +1,13 @@
 import React from "react";
 import { Auth } from "@aws-amplify/auth";
+import { AuthenticationLayout } from "components/Layouts/AuthenticationLayout";
+import { LoginForm } from "components/components/LoginForm";
+import { User } from "types";
 
 const Login = () => {
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const email = e.target[0].value;
-    const password = e.target[1].value;
-
+  async function handleSubmit(credentials: User.LoginInput) {
     try {
-      const res = await Auth.signIn(email, password);
+      const res = await Auth.signIn(credentials.email, credentials.password);
 
       console.log({ res });
     } catch (error) {
@@ -18,15 +16,9 @@ const Login = () => {
   }
 
   return (
-    <div>
-      Login
-      <form onSubmit={handleSubmit}>
-        <input placeholder="Email" type="email" name="email" />
-        <input placeholder="Password" type="password" name="password" />
-
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
+    <AuthenticationLayout title="Log in">
+      <LoginForm onSubmit={handleSubmit} />
+    </AuthenticationLayout>
   );
 };
 

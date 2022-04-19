@@ -1,0 +1,4 @@
+export const DRAWER = {
+  WIDTH_EXPANDED: 240,
+  WIDTH_COLLAPSED: 90,
+};
