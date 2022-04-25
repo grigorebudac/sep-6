@@ -10,6 +10,10 @@ const Register = () => {
       const res = await Auth.signUp({
         username: credentials.email,
         password: credentials.password,
+        attributes: {
+          name: credentials.name,
+          picture: "",
+        },
       });
 
       console.log({ res });

@@ -14,6 +14,7 @@ type RegisterFormProps = {
 };
 
 const schema = yup.object().shape({
+  name: yup.string().required("This field is required"),
   email: yup.string().email().required("This field is required"),
   password: yup.string().min(8).required("This field is required"),
 });
@@ -26,6 +27,7 @@ const RegisterForm = (props: RegisterFormProps) => {
   } = useForm<User.RegisterInput>({
     resolver: yupResolver(schema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
@@ -42,6 +44,13 @@ const RegisterForm = (props: RegisterFormProps) => {
         }
         disableBottomMargin
       >
+        <TextFieldController
+          name="name"
+          label="Name"
+          error={errors?.name}
+          control={control}
+        />
+
         <TextFieldController
           name="email"
           type="email"
