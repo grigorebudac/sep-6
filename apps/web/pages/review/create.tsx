@@ -5,7 +5,11 @@ const CreateReview = () => {
   const [createReview] = useCreateReviewMutation();
 
   async function handleCreateReview() {
-    await createReview()
+    await createReview({
+      movieId: "1",
+      message: `Hey ${Date.now()}`,
+      rating: 4.5,
+    })
       .unwrap()
       .then((res) => console.log({ res }))
       .catch((error) => console.log({ error }));

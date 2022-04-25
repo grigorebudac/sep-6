@@ -1,35 +1,39 @@
 import { REVIEW_TAG, RootApi } from "redux/apis/root.api";
-
-interface CreateReviewResponse {
-  id: string;
-  author: Partial<{
-    name: string;
-    picture: string;
-  }>;
-  authorId: string;
-  message?: string;
-  rating?: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Review } from "types";
 
 export const ReviewEndpoints = RootApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    createReview: builder.mutation<CreateReviewResponse, void>({
-      query: () => {
+    createReview: builder.mutation<Review.Review, Review.CreateReviewPayload>({
+      query: (body) => {
         return {
           url: "/review",
           method: "POST",
-          body: {
-            movieId: "1",
-            message: "Hello World",
-          },
+          body,
         };
       },
       invalidatesTags: [REVIEW_TAG],
     }),
+    deleteReview: builder.mutation<
+      Review.DeleteReviewResponse,
+      Review.DeleteReviewPayload
+    >({
+      query: (body) => {
+        return {
+          url: "/review",
+          method: "DELETE",
+          body,
+        };
+      },
+      invalidatesTags: (res) => [
+        {
+          type: REVIEW_TAG,
+          id: res?.reviewId,
+        },
+      ],
+    }),
   }),
 });
 
-export const { useCreateReviewMutation } = ReviewEndpoints;
+export const { useCreateReviewMutation, useDeleteReviewMutation } =
+  ReviewEndpoints;

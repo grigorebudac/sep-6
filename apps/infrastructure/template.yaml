@@ -224,6 +224,9 @@ Resources:
             RestApiId: !Ref Api
             Path: /review
             Method: DELETE
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ReviewsTable
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
