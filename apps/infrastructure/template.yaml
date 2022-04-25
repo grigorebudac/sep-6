@@ -181,6 +181,9 @@ Resources:
             RestApiId: !Ref Api
             Path: /reviews
             Method: GET
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ReviewsTable
     Metadata:
       BuildMethod: esbuild
       BuildProperties:

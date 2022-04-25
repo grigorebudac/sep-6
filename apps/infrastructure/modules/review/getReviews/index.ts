@@ -1,14 +1,44 @@
-import { APIGatewayProxyHandler } from "aws-lambda";
+import { APIGatewayProxyWithCognitoAuthorizerHandler } from "aws-lambda";
+import AWS from "aws-sdk";
 
-export const handler: APIGatewayProxyHandler = async (
-  event,
-  context,
-  callback
+const DynamoDB = new AWS.DynamoDB.DocumentClient();
+
+export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
+  event
 ) => {
+  let body = null;
+  let statusCode = 200;
+
+  try {
+    const movieId = event.queryStringParameters?.movieId;
+
+    if (movieId == null) {
+      throw new Error("Movie id is missing");
+    }
+
+    const data = await DynamoDB.scan({
+      TableName: process.env.REVIEWS_TABLE!,
+      FilterExpression: `movieId = :movieId`,
+      ExpressionAttributeValues: {
+        ":movieId": movieId,
+      },
+    }).promise();
+
+    statusCode = 200;
+    body = data?.Items ?? [];
+  } catch (error) {
+    statusCode = 500;
+    body = error instanceof Error ? error.message : error;
+  }
+
   return {
-    statusCode: 200,
-    body: JSON.stringify({
-      hello: "world",
-    }),
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "OPTIONS, GET",
+    },
+    statusCode,
+    body: JSON.stringify(body),
   };
 };

@@ -46,6 +46,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
       id: randomUUID(),
       author: { name, picture },
       authorId: sub,
+      movieId: data.movieId,
       message: data.message,
       rating: data.rating,
       createdAt: currentUnixTime,

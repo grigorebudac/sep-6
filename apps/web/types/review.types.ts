@@ -25,4 +25,8 @@ export declare module Review {
   interface DeleteReviewResponse {
     reviewId: string;
   }
+
+  interface GetReviewsPayload {
+    movieId: string;
+  }
 }

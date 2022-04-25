@@ -4,6 +4,17 @@ import { Review } from "types";
 export const ReviewEndpoints = RootApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
+    getReviews: builder.query<Review.Review[], Review.GetReviewsPayload>({
+      query: ({ movieId }) => {
+        return `/reviews?movieId=${movieId}`;
+      },
+      providesTags: (res) => {
+        return (res ?? []).map(({ id }) => ({
+          type: REVIEW_TAG,
+          id,
+        }));
+      },
+    }),
     createReview: builder.mutation<Review.Review, Review.CreateReviewPayload>({
       query: (body) => {
         return {
@@ -35,5 +46,8 @@ export const ReviewEndpoints = RootApi.injectEndpoints({
   }),
 });
 
-export const { useCreateReviewMutation, useDeleteReviewMutation } =
-  ReviewEndpoints;
+export const {
+  useCreateReviewMutation,
+  useDeleteReviewMutation,
+  useGetReviewsQuery,
+} = ReviewEndpoints;
