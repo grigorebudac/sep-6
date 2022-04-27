@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "sam build --beta-features",
-    "deploy": "npm run build && sam deploy"
+    "deploy": "npm run build && sam deploy",
+    "start": "npm run build && sam local start-api"
   }
 }

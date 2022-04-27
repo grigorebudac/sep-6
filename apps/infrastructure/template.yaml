@@ -12,12 +12,13 @@ Parameters:
       - prod
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 10
     Runtime: nodejs14.x
     Handler: index.handler
     Environment:
       Variables:
-        USERS_TABLE: !Ref UsersTable
+        USERS_TABLE: "Users"
+        REVIEWS_TABLE: "Reviews"
 
 Resources:
   # API
@@ -56,6 +57,13 @@ Resources:
           RequireNumbers: false
           RequireSymbols: false
           RequireUppercase: false
+      Schema:
+        - Name: name
+          AttributeDataType: String
+          Mutable: true
+        - Name: picture
+          AttributeDataType: String
+          Mutable: true
       LambdaConfig:
         CustomMessage: !GetAtt customMessageTriggerFunction.Arn
         PostConfirmation: !GetAtt postConfirmationTriggerFunction.Arn
@@ -116,18 +124,18 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - index.ts
-  # Functions
+  # User
   getUserFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: getUser
-      CodeUri: functions/getUser
+      CodeUri: modules/user/getUser
       Events:
         Api:
           Type: Api
           Properties:
             RestApiId: !Ref Api
-            Path: /getUser
+            Path: /user
             Method: GET
     Metadata:
       BuildMethod: esbuild
@@ -137,20 +145,91 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - index.ts
+  # Movie
   getMoviesFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: getMovies
-      CodeUri: functions/getMovies
+      CodeUri: modules/movie/getMovies
       Events:
         Api:
           Type: Api
           Properties:
             RestApiId: !Ref Api
-            Path: /getMovies
+            Path: /movies
             Method: GET
             Auth:
               Authorizer: NONE
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - index.ts
+  # Review
+  getReviewsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getReviews
+      CodeUri: modules/review/getReviews
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /reviews
+            Method: GET
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ReviewsTable
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - index.ts
+  createReviewFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: createReview
+      CodeUri: modules/review/createReview
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /review
+            Method: POST
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref ReviewsTable
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - index.ts
+  deleteReviewFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: deleteReview
+      CodeUri: modules/review/deleteReview
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /review
+            Method: DELETE
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ReviewsTable
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -167,7 +246,13 @@ Resources:
       PrimaryKey:
         Name: "id"
         Type: "String"
-
+  ReviewsTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "Reviews"
+      PrimaryKey:
+        Name: "id"
+        Type: "String"
 Outputs:
   API:
     Description: "API Gateway endpoint URL"
