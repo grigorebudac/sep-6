@@ -13,6 +13,6 @@ export const TitleContainer = styled.div`
   flex-shrink: 0;
   padding: 0px 2rem;
   padding-bottom: 2rem;
-  background: ${({ theme }) => theme.palette.eventBackground.main};
+  background: ${({ theme }) => theme.palette.primary.main};
   top: 0rem;
 `;

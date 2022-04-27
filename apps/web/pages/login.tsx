@@ -1,7 +1,7 @@
 import React from "react";
 import { Auth } from "@aws-amplify/auth";
 import { AuthenticationLayout } from "components/Layouts/AuthenticationLayout";
-import { LoginForm } from "components/components/LoginForm";
+import { LoginForm } from "components/Forms/LoginForm";
 import { User } from "types";
 
 const Login = () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Auth } from "@aws-amplify/auth";
 import { AuthenticationLayout } from "components/Layouts/AuthenticationLayout";
-import { RegisterForm } from "components/components/RegisterForm";
+import { RegisterForm } from "components/Forms/RegisterForm";
 import { User } from "types";
 
 const Register = () => {
