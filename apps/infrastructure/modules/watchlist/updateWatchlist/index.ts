@@ -21,8 +21,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
   let statusCode = 200;
 
   try {
-    // const { sub, name, picture } = event.requestContext.authorizer.claims;
-    const sub = "test";
+    const { sub } = event.requestContext.authorizer.claims;
     const currentUnixTime = Date.now().toString();
 
     const watchlistId = event.pathParameters?.["id"];
@@ -80,7 +79,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Methods": "OPTIONS, POST",
+      "Access-Control-Allow-Methods": "OPTIONS, PATCH",
     },
     statusCode,
     body: JSON.stringify(body),

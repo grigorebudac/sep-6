@@ -3,10 +3,6 @@ import AWS from "aws-sdk";
 
 const DynamoDB = new AWS.DynamoDB.DocumentClient();
 
-interface Payload {
-  reviewId: string;
-}
-
 export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
   event
 ) => {
@@ -14,8 +10,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
   let statusCode = 200;
 
   try {
-    // const { sub } = event.requestContext.authorizer.claims;
-    const sub = "test";
+    const { sub } = event.requestContext.authorizer.claims;
     const watchlistId = event.pathParameters?.["id"];
 
     if (watchlistId == null) {
@@ -35,7 +30,15 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     body = watchlistId;
   } catch (error) {
     statusCode = 500;
-    body = error instanceof Error ? error.message : error;
+    if (error instanceof Error) {
+      body = error.message;
+      if (error.message === "The conditional request failed") {
+        statusCode = 400;
+        body = "You don't have permission to delete this watchlist";
+      }
+    } else {
+      body = error;
+    }
   }
 
   return {

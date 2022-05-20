@@ -15,8 +15,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
   let statusCode = 201;
 
   try {
-    // const { sub, name, picture } = event.requestContext.authorizer.claims;
-    const sub = "test2";
+    const { sub } = event.requestContext.authorizer.claims;
     const currentUnixTime = Date.now().toString();
 
     const data: Payload = JSON.parse(event.body ?? "");

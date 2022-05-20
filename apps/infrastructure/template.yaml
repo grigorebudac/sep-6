@@ -239,34 +239,11 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - index.ts
-  getWatchlistFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: getWatchlist
-      CodeUri: modules/watchlist/getWatchlist
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            RestApiId: !Ref Api
-            Path: /watchlists/{id}
-            Method: GET
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: !Ref WatchlistTable
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2020"
-        Sourcemap: true
-        EntryPoints:
-          - index.ts
   getWatchlistsFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: getWatchlists
-      CodeUri: modules/watchlist/getWatchlist
+      CodeUri: modules/watchlist/getWatchlists
       Events:
         Api:
           Type: Api
