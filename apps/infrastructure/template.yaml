@@ -203,7 +203,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref Api
-            Path: /review
+            Path: /reviews
             Method: POST
       Policies:
         - DynamoDBWritePolicy:
@@ -226,7 +226,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref Api
-            Path: /review
+            Path: /reviews/{id}
             Method: DELETE
       Policies:
         - DynamoDBCrudPolicy:

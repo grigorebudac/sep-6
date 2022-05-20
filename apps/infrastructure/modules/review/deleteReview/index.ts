@@ -3,10 +3,6 @@ import AWS from "aws-sdk";
 
 const DynamoDB = new AWS.DynamoDB.DocumentClient();
 
-interface Payload {
-  reviewId: string;
-}
-
 export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
   event
 ) => {
@@ -15,17 +11,16 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
 
   try {
     const { sub } = event.requestContext.authorizer.claims;
+    const reviewId = event.pathParameters?.["id"];
 
-    const data: Payload = JSON.parse(event.body ?? "");
-
-    if (data.reviewId == null) {
+    if (reviewId == null) {
       throw new Error("Review id is missing");
     }
 
     await DynamoDB.delete({
       TableName: process.env.REVIEWS_TABLE!,
       Key: {
-        id: data.reviewId,
+        id: reviewId,
       },
       ConditionExpression: `authorId = :authorId`,
       ExpressionAttributeValues: {
@@ -34,7 +29,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     }).promise();
 
     statusCode = 200;
-    body = data;
+    body = reviewId;
   } catch (error) {
     statusCode = 500;
     body = error instanceof Error ? error.message : error;
