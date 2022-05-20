@@ -19,6 +19,7 @@ Globals:
       Variables:
         USERS_TABLE: "Users"
         REVIEWS_TABLE: "Reviews"
+        WATCHLISTS_TABLE: "Watchlists"
 
 Resources:
   # API
@@ -238,6 +239,98 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - index.ts
+  getWatchlistsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getWatchlists
+      CodeUri: modules/watchlist/getWatchlists
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /watchlists
+            Method: GET
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref WatchlistTable
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - index.ts
+  createWatchlistFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: createWatchlist
+      CodeUri: modules/watchlist/createWatchlist
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /watchlists
+            Method: POST
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref WatchlistTable
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - index.ts
+  updateWatchlistFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: updateWatchlist
+      CodeUri: modules/watchlist/updateWatchlist
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /watchlists/{id}
+            Method: PATCH
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref WatchlistTable
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - index.ts
+  deleteWatchlistFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: deleteWatchlist
+      CodeUri: modules/watchlist/deleteWatchlist
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /watchlists/{id}
+            Method: DELETE
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref WatchlistTable
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - index.ts
   # DynamoDB
   UsersTable:
     Type: AWS::Serverless::SimpleTable
@@ -250,6 +343,13 @@ Resources:
     Type: AWS::Serverless::SimpleTable
     Properties:
       TableName: "Reviews"
+      PrimaryKey:
+        Name: "id"
+        Type: "String"
+  WatchlistTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: "Watchlists"
       PrimaryKey:
         Name: "id"
         Type: "String"
