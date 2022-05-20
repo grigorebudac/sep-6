@@ -5,6 +5,7 @@ import {
   DialogProps,
   Divider,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
 import { getImageByPath } from "utils/tmdb.utils";
@@ -12,12 +13,13 @@ import { Movie } from "types";
 
 import * as Styles from "./MovieModal.styles";
 import SimpleLineChart from "components/Charts/SimpleLineChart";
+import { Close } from "@mui/icons-material";
 
 interface MovieModalProps {
   open: DialogProps["open"];
   movie?: Movie.GetMovieResponse;
   isLoading: boolean;
-  onClose: DialogProps["onClose"];
+  onClose: () => void;
 }
 
 const DUMMY_DATA = [
@@ -66,6 +68,12 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
           src={getImageByPath(movie?.poster_path)}
           alt={movie?.title}
         />
+
+        <Styles.CloseBtnContainer>
+          <IconButton color="inherit" onClick={props.onClose}>
+            <Close />
+          </IconButton>
+        </Styles.CloseBtnContainer>
 
         <Styles.CoverContent>
           <Typography
