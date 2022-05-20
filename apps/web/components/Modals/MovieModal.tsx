@@ -13,7 +13,10 @@ interface MovieModalProps {
 const MovieModal = (props: MovieModalProps) => {
   return (
     <Dialog open={props.open} onClose={props.onClose}>
-      <img src={getImageByPath(props.movie?.poster_path)} />
+      <img
+        src={getImageByPath(props.movie?.poster_path)}
+        alt={props.movie?.title}
+      />
       <p>{props.movie?.title}</p>
     </Dialog>
   );
