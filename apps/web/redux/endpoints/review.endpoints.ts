@@ -18,7 +18,7 @@ export const ReviewEndpoints = RootApi.injectEndpoints({
     createReview: builder.mutation<Review.Review, Review.CreateReviewPayload>({
       query: (body) => {
         return {
-          url: "/review",
+          url: "/reviews",
           method: "POST",
           body,
         };
@@ -29,11 +29,10 @@ export const ReviewEndpoints = RootApi.injectEndpoints({
       Review.DeleteReviewResponse,
       Review.DeleteReviewPayload
     >({
-      query: (body) => {
+      query: ({ reviewId }) => {
         return {
-          url: "/review",
-          method: "DELETE",
-          body,
+          url: `/reviews/${reviewId}`,
+          method: "DELETE"
         };
       },
       invalidatesTags: (res) => [
