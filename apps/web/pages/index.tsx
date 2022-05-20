@@ -2,9 +2,10 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { useGetPopularMoviesQuery } from "redux/endpoints/movies.endpoints";
 import { getImageByPath } from "utils/tmdb.utils";
-import MovieModal from "components/Modals";
 import Link from "next/link";
 import MovieModalContainer from "containers/MovieModalContainer";
+import ApplicationLayout from "components/Layouts/ApplicationLayout";
+import MovieCard from "components/Cards/MovieCard";
 
 const Home = () => {
   const { data, isLoading } = useGetPopularMoviesQuery();
@@ -14,27 +15,28 @@ const Home = () => {
   }
 
   return (
-    <Grid container>
-      {data?.results.map((movie) => (
-        <Link
-          key={movie.id}
-          href={`/?movieId=${movie.id}`}
-          passHref
-          scroll={false}
-        >
-          <Grid item xs={6} sm={3}>
-            <img
-              src={getImageByPath(movie.poster_path)}
-              alt={movie.title}
-              width={100}
-            />
-            <p>{movie.title}</p>
-          </Grid>
-        </Link>
-      ))}
+    <ApplicationLayout title="Home">
+      <Grid container>
+        {data?.results.map((movie) => (
+          <Link
+            key={movie.id}
+            href={`/?movieId=${movie.id}`}
+            passHref
+            scroll={false}
+          >
+            <Grid item xs={12} sm={4} md={2} padding="1rem">
+              <MovieCard
+                posterUrl={getImageByPath(movie.poster_path)}
+                title={movie.title}
+                rating={movie.vote_average}
+              />
+            </Grid>
+          </Link>
+        ))}
 
-      <MovieModalContainer />
-    </Grid>
+        <MovieModalContainer />
+      </Grid>
+    </ApplicationLayout>
   );
 };
 

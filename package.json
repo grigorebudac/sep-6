@@ -13,6 +13,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "babel-plugin-inline-react-svg": "^2.0.1",
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
