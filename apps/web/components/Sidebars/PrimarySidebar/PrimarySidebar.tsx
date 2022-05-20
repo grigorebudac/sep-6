@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { List } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import { Home, Settings } from "@mui/icons-material";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
@@ -16,11 +15,6 @@ type PrimarySidebarProps = {
 };
 
 const NAV_LINKS = [
-  {
-    title: "New Event",
-    icon: <AddIcon />,
-    href: "/new-event",
-  },
   {
     title: "Home",
     icon: <Home />,

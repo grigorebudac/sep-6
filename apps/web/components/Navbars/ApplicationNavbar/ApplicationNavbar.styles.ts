@@ -12,7 +12,7 @@ export const AppBar = styled(MuiAppBar)`
 
 export const Toolbar = styled(MuiToolbar)`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
 
 export const IconButton = styled(MuiIconButton)`
