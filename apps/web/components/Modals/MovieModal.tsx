@@ -11,6 +11,7 @@ import { getImageByPath } from "utils/tmdb.utils";
 import { Movie } from "types";
 
 import * as Styles from "./MovieModal.styles";
+import SimpleLineChart from "components/Charts/SimpleLineChart";
 
 interface MovieModalProps {
   open: DialogProps["open"];
@@ -18,6 +19,37 @@ interface MovieModalProps {
   isLoading: boolean;
   onClose: DialogProps["onClose"];
 }
+
+const DUMMY_DATA = [
+  {
+    x: "Wed",
+    y: 10,
+  },
+  {
+    x: "Thu",
+    y: 30,
+  },
+  {
+    x: "Fri",
+    y: 2,
+  },
+  {
+    x: "Sat",
+    y: 0,
+  },
+  {
+    x: "Sun",
+    y: 7,
+  },
+  {
+    x: "Mon",
+    y: 15,
+  },
+  {
+    x: "Tue",
+    y: 7,
+  },
+];
 
 const MovieModal = ({ movie, ...props }: MovieModalProps) => {
   const genres = movie?.genres.map((genre) => genre.name)?.join(", ");
@@ -78,12 +110,20 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
 
       <Styles.Content>
         <Divider />
-        <h1>Charts</h1>
+
+        <Styles.ChartContainer>
+          <SimpleLineChart data={DUMMY_DATA} isLoading={false} />
+        </Styles.ChartContainer>
+
         <Divider />
       </Styles.Content>
 
       <Styles.Content>
-        <h1>Reviews</h1>
+        <Grid container>
+          <Grid item xs={12} sm={8}>
+            <h1>Reviews</h1>
+          </Grid>
+        </Grid>
       </Styles.Content>
     </Dialog>
   );

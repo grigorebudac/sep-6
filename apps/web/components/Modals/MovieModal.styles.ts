@@ -4,7 +4,6 @@ export const CoverContainer = styled.div`
   position: relative;
   width: 100%;
   height: 40rem;
-  overflow: hidden;
 `;
 
 export const Cover = styled.img`
@@ -38,4 +37,9 @@ export const Content = styled.div`
 
 export const Section = styled.div`
   margin-bottom: 2rem;
+`;
+
+export const ChartContainer = styled.div`
+  width: 100%;
+  height: 40rem;
 `;
