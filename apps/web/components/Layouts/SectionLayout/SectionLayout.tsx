@@ -11,7 +11,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = (props) => {
   return (
     <Styles.Container>
       <Styles.TitleContainer>
-        <Typography component="h1" color="eventSystem.main" fontSize="2.4rem">
+        <Typography component="h1" color="system.main" fontSize="2.4rem">
           {props.title}
         </Typography>
       </Styles.TitleContainer>

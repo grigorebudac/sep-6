@@ -1,0 +1,27 @@
+{
+  "presets": ["next/babel"],
+  "plugins": [
+    "@emotion",
+    [
+      "inline-react-svg",
+      {
+        "svgo": {
+          "plugins": [
+            {
+              "name": "preset-default",
+              "params": {
+                "overrides": {
+                  "removeAttrs": {
+                    "attrs": "(data-name)"
+                  },
+                  "removeViewBox": false
+                }
+              }
+            },
+            "cleanupIDs"
+          ]
+        }
+      }
+    ]
+  ]
+}
