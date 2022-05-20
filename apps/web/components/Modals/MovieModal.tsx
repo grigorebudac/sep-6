@@ -14,6 +14,7 @@ import { Movie } from "types";
 import * as Styles from "./MovieModal.styles";
 import SimpleLineChart from "components/Charts/SimpleLineChart";
 import { Close } from "@mui/icons-material";
+import SimpleTextSection from "components/Sections/SimpleTextSection";
 
 interface MovieModalProps {
   open: DialogProps["open"];
@@ -89,32 +90,17 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
       <Styles.Content>
         <Grid container gap={2}>
           <Grid item xs={12} sm={8}>
-            <Typography variant="subtitle2" fontWeight="bold">
-              Overview
-            </Typography>
-
-            <Box marginTop="1rem">
-              <Typography variant="body1">{movie?.overview}</Typography>
-            </Box>
+            <SimpleTextSection title="Overview" subtitle={movie?.overview} />
           </Grid>
 
           <Grid item xs={12} sm={3}>
-            <Box>
-              <Typography variant="subtitle2" fontWeight="bold">
-                Genres
-              </Typography>
-              <Box marginTop="1rem">
-                <Typography variant="body1">{genres}</Typography>
-              </Box>
-            </Box>
+            <SimpleTextSection title="Genres" subtitle={genres} />
 
             <Box marginTop="2rem">
-              <Typography variant="subtitle2" fontWeight="bold">
-                Spoken Languages
-              </Typography>
-              <Box marginTop="1rem">
-                <Typography variant="body1">{spokenLanguages}</Typography>
-              </Box>
+              <SimpleTextSection
+                title="Spoken Languages"
+                subtitle={spokenLanguages}
+              />
             </Box>
           </Grid>
         </Grid>
