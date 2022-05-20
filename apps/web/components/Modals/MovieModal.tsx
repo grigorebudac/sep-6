@@ -58,7 +58,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
     ?.join(", ");
 
   return (
-    <Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
+    <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
       <Styles.CoverContainer>
         <Styles.CoverOverlay />
 
@@ -68,7 +68,11 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
         />
 
         <Styles.CoverContent>
-          <Typography fontSize="4.8rem" fontWeight="bold" color="system.main">
+          <Typography
+            fontSize={["3.2rem", "4.8rem"]}
+            fontWeight="bold"
+            color="system.main"
+          >
             {movie?.title}
           </Typography>
         </Styles.CoverContent>
@@ -125,7 +129,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
           </Grid>
         </Grid>
       </Styles.Content>
-    </Dialog>
+    </Styles.Dialog>
   );
 };
 
