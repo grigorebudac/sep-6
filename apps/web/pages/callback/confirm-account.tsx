@@ -1,19 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Auth } from "@aws-amplify/auth";
 
 const ConfirmAccount = () => {
   const { query, isReady } = useRouter();
 
-  useEffect(() => {
-    if (!isReady) {
-      return;
-    }
-
-    handleVerifyAccount();
-  }, [isReady]);
-
-  async function handleVerifyAccount() {
+  const handleVerifyAccount = useCallback(async () => {
     const { code, username } = query;
 
     if (code == null || username == null) {
@@ -27,7 +19,15 @@ const ConfirmAccount = () => {
     } catch (error) {
       console.log({ error });
     }
-  }
+  }, [query]);
+
+  useEffect(() => {
+    if (!isReady) {
+      return;
+    }
+
+    handleVerifyAccount();
+  }, [isReady, handleVerifyAccount]);
 
   return <p>Loading...</p>;
 };
