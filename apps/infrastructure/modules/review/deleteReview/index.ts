@@ -16,7 +16,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
   try {
     const { sub } = event.requestContext.authorizer.claims;
 
-    const data: Payload = JSON.parse(event.body ?? "");
+    const data: Payload = JSON.parse(event.body ?? "{}");
 
     if (data.reviewId == null) {
       throw new Error("Review id is missing");

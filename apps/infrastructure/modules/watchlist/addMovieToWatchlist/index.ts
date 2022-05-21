@@ -20,10 +20,14 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
 
     const currentUnixTime = Date.now().toString();
 
-    const data: Payload = JSON.parse(event.body ?? '');
+    const data: Payload = JSON.parse(event.body ?? "{}");
 
     if (watchListId == null) {
       throw new Error('Watchlist id is missing');
+    }
+
+    if (data.movieId == null) {
+      throw new Error('Movie id is missing');
     }
 
     if (data.title == null) {
