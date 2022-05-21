@@ -26,7 +26,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
 
     const watchlistId = event.pathParameters?.["id"];
 
-    const data: Payload = JSON.parse(event.body ?? "");
+    const data: Payload = JSON.parse(event.body ?? "{}");
     const { title, movies } = data;
 
     if (watchlistId == null) {

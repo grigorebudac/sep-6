@@ -18,7 +18,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     const { sub } = event.requestContext.authorizer.claims;
     const currentUnixTime = Date.now().toString();
 
-    const data: Payload = JSON.parse(event.body ?? "");
+    const data: Payload = JSON.parse(event.body ?? "{}");
 
     if (data.title == null) {
       throw new Error("Watchlist title is missing");
