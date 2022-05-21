@@ -13,13 +13,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     const { sub } = event.requestContext.authorizer.claims;
     const reviewId = event.pathParameters?.["id"];
 
-<<<<<<< HEAD
-    const data: Payload = JSON.parse(event.body ?? "{}");
-
-    if (data.reviewId == null) {
-=======
     if (reviewId == null) {
->>>>>>> 1e3531266da903e673d905e1aa5e569e5f864a57
       throw new Error("Review id is missing");
     }
 
