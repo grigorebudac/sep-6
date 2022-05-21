@@ -1,10 +1,11 @@
 import { APIGatewayProxyWithCognitoAuthorizerHandler } from 'aws-lambda';
 import AWS from 'aws-sdk';
+import { QueryOutput } from 'aws-sdk/clients/dynamodb';
 
 const DynamoDB = new AWS.DynamoDB.DocumentClient();
 
-type Result = {
-  Items: Array<WatchList>;
+type QueryResult = {
+  Items?: Array<WatchList>;
 };
 
 type WatchList = Partial<{
@@ -13,7 +14,7 @@ type WatchList = Partial<{
 }>;
 
 type Movie = Partial<{
-  id: string;
+  movieId: string;
   title: string;
 }>;
 
@@ -38,6 +39,8 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
       throw new Error('Movie id is missing');
     }
 
+    // checks if such a watchlist exists and if it is owned by the user
+    // it returns an array of watchlists that match the query
     const watchLists = (await DynamoDB.scan({
       TableName: process.env.WATCHLISTS_TABLE!,
       FilterExpression: 'userId = :userId AND id = :id',
@@ -45,12 +48,18 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
         ':userId': sub,
         ':id': watchListId,
       },
-    }).promise()) as Result;
+    }).promise()) as QueryResult;
 
-    if (watchLists?.Items?.[0].movies) {
-      movieIndex = watchLists?.Items?.[0].movies.findIndex(
-        (movie) => movie.id === movieId,
-      );
+    if (watchLists?.Items?.length === 0) {
+      throw new Error('Watchlist not found');
+    }
+
+    movieIndex = watchLists?.Items?.[0]?.movies?.findIndex(
+      (movie) => movie.movieId === movieId,
+    );
+
+    if (movieIndex === undefined || movieIndex === -1) {
+      throw new Error('Movie not found in Watchlist');
     }
 
     await DynamoDB.update({
@@ -61,11 +70,17 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
       UpdateExpression: `REMOVE movies[${movieIndex}]`,
     }).promise();
 
-    statusCode = 200;
     body = movieId;
   } catch (error) {
     statusCode = 500;
-    body = error instanceof Error ? error.message : error;
+    if (error instanceof Error) {
+      body = error.message
+      if (error.message === 'Watchlist not found' || error.message === 'Movie not found in Watchlist') {
+        statusCode = 404;
+      }
+    } else {
+      body = error;
+    }
   }
 
   return {

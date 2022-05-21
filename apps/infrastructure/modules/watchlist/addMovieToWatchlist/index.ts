@@ -31,7 +31,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     }
 
     const Movie = {
-      id: data.movieId,
+      movieId: data.movieId,
       title: data.title,
       createdAt: currentUnixTime,
     };
