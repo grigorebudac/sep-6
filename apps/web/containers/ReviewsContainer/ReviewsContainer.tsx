@@ -1,29 +1,29 @@
-import React from "react";
-import { Box } from "@mui/material";
-import ReviewCard from "components/Cards/ReviewCard";
-import LeaveReviewForm from "components/Forms/LeaveReviewForm";
-import { Review } from "types";
+import React from 'react';
+import { Box } from '@mui/material';
+import ReviewCard from 'components/Cards/ReviewCard';
+import LeaveReviewForm from 'components/Forms/LeaveReviewForm';
+import { Review } from 'types';
 
 const REVIEWS = [
   {
-    name: "Joma Simon",
+    name: 'Joma Simon',
     message:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos ullam blanditiis, ipsa, perferendis beatae voluptatem ea excepturi quaerat fuga officiis odit necessitatibus aliquam, veniam natus et quo in hic autem.",
-    rating: "2",
+      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos ullam blanditiis, ipsa, perferendis beatae voluptatem ea excepturi quaerat fuga officiis odit necessitatibus aliquam, veniam natus et quo in hic autem.',
+    rating: '2',
     date: Date.now(),
   },
   {
-    name: "Jayvion Simon",
+    name: 'Jayvion Simon',
     message:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos ullam blanditiis, ipsa, perferendis beatae voluptatem ea excepturi quaerat fuga officiis odit necessitatibus aliquam, veniam natus et quo in hic autem.",
-    rating: "3",
+      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos ullam blanditiis, ipsa, perferendis beatae voluptatem ea excepturi quaerat fuga officiis odit necessitatibus aliquam, veniam natus et quo in hic autem.',
+    rating: '3',
     date: Date.now(),
   },
   {
-    name: "Het Yasd",
+    name: 'Het Yasd',
     message:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos ullam blanditiis, ipsa, perferendis beatae voluptatem ea excepturi quaerat fuga officiis odit necessitatibus aliquam, veniam natus et quo in hic autem.",
-    rating: "5",
+      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos ullam blanditiis, ipsa, perferendis beatae voluptatem ea excepturi quaerat fuga officiis odit necessitatibus aliquam, veniam natus et quo in hic autem.',
+    rating: '5',
     date: Date.now(),
   },
 ];

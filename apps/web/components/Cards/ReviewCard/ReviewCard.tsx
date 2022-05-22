@@ -1,9 +1,9 @@
-import { Avatar, Grid, Rating, Typography } from "@mui/material";
-import React from "react";
-import { format } from "date-fns";
-import { getNameInitials } from "utils/string.utils";
+import { Avatar, Grid, Rating, Typography } from '@mui/material';
+import React from 'react';
+import { format } from 'date-fns';
+import { getNameInitials } from 'utils/string.utils';
 
-import * as Styles from "./ReviewCard.styles";
+import * as Styles from './ReviewCard.styles';
 
 interface ReviewCardProps {
   name: string;
@@ -13,7 +13,7 @@ interface ReviewCardProps {
 }
 
 const ReviewCard = (props: ReviewCardProps) => {
-  const date = format(new Date(props.date), "dd MMM yyyy"); // 22 May 2022
+  const date = format(new Date(props.date), 'dd MMM yyyy'); // 22 May 2022
 
   return (
     <Grid container gap={3}>
@@ -26,7 +26,7 @@ const ReviewCard = (props: ReviewCardProps) => {
           <Typography variant="subtitle2">{date}</Typography>
         </Styles.UserInfo>
       </Grid>
-      <Grid item xs={7}>
+      <Grid item xs={9}>
         <Rating value={Number(props.rating)} readOnly />
 
         {props.message != null && (
