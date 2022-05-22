@@ -7,37 +7,15 @@ import {
   useCreateReviewMutation,
   useGetReviewsQuery,
 } from 'redux/endpoints/review.endpoints';
-
-const REVIEWS = [
-  {
-    name: 'Joma Simon',
-    message:
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos ullam blanditiis, ipsa, perferendis beatae voluptatem ea excepturi quaerat fuga officiis odit necessitatibus aliquam, veniam natus et quo in hic autem.',
-    rating: '2',
-    date: Date.now(),
-  },
-  {
-    name: 'Jayvion Simon',
-    message:
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos ullam blanditiis, ipsa, perferendis beatae voluptatem ea excepturi quaerat fuga officiis odit necessitatibus aliquam, veniam natus et quo in hic autem.',
-    rating: '3',
-    date: Date.now(),
-  },
-  {
-    name: 'Het Yasd',
-    message:
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos ullam blanditiis, ipsa, perferendis beatae voluptatem ea excepturi quaerat fuga officiis odit necessitatibus aliquam, veniam natus et quo in hic autem.',
-    rating: '5',
-    date: Date.now(),
-  },
-];
+import SkeletonList from 'components/Skeletons/SkeletonList';
+import ReviewCardSkeleton from 'components/Skeletons/ReviewCardSkeleton';
 
 interface ReviewsContainerProps {
   movieId: number;
 }
 
 const ReviewsContainer = (props: ReviewsContainerProps) => {
-  const { data } = useGetReviewsQuery({ movieId: props.movieId });
+  const { data, isLoading } = useGetReviewsQuery({ movieId: props.movieId });
   const [createReview] = useCreateReviewMutation();
 
   async function handleCreateReview(values: Review.LeaveReviewInput) {
@@ -54,16 +32,22 @@ const ReviewsContainer = (props: ReviewsContainerProps) => {
 
   return (
     <div>
-      {data?.map((review) => (
-        <Box key={review.id} marginBottom="2rem">
-          <ReviewCard
-            name={review.author.name!}
-            message={review.message}
-            rating={review.rating!}
-            date={review.createdAt}
-          />
-        </Box>
-      ))}
+      {isLoading ? (
+        <SkeletonList count={5}>
+          <ReviewCardSkeleton />
+        </SkeletonList>
+      ) : (
+        data?.map((review) => (
+          <Box key={review.id} marginBottom="2rem">
+            <ReviewCard
+              name={review.author.name!}
+              message={review.message}
+              rating={review.rating!}
+              date={review.createdAt}
+            />
+          </Box>
+        ))
+      )}
 
       <Box marginTop="2rem">
         <LeaveReviewForm onSubmit={handleCreateReview} />
