@@ -118,11 +118,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
       </Styles.Content>
 
       <Styles.Content>
-        <Grid container>
-          <Grid item xs={12} sm={8}>
-            <ReviewsContainer />
-          </Grid>
-        </Grid>
+        <ReviewsContainer />
       </Styles.Content>
     </Styles.Dialog>
   );
