@@ -22,17 +22,17 @@ export const DeleteIconButton = styled(MuiIconButton)`
   top: 1rem;
 
   transition: all 0.2s linear 0s;
-  background: ${({ theme }) => alpha(theme.palette.system.main, 0.9)};
+  background: ${({ theme }) => alpha(theme.palette.primary.light, 0.6)};
 
   > svg {
     width: 2rem;
     height: 2rem;
-    fill: ${({ theme }) => theme.palette.system.dark};
+    fill: ${({ theme }) => theme.palette.system.main};
     transition: all 0.2s linear 0s;
   }
 
   &:hover {
-    background: ${({ theme }) => alpha(theme.palette.secondary.dark, 1)};
+    background: ${({ theme }) => alpha(theme.palette.primary.light, 1)};
     transition: all 0.2s linear 0s;
 
     & > svg {

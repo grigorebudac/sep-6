@@ -23,5 +23,5 @@ export const Content = styled.div`
   box-sizing: border-box;
   padding: 2rem;
   border-radius: 1rem;
-  background-color: ${({ theme }) => alpha(theme.palette.secondary.main, 0.1)};
+  background-color: ${({ theme }) => alpha(theme.palette.tertiary.main, 0.1)};
 `;

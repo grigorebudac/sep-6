@@ -35,12 +35,11 @@ export const MovieList = styled(Grid)`
 
 export const IconButton = styled(MuiIconButton)`
   transition: all 0.2s linear 0s;
-  background: ${({ theme }) => alpha(theme.palette.system.main, 0)};
 
   > svg {
     width: 2rem;
     height: 2rem;
-    fill: ${({ theme }) => theme.palette.secondary.main};
+    fill: ${({ theme }) => theme.palette.system.main};
     transition: all 0.2s linear 0s;
   }
 
@@ -49,7 +48,7 @@ export const IconButton = styled(MuiIconButton)`
     transition: all 0.2s linear 0s;
 
     & > svg {
-      fill: ${({ theme }) => theme.palette.system.main};
+      fill: ${({ theme }) => theme.palette.system.dark};
     }
   }
 `;

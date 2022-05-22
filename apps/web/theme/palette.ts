@@ -1,3 +1,4 @@
+import { alpha } from "@mui/material";
 import { CustomThemeColors } from "types/theme.types";
 
 const palette: CustomThemeColors = {
@@ -7,9 +8,12 @@ const palette: CustomThemeColors = {
     transparent: "transparent",
   },
   primary: {
-    main: "#aadee7",
+    main: "#1e1926",
   },
   secondary: {
+    main: "#0400f2",
+  },
+  tertiary: {
     main: "#72a9c2",
   },
   background: {

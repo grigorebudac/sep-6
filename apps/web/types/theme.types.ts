@@ -13,6 +13,7 @@ export type CustomThemeColors = PaletteOptions & {
   primary: SimplePaletteColorOptions;
   secondary: SimplePaletteColorOptions;
   danger: SimplePaletteColorOptions;
+  tertiary: SimplePaletteColorOptions;
   background: SimplePaletteColorOptions;
   system: SimplePaletteColorOptions;
 };

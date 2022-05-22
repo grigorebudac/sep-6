@@ -33,7 +33,7 @@ const WatchLists = () => {
       }
 
       <Box position="absolute" right={30} bottom={30}>
-        <Fab color="primary" aria-label="add" onClick={handleClickCreateWatchListModalOpen}>
+        <Fab color="default" aria-label="add" onClick={handleClickCreateWatchListModalOpen}>
           <AddIcon />
         </Fab>
       </Box>

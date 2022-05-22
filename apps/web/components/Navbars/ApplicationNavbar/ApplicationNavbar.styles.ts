@@ -22,7 +22,7 @@ export const IconButton = styled(MuiIconButton)`
   > svg {
     width: 2rem;
     height: 2rem;
-    fill: ${({ theme }) => theme.palette.secondary.main};
+    fill: ${({ theme }) => theme.palette.tertiary.main};
     transition: all 0.2s linear 0s;
   }
 

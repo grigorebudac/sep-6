@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AppThunk, User } from "types";
+import { AppThunk, User } from 'types';
 
 type UserState = {
   user: User.User | null;
@@ -11,10 +11,10 @@ const initialState: UserState = {
 };
 
 const slice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<UserState["user"] | undefined>) => {
+    setUser: (state, action: PayloadAction<UserState['user'] | undefined>) => {
       state.user = action.payload || null;
     },
   },

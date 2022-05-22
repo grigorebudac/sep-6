@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   DialogProps,
@@ -9,16 +9,15 @@ import {
 } from "@mui/material";
 import { getImageByPath } from "utils/tmdb.utils";
 import { Movie, WatchList } from "types";
-
 import * as Styles from "./MovieModal.styles";
 import SimpleLineChart from "components/Charts/SimpleLineChart";
 import { Close, Add } from "@mui/icons-material";
 import SimpleTextSection from "components/Sections/SimpleTextSection";
 import AddToPlayListModal from "components/Modals/AddToPlayListModal";
-
+import ReviewsContainer from 'containers/ReviewsContainer';
 
 interface MovieModalProps {
-  open: DialogProps["open"];
+  open: DialogProps['open'];
   movie?: Movie.GetMovieResponse;
   isLoading: boolean;
   onClose: () => void;
@@ -26,31 +25,31 @@ interface MovieModalProps {
 
 const DUMMY_DATA = [
   {
-    x: "Wed",
+    x: 'Wed',
     y: 10,
   },
   {
-    x: "Thu",
+    x: 'Thu',
     y: 30,
   },
   {
-    x: "Fri",
+    x: 'Fri',
     y: 2,
   },
   {
-    x: "Sat",
+    x: 'Sat',
     y: 0,
   },
   {
-    x: "Sun",
+    x: 'Sun',
     y: 7,
   },
   {
-    x: "Mon",
+    x: 'Mon',
     y: 15,
   },
   {
-    x: "Tue",
+    x: 'Tue',
     y: 7,
   },
 ];
@@ -82,10 +81,10 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
     setOpen(false);
   };
 
-  const genres = movie?.genres.map((genre) => genre.name)?.join(", ");
+  const genres = movie?.genres.map((genre) => genre.name)?.join(', ');
   const spokenLanguages = movie?.spoken_languages
     .map(({ name }) => name)
-    ?.join(", ");
+    ?.join(', ');
 
   return (
     <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
@@ -105,7 +104,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
 
         <Styles.CoverContent>
           <Typography
-            fontSize={["3.2rem", "4.8rem"]}
+            fontSize={['3.2rem', '4.8rem']}
             fontWeight="bold"
             color="system.main"
           >
@@ -150,13 +149,11 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
         <Divider />
       </Styles.Content>
 
-      <Styles.Content>
-        <Grid container>
-          <Grid item xs={12} sm={8}>
-            <h1>Reviews</h1>
-          </Grid>
-        </Grid>
-      </Styles.Content>
+      {movie != null && (
+        <Styles.Content>
+          <ReviewsContainer movieId={movie?.id} />
+        </Styles.Content>
+      )}
     </Styles.Dialog>
   );
 };

@@ -1,6 +1,9 @@
 export declare module User {
   export type User = {
+    id: string;
     name: string;
+    email: string;
+    picture: string;
   };
 
   export type LoginInput = {
