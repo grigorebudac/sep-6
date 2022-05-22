@@ -1,6 +1,6 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector } from '@reduxjs/toolkit';
 
-import type { AppState } from "types";
+import type { AppState } from 'types';
 
 const appSelector = (state: AppState) => state.user;
 
@@ -13,5 +13,5 @@ export const name = createSelector(appSelector, (state) => {
 
 export const isAuthenticated = createSelector(
   appSelector,
-  (state) => state.user != null
+  (state) => state.user != null,
 );

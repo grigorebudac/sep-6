@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   FormControl,
   FormHelperText,
   Rating,
   RatingProps,
-} from "@mui/material";
-import { Controller, Control, FieldError } from "react-hook-form";
+} from '@mui/material';
+import { Controller, Control, FieldError } from 'react-hook-form';
 
-export type ReviewControllerProps = Omit<RatingProps, "error"> & {
+export type ReviewControllerProps = Omit<RatingProps, 'error'> & {
   control?: Control<any, object>;
   error?: FieldError;
   name: string;
