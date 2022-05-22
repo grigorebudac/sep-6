@@ -29,4 +29,9 @@ export declare module Review {
   interface GetReviewsPayload {
     movieId: string;
   }
+
+  interface LeaveReviewInput {
+    rating: string;
+    message?: string;
+  }
 }

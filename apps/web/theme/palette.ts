@@ -7,10 +7,13 @@ const palette: CustomThemeColors = {
     transparent: "transparent",
   },
   primary: {
-    main: "#aadee7",
+    main: "#1e1926",
   },
   secondary: {
-    main: "#72a9c2",
+    main: "#0400f2",
+  },
+  tertiary: {
+    main: "#0400f2",
   },
   background: {
     main: "#141020",
