@@ -1,7 +1,6 @@
 import React from "react";
-import { Box, TextField, Grid, Rating } from "@mui/material";
+import { Box, Grid, Button } from "@mui/material";
 
-import * as Styles from "./LeaveReviewForm.styles";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -21,12 +20,11 @@ const LeaveReviewForm = (props: LeaveReviewFormProps) => {
   const {
     handleSubmit,
     control,
-    getValues,
-    formState: { isSubmitting, errors },
+    formState: { errors },
   } = useForm<Review.LeaveReviewInput>({
     resolver: yupResolver(schema),
     defaultValues: {
-      rating: "0",
+      rating: "",
       message: "",
     },
   });
@@ -57,7 +55,7 @@ const LeaveReviewForm = (props: LeaveReviewFormProps) => {
           </Box>
 
           <Box marginTop="1rem">
-            <Styles.Button type="submit">Submit</Styles.Button>
+            <Button type="submit">Submit</Button>
           </Box>
         </Grid>
       </Grid>

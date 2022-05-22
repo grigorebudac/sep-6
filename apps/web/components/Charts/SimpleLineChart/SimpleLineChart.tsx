@@ -70,7 +70,7 @@ const SimpleLineChart = (props: SimpleLineChartProps) => {
           axisLine={false}
           tickLine={false}
           fontSize={14}
-          stroke={theme.palette.secondary.main}
+          stroke={theme.palette.tertiary.main}
         />
         <Line
           type="monotoneX"
@@ -82,7 +82,7 @@ const SimpleLineChart = (props: SimpleLineChartProps) => {
           horizontal={true}
           vertical={false}
           strokeDasharray="2 10"
-          stroke={theme.palette.secondary.main}
+          stroke={theme.palette.tertiary.main}
         />
         <Tooltip
           content={<CustomTooltip />}

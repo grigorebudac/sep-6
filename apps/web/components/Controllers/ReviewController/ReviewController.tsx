@@ -5,7 +5,6 @@ import {
   FormHelperText,
   Rating,
   RatingProps,
-  TextField,
 } from "@mui/material";
 import { Controller, Control, FieldError } from "react-hook-form";
 
@@ -25,27 +24,22 @@ const ReviewController: React.FC<ReviewControllerProps> = ({
       name={name}
       render={({ field, fieldState: { error } }) => (
         <>
-          <Rating {...field} {...props} />
+          <Rating
+            {...field}
+            value={isNaN(field.value) ? null : Number(field.value)}
+            {...props}
+          />
 
-          <Box>
-            <FormControl error={!!error}>
-              {error?.message != null && (
+          {error?.message != null && (
+            <Box>
+              <FormControl error={!!error}>
                 <FormHelperText>{error.message}</FormHelperText>
-              )}
-            </FormControl>
-          </Box>
+              </FormControl>
+            </Box>
+          )}
         </>
-        // <TextField
-        //   variant="outlined"
-        //   fullWidth
-        //   {...field}
-        //   {...props}
-        //   error={!!error}
-        //   helperText={error?.message}
-        // />
       )}
       control={control}
-      defaultValue=""
     />
   );
 };
