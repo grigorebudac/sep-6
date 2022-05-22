@@ -15,6 +15,7 @@ import * as Styles from "./MovieModal.styles";
 import SimpleLineChart from "components/Charts/SimpleLineChart";
 import { Close } from "@mui/icons-material";
 import SimpleTextSection from "components/Sections/SimpleTextSection";
+import ReviewsContainer from "containers/ReviewsContainer";
 
 interface MovieModalProps {
   open: DialogProps["open"];
@@ -119,7 +120,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
       <Styles.Content>
         <Grid container>
           <Grid item xs={12} sm={8}>
-            <h1>Reviews</h1>
+            <ReviewsContainer />
           </Grid>
         </Grid>
       </Styles.Content>
