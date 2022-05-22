@@ -6,6 +6,7 @@ const DynamoDB = new AWS.DynamoDB.DocumentClient();
 interface Payload {
   movieId: string;
   title: string;
+  cover: string;
 }
 
 export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
@@ -37,6 +38,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     const Movie = {
       movieId: data.movieId,
       title: data.title,
+      cover: data.cover,
       createdAt: currentUnixTime,
     };
 

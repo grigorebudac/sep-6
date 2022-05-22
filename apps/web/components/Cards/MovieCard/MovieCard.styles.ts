@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
 import { Star } from "@mui/icons-material";
 import { alpha } from "@mui/material/styles";
+import Image from "next/image";
 
 export const Container = styled.div`
   height: 100%;
@@ -12,9 +13,10 @@ export const Container = styled.div`
     alpha(props.theme.palette.secondary.main, 0.1)};
   border-radius: 1rem;
   overflow: hidden;
+  width: 100%;
 `;
 
-export const Cover = styled.img``;
+export const Cover = styled(Image)``;
 
 export const Content = styled.div`
   padding: 2rem;

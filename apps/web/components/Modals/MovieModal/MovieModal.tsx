@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Box,
-  Dialog,
   DialogProps,
   Divider,
   Grid,
@@ -9,12 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import { getImageByPath } from "utils/tmdb.utils";
-import { Movie } from "types";
+import { Movie, WatchList } from "types";
 
 import * as Styles from "./MovieModal.styles";
 import SimpleLineChart from "components/Charts/SimpleLineChart";
-import { Close } from "@mui/icons-material";
+import { Close, Add } from "@mui/icons-material";
 import SimpleTextSection from "components/Sections/SimpleTextSection";
+import AddToPlayListModal from "components/Modals/AddToPlayListModal";
+
 
 interface MovieModalProps {
   open: DialogProps["open"];
@@ -54,7 +55,33 @@ const DUMMY_DATA = [
   },
 ];
 
+const watchLists: WatchList.WatchList[] = [
+  {
+    id: "1",
+    title: "Favorite",
+    updatedAt: "2020-01-01",
+    userId: "1",
+    createdAt: "2020-01-01",
+  },
+  {
+    id: "2",
+    title: "Watch later",
+    updatedAt: "2020-01-01",
+    userId: "2",
+    createdAt: "2020-01-01",
+  }
+];
+
 const MovieModal = ({ movie, ...props }: MovieModalProps) => {
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value?: string) => {
+    setOpen(false);
+  };
+
   const genres = movie?.genres.map((genre) => genre.name)?.join(", ");
   const spokenLanguages = movie?.spoken_languages
     .map(({ name }) => name)
@@ -86,6 +113,13 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
           </Typography>
         </Styles.CoverContent>
       </Styles.CoverContainer>
+
+      <Styles.AddToPlayListBtnContainer>
+        <Styles.IconButtonWrapper onClick={handleClickOpen} size="large">
+          <Add fontSize="large" />
+        </Styles.IconButtonWrapper>
+        <AddToPlayListModal watchLists={watchLists} open={open} onClose={handleClose} />
+      </Styles.AddToPlayListBtnContainer>
 
       <Styles.Content>
         <Grid container gap={2}>
