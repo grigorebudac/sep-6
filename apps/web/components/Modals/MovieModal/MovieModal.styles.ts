@@ -62,6 +62,7 @@ export const Section = styled.div`
 export const ChartContainer = styled.div`
   width: 100%;
   height: 40rem;
+  margin-bottom: 4rem;
 
   ${(props) => props.theme.breakpoints.down("sm")} {
     height: 20rem;

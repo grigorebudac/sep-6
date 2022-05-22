@@ -63,7 +63,7 @@ export const Drawer = styled(MuiDrawer, {
 
 export const ListItemText = styled(MuiListItemText)`
   font-size: 1.4rem;
-  color: ${(props) => props.theme.palette.secondary.main};
+  color: ${(props) => props.theme.palette.tertiary.main};
   transition: all 0.2s linear 0s;
   white-space: nowrap;
   user-select: none;
@@ -72,11 +72,11 @@ export const ListItemText = styled(MuiListItemText)`
 `;
 
 export const ListItemIcon = styled(MuiListItemIcon)`
-  color: ${(props) => props.theme.palette.secondary.main};
+  color: ${(props) => props.theme.palette.tertiary.main};
   font-size: 2rem;
 
   & > svg {
-    fill: ${(props) => props.theme.palette.secondary.main};
+    fill: ${(props) => props.theme.palette.tertiary.main};
     width: 1em;
     height: 1em;
     transition: all 0.2s linear 0s;
