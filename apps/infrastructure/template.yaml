@@ -295,7 +295,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref Api
-            Path: /watchlists/{id}
+            Path: /watchlists/{watchListId}
             Method: PATCH
       Policies:
         - DynamoDBWritePolicy:
@@ -318,7 +318,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref Api
-            Path: /watchlists/{id}
+            Path: /watchlists/{watchListId}
             Method: DELETE
       Policies:
         - DynamoDBWritePolicy:
@@ -344,7 +344,7 @@ Resources:
             Path: /watchlists/{watchListId}/movies/{movieId}
             Method: DELETE
       Policies:
-        - DynamoDBWritePolicy:
+        - DynamoDBCrudPolicy:
             TableName: !Ref WatchlistTable
     Metadata:
       BuildMethod: esbuild

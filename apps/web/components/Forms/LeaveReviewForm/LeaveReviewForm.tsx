@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Grid, Button } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, Grid } from '@mui/material';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { Review } from 'types';
 import { TextFieldController } from 'components/Controllers/TextFieldController';
 import { ReviewController } from 'components/Controllers/ReviewController';
+import { LoadingButton } from '@mui/lab';
 
 type LeaveReviewFormProps = {
   onSubmit: (values: Review.LeaveReviewInput) => void;
@@ -20,7 +21,8 @@ const LeaveReviewForm = (props: LeaveReviewFormProps) => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    reset,
+    formState: { errors, isSubmitting },
   } = useForm<Review.LeaveReviewInput>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -28,6 +30,10 @@ const LeaveReviewForm = (props: LeaveReviewFormProps) => {
       message: '',
     },
   });
+
+  useEffect(() => {
+    reset();
+  }, [isSubmitting, reset]);
 
   return (
     <form onSubmit={handleSubmit(props.onSubmit)}>
@@ -55,7 +61,13 @@ const LeaveReviewForm = (props: LeaveReviewFormProps) => {
           </Box>
 
           <Box marginTop="1rem">
-            <Button type="submit">Submit</Button>
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+            >
+              Submit
+            </LoadingButton>
           </Box>
         </Grid>
       </Grid>

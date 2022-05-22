@@ -1,6 +1,6 @@
-import { APIGatewayProxyWithCognitoAuthorizerHandler } from "aws-lambda";
-import AWS from "aws-sdk";
-import { randomUUID } from "crypto";
+import { APIGatewayProxyWithCognitoAuthorizerHandler } from 'aws-lambda';
+import AWS from 'aws-sdk';
+import { randomUUID } from 'crypto';
 
 const DynamoDB = new AWS.DynamoDB.DocumentClient();
 
@@ -13,7 +13,7 @@ interface Payload {
 const MAX_RATING = 5;
 
 export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
-  event
+  event,
 ) => {
   let body = null;
   let statusCode = 200;
@@ -22,19 +22,19 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     const { sub, name, picture } = event.requestContext.authorizer.claims;
     const currentUnixTime = Date.now().toString();
 
-    const data: Payload = JSON.parse(event.body ?? "{}");
+    const data: Payload = JSON.parse(event.body ?? '{}');
 
     if (data.movieId == null) {
-      throw new Error("Movie id is missing");
+      throw new Error('Movie id is missing');
     }
 
     if (data.message == null && data.rating == null) {
-      throw new Error("Review message or rating is missing");
+      throw new Error('Review message or rating is missing');
     }
 
     if (data.rating != null) {
       if (!isFinite(data.rating) || isNaN(data.rating)) {
-        throw new Error("Rating is not a valid number");
+        throw new Error('Rating is not a valid number');
       }
 
       if (Number(data.rating) < 0 || Number(data.rating) > MAX_RATING) {
@@ -46,9 +46,9 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
       id: randomUUID(),
       author: { name, picture },
       authorId: sub,
-      movieId: data.movieId,
-      message: data.message,
-      rating: data.rating,
+      movieId: String(data.movieId),
+      message: String(data.message),
+      rating: Number(data.rating),
       createdAt: currentUnixTime,
       updatedAt: currentUnixTime,
     };
@@ -67,10 +67,10 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
 
   return {
     headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Methods": "OPTIONS, POST",
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'OPTIONS, POST',
     },
     statusCode,
     body: JSON.stringify(body),

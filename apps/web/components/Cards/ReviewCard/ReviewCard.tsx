@@ -9,11 +9,11 @@ interface ReviewCardProps {
   name: string;
   message?: string;
   rating: number | string;
-  date: number;
+  date: number | string;
 }
 
 const ReviewCard = (props: ReviewCardProps) => {
-  const date = format(new Date(props.date), 'dd MMM yyyy'); // 22 May 2022
+  const date = format(new Date(Number(props.date)), 'dd MMM yyyy'); // 22 May 2022
 
   return (
     <Grid container gap={3}>

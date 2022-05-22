@@ -1,22 +1,26 @@
-import React from "react";
-import { Auth } from "@aws-amplify/auth";
-import { AuthenticationLayout } from "components/Layouts/AuthenticationLayout";
-import { RegisterForm } from "components/Forms/RegisterForm";
-import { User } from "types";
+import React from 'react';
+import { Auth } from '@aws-amplify/auth';
+import { AuthenticationLayout } from 'components/Layouts/AuthenticationLayout';
+import { RegisterForm } from 'components/Forms/RegisterForm';
+import { User } from 'types';
+import { withPublicRoute } from 'hocs/withPublicRoute';
+import { useRouter } from 'next/router';
 
 const Register = () => {
+  const router = useRouter();
+
   async function handleSubmit(credentials: User.RegisterInput) {
     try {
-      const res = await Auth.signUp({
+      await Auth.signUp({
         username: credentials.email,
         password: credentials.password,
         attributes: {
           name: credentials.name,
-          picture: "",
+          picture: '',
         },
       });
 
-      console.log({ res });
+      router.push('/login');
     } catch (error) {
       console.log({ error });
     }
@@ -29,4 +33,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default withPublicRoute(Register);

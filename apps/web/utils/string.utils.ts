@@ -1,3 +1,7 @@
 export function getNameInitials(name: string) {
-  return `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`;
+  const [firstName, lastName] = name.split(' ');
+  const firstLetter = firstName[0];
+  const secondLetter = lastName?.[0];
+
+  return secondLetter != null ? `${firstLetter} ${secondLetter}` : secondLetter;
 }

@@ -13,9 +13,9 @@ export declare module Review {
   }
 
   interface CreateReviewPayload {
-    movieId: string;
+    movieId: number;
     message?: string;
-    rating?: number;
+    rating: number;
   }
 
   interface DeleteReviewPayload {
@@ -27,7 +27,7 @@ export declare module Review {
   }
 
   interface GetReviewsPayload {
-    movieId: string;
+    movieId: number;
   }
 
   interface LeaveReviewInput {
