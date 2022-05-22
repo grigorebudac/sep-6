@@ -39,8 +39,6 @@ function withProtectedRoute<P>(
             email,
           }),
         );
-
-        console.log({ user });
       } catch {
         router.push('/login');
       } finally {
