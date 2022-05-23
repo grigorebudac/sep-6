@@ -3,13 +3,15 @@ import { useGetWatchListsQuery } from "redux/endpoints/watch-lists.endpoints";
 import ApplicationLayout from "components/Layouts/ApplicationLayout";
 import WatchListContainer from "components/Lists/WatchList";
 import CreateWatchListModal from "components/Modals/CreateWatchListModal";
-import { Fab, Box } from '@mui/material';
+import { Fab, Box, Stack, Skeleton, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
+const emptySkeletons = [1, 2, 3, 4, 5];
+
 const WatchLists = () => {
+  const [createWatchListModalOpen, setCreateWatchListModalOpen] = React.useState(false);
   const { data, isLoading } = useGetWatchListsQuery();
 
-  const [createWatchListModalOpen, setCreateWatchListModalOpen] = React.useState(false);
   const handleClickCreateWatchListModalOpen = () => {
     setCreateWatchListModalOpen(true);
   };
@@ -17,7 +19,6 @@ const WatchLists = () => {
   const handleClosecreateWatchListModalClose = () => {
     setCreateWatchListModalOpen(false);
   };
-
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -29,7 +30,19 @@ const WatchLists = () => {
         (data.map((watchList) => (
           <WatchListContainer {...watchList} key={watchList.id} />
         ))) :
-        (<h1>No Watch Lists</h1>)
+        (
+          <>
+            <Typography fontSize="3.2rem" color="primary.contrastText" fontWeight="500">
+              You have no watch-lists yet.
+            </Typography>
+            <Stack direction="row" spacing={2} mb={2}>
+              <Skeleton variant="text" width={170} />
+              <Skeleton variant="circular" width={40} height={40} />
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              {emptySkeletons.map((_, i) => <Skeleton variant="rectangular" width={200} height={300} key={i} />)}
+            </Stack>
+          </>)
       }
 
       <Box position="absolute" right={30} bottom={30}>
@@ -38,7 +51,7 @@ const WatchLists = () => {
         </Fab>
       </Box>
       <CreateWatchListModal open={createWatchListModalOpen} onClose={handleClosecreateWatchListModalClose} />
-    </ApplicationLayout>
+    </ApplicationLayout >
   );
 };
 
