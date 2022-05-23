@@ -3,16 +3,13 @@ import { Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { Grid, IconButton as MuiIconButton } from "@mui/material";
 
-export const WatchListWrapper = styled.div`
-  padding-bottom: 4rem;
-`;
-
 export const WatchListHeader = styled(Typography)`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-bottom: 1rem;
   gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
 `;
 
 export const MovieList = styled(Grid)`
@@ -33,7 +30,7 @@ export const MovieList = styled(Grid)`
   }
 `;
 
-export const IconButton = styled(MuiIconButton)`
+export const EditIconButton = styled(MuiIconButton)`
   transition: all 0.2s linear 0s;
 
   > svg {
@@ -48,7 +45,27 @@ export const IconButton = styled(MuiIconButton)`
     transition: all 0.2s linear 0s;
 
     & > svg {
-      fill: ${({ theme }) => theme.palette.system.dark};
+      fill: ${({ theme }) => theme.palette.warning.main};
+    }
+  }
+`;
+
+export const DeleteIconButton = styled(MuiIconButton)`
+  transition: all 0.2s linear 0s;
+
+  > svg {
+    width: 2rem;
+    height: 2rem;
+    fill: ${({ theme }) => theme.palette.system.main};
+    transition: all 0.2s linear 0s;
+  }
+
+  &:hover {
+    background: ${({ theme }) => alpha(theme.palette.system.main, 0.1)};
+    transition: all 0.2s linear 0s;
+
+    & > svg {
+      fill: ${({ theme }) => theme.palette.error.light};
     }
   }
 `;

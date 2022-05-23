@@ -15,8 +15,6 @@ export const Container = styled.div`
   width: 100%;
 `;
 
-export const Cover = styled(Image)``;
-
 export const Content = styled.div`
   padding: 2rem;
 `;

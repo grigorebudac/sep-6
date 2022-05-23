@@ -42,11 +42,12 @@ const EditWatchListForm = (props: CreateWatchListFormProps) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.onClose} >Cancel</Button>
+        <Button onClick={props.onClose}>Cancel</Button>
         <LoadingButton
           type="submit"
           variant="contained"
           loading={isSubmitting}
+          color="warning"
         >
           Edit
         </LoadingButton>

@@ -12,15 +12,13 @@ interface MovieCardProps {
 const MovieCard = (props: MovieCardProps) => {
   return (
     <Styles.Container>
-      <Styles.Cover
+      <img
         src={
           props.posterUrl ?
             props.posterUrl :
-            "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="}
+            "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAADCAQAAAAT4xYKAAAADklEQVR42mNkAAJGOAEAAC0ABNxMS2YAAAAASUVORK5CYII="}
         alt={props.title}
-        layout="responsive"
-        width={500}
-        height={750} />
+      />
 
       {props.title && props.rating ? (
         <Styles.Content>

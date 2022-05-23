@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
   sep6 infrastructure
@@ -17,9 +17,9 @@ Globals:
     Handler: index.handler
     Environment:
       Variables:
-        USERS_TABLE: 'Users'
-        REVIEWS_TABLE: 'Reviews'
-        WATCHLISTS_TABLE: 'Watchlists'
+        USERS_TABLE: "Users"
+        REVIEWS_TABLE: "Reviews"
+        WATCHLISTS_TABLE: "Watchlists"
 
 Resources:
   # API
@@ -105,7 +105,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -121,7 +121,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -142,7 +142,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -165,7 +165,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -189,7 +189,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -212,7 +212,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -235,7 +235,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -258,7 +258,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -281,7 +281,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -298,13 +298,13 @@ Resources:
             Path: /watchlists/{watchListId}
             Method: PATCH
       Policies:
-        - DynamoDBWritePolicy:
+        - DynamoDBCrudPolicy:
             TableName: !Ref WatchlistTable
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -321,13 +321,13 @@ Resources:
             Path: /watchlists/{watchListId}
             Method: DELETE
       Policies:
-        - DynamoDBWritePolicy:
+        - DynamoDBCrudPolicy:
             TableName: !Ref WatchlistTable
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -350,7 +350,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -364,16 +364,16 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref Api
-            Path: /watchlists/{watchListId}
+            Path: /watchlists/{watchListId}/movies
             Method: PUT
       Policies:
-        - DynamoDBWritePolicy:
+        - DynamoDBCrudPolicy:
             TableName: !Ref WatchlistTable
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -381,25 +381,25 @@ Resources:
   UsersTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: 'Users'
+      TableName: "Users"
       PrimaryKey:
-        Name: 'id'
-        Type: 'String'
+        Name: "id"
+        Type: "String"
   ReviewsTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: 'Reviews'
+      TableName: "Reviews"
       PrimaryKey:
-        Name: 'id'
-        Type: 'String'
+        Name: "id"
+        Type: "String"
   WatchlistTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: 'Watchlists'
+      TableName: "Watchlists"
       PrimaryKey:
-        Name: 'id'
-        Type: 'String'
+        Name: "id"
+        Type: "String"
 Outputs:
   API:
-    Description: 'API Gateway endpoint URL'
-    Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/v1'
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${Api}.execute-api.${AWS::Region}.amazonaws.com/v1"

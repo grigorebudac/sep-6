@@ -26,6 +26,25 @@ export const WatchListEndpoints = RootApi.injectEndpoints({
       },
       invalidatesTags: [WATCH_LIST_TAG],
     }),
+    addMovieToWatchList: builder.mutation<WatchList.Movie, WatchList.addMovieToWatchListPayload>({
+      query: ({ watchListId, movieId, title, cover }) => {
+        return {
+          url: `/watchlists/${watchListId}/movies`,
+          method: "PUT",
+          body: {
+            movieId,
+            title,
+            cover,
+          },
+        };
+      },
+      invalidatesTags: (res) => [
+        {
+          type: WATCH_LIST_TAG,
+          id: res?.movieId,
+        },
+      ],
+    }),
     editWatchList: builder.mutation<WatchList.WatchList, WatchList.UpdateWatchListInput>({
       query: (body) => {
         return {
@@ -77,6 +96,7 @@ export const WatchListEndpoints = RootApi.injectEndpoints({
 export const {
   useGetWatchListsQuery,
   useCreateWatchListMutation,
+  useAddMovieToWatchListMutation,
   useEditWatchListMutation,
   useDeleteWatchListMutation,
   useDeleteMovieFromWatchListMutation

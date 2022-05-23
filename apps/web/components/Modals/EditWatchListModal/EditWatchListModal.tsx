@@ -1,6 +1,6 @@
 import * as React from 'react';
-// import { useDeleteWatchListMutation } from "redux/endpoints/watch-lists.endpoints";
 import { DialogContentText, DialogContent, Button, DialogActions } from '@mui/material';
+import { LoadingButton } from "@mui/lab";
 import * as Styles from "./EditWatchListModal.styles";
 import UpdateWatchListForm from "components/Forms/EditWatchListForm";
 import { useEditWatchListMutation, useDeleteWatchListMutation } from 'redux/endpoints/watch-lists.endpoints';
@@ -22,8 +22,10 @@ const EditWatchListModal = (props: SimpleDialogProps) => {
   const { action, open, onClose } = props;
   const [editWatchList] = useEditWatchListMutation();
   const [deleteWatchList] = useDeleteWatchListMutation();
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   async function handleCreateWatchList(params: WatchList.CreateWatchListInput) {
+    setIsSubmitting(true);
     await editWatchList({
       id: props.watchList.id,
       title: params.title,
@@ -33,10 +35,14 @@ const EditWatchListModal = (props: SimpleDialogProps) => {
         console.log({ res });
         onClose();
       })
-      .catch((error) => console.log({ error }));
+      .catch((error) => {
+        console.log({ error })
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   async function handleDeleteWatchList() {
+    setIsSubmitting(true);
     await deleteWatchList({
       id: props.watchList.id,
     })
@@ -45,7 +51,8 @@ const EditWatchListModal = (props: SimpleDialogProps) => {
         console.log({ res });
         onClose();
       })
-      .catch((error) => console.log({ error }));
+      .catch((error) => console.log({ error }))
+      .finally(() => setIsSubmitting(false));
   }
 
   return (
@@ -69,9 +76,14 @@ const EditWatchListModal = (props: SimpleDialogProps) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={onClose}>Cancel</Button>
-            <Button color="error" onClick={handleDeleteWatchList} autoFocus>
+            <LoadingButton
+              type="submit"
+              onClick={handleDeleteWatchList} autoFocus
+              loading={isSubmitting}
+              color="error"
+            >
               Delete
-            </Button>
+            </LoadingButton>
           </DialogActions>
         </>
       )}

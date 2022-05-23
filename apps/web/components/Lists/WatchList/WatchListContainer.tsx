@@ -13,7 +13,6 @@ const WatchListContainer = (props: WatchList.WatchList) => {
 
   const [createWatchListModalOpen, setCreateWatchListModalOpen] = React.useState(false);
   const handleClickCreateWatchListModalOpen = (action: WatchListActions) => {
-    console.log(action)
     setAction(action);
     setCreateWatchListModalOpen(true);
   };
@@ -23,18 +22,18 @@ const WatchListContainer = (props: WatchList.WatchList) => {
   };
 
   return (
-    <Styles.WatchListWrapper>
-      <Styles.WatchListHeader fontSize="2rem" color="system.main" fontWeight="bold">
-        <Typography fontSize={24}>
+    <div>
+      <Styles.WatchListHeader fontSize="2rem" color="system.main">
+        <Typography fontSize={24} fontWeight="bold">
           {title}
         </Typography>
         <Box pl={1}>
-          <Styles.IconButton size="large" onClick={() => { handleClickCreateWatchListModalOpen(WatchListActions.Edit) }}>
+          <Styles.EditIconButton size="large" onClick={() => { handleClickCreateWatchListModalOpen(WatchListActions.Edit) }}>
             <Edit />
-          </Styles.IconButton>
-          <Styles.IconButton size="large" onClick={() => { handleClickCreateWatchListModalOpen(WatchListActions.Delete) }}>
+          </Styles.EditIconButton>
+          <Styles.DeleteIconButton size="large" onClick={() => { handleClickCreateWatchListModalOpen(WatchListActions.Delete) }}>
             <Delete />
-          </Styles.IconButton>
+          </Styles.DeleteIconButton>
         </Box>
       </Styles.WatchListHeader>
       <Styles.MovieList gap={2}>
@@ -47,7 +46,7 @@ const WatchListContainer = (props: WatchList.WatchList) => {
         )}
       </Styles.MovieList>
       <EditWatchListModal watchList={props} action={action} open={createWatchListModalOpen} onClose={handleClosecreateWatchListModalClose} />;
-    </Styles.WatchListWrapper>
+    </div>
   );
 
 };

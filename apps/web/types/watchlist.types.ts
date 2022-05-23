@@ -27,6 +27,13 @@ export declare module WatchList {
     id: string
   }
 
+  interface addMovieToWatchListPayload {
+    watchListId: string;
+    movieId: number,
+    title: string,
+    cover?: string,
+  }
+
   interface DeleteMovieFromWatchListPayload {
     watchListId: string
     movieId: string

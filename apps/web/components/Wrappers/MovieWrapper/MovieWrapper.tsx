@@ -4,6 +4,7 @@ import * as Styles from "./MovieWrapper.styles";
 import { getImageByPath } from "utils/tmdb.utils";
 import MovieCard from "components/Cards/MovieCard";
 import DeleteIcon from '@mui/icons-material/Delete';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useDeleteMovieFromWatchListMutation } from "redux/endpoints/watch-lists.endpoints";
 
 interface MovieWrapperProps {
@@ -13,16 +14,19 @@ interface MovieWrapperProps {
 
 const MovieWrapper = (props: MovieWrapperProps) => {
   const [show, setShow] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [deleteMovieFromWatchList] = useDeleteMovieFromWatchListMutation();
 
   async function handleDeleteMovieFromWatchList() {
+    setIsLoading(true);
     await deleteMovieFromWatchList({
       watchListId: props.watchListId,
       movieId: props.movie.movieId,
     })
       .unwrap()
       .then((res) => console.log({ res }))
-      .catch((error) => console.log({ error }));
+      .catch((error) => console.log({ error }))
+      .finally(() => setIsLoading(false));
   }
 
   return (
@@ -31,12 +35,16 @@ const MovieWrapper = (props: MovieWrapperProps) => {
       onMouseOver={() => setShow(true)}
       onMouseLeave={() => setShow(false)}>
       {show && (
-        <><Styles.DeleteIconButton size="large" onClick={() => handleDeleteMovieFromWatchList()}>
-          <DeleteIcon />
-        </Styles.DeleteIconButton >
+        <>
+          <Styles.DeleteIconButton size="large" onClick={() => handleDeleteMovieFromWatchList()}>
+            {isLoading
+              ? (<CircularProgress size={20} color="error" />)
+              : <DeleteIcon />}
+          </Styles.DeleteIconButton >
 
           <Styles.Overlay />
-        </>)}
+        </>
+      )}
       <MovieCard posterUrl={getImageByPath(props.movie.cover!)} />
     </Styles.MovieCardWrapper>
   );

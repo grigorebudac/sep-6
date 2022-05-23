@@ -15,6 +15,7 @@ import { Close, Add } from "@mui/icons-material";
 import SimpleTextSection from "components/Sections/SimpleTextSection";
 import AddToPlayListModal from "components/Modals/AddToPlayListModal";
 import ReviewsContainer from 'containers/ReviewsContainer';
+import { useGetWatchListsQuery } from "redux/endpoints/watch-lists.endpoints";
 
 interface MovieModalProps {
   open: DialogProps['open'];
@@ -54,24 +55,8 @@ const DUMMY_DATA = [
   },
 ];
 
-const watchLists: WatchList.WatchList[] = [
-  {
-    id: "1",
-    title: "Favorite",
-    updatedAt: "2020-01-01",
-    userId: "1",
-    createdAt: "2020-01-01",
-  },
-  {
-    id: "2",
-    title: "Watch later",
-    updatedAt: "2020-01-01",
-    userId: "2",
-    createdAt: "2020-01-01",
-  }
-];
-
 const MovieModal = ({ movie, ...props }: MovieModalProps) => {
+  const { data, isLoading } = useGetWatchListsQuery();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -117,7 +102,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
         <Styles.IconButtonWrapper onClick={handleClickOpen} size="large">
           <Add fontSize="large" />
         </Styles.IconButtonWrapper>
-        <AddToPlayListModal watchLists={watchLists} open={open} onClose={handleClose} />
+        <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} open={open} onClose={handleClose} />
       </Styles.AddToPlayListBtnContainer>
 
       <Styles.Content>

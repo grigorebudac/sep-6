@@ -36,7 +36,7 @@ export const DeleteIconButton = styled(MuiIconButton)`
     transition: all 0.2s linear 0s;
 
     & > svg {
-      fill: ${({ theme }) => theme.palette.system.main};
+      fill: ${({ theme }) => theme.palette.error.light};
     }
   }
 `;

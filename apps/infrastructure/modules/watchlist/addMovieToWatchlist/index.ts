@@ -61,7 +61,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     }).promise();
 
     statusCode = 200;
-    body = Movie;
+    body = watchListId;
   } catch (error) {
     statusCode = 500;
     body = error instanceof Error ? error.message : error;
