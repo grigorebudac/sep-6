@@ -32,9 +32,14 @@ const WatchLists = () => {
         ))) :
         (
           <>
-            <Typography fontSize="3.2rem" color="primary.contrastText" fontWeight="500">
-              You have no watch-lists yet.
-            </Typography>
+            <Box display="flex" ml={2} gap={2}>
+              <Typography fontSize="3.2rem" color="primary.contrastText" fontWeight="500">
+                You have no watch-lists yet.
+              </Typography>
+              <Fab color="default" aria-label="add" onClick={handleClickCreateWatchListModalOpen}>
+                <AddIcon />
+              </Fab>
+            </Box>
             <Stack direction="row" spacing={2} mb={2}>
               <Skeleton variant="text" width={170} />
               <Skeleton variant="circular" width={40} height={40} />
