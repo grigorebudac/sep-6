@@ -10,26 +10,26 @@ const MuiTextField: Components["MuiTextField"] = {
   styleOverrides: {
     root: {
       "&:hover .MuiInputLabel-root": {
-        color: alpha(palette.primary.main, 1),
+        color: alpha(palette.background.main, 1),
         transition: "color 0.2s linear",
       },
       "& .MuiInputLabel-root.Mui-focused": {
-        color: palette.secondary.main,
+        color: palette.background.main,
       },
 
       "& .MuiOutlinedInput-root": {
         "& fieldset": {
           borderWidth: "0.2rem",
           borderRadius: "0.5rem",
-          borderColor: alpha(palette.primary.main, 0.25),
+          borderColor: alpha(palette.background.main, 0.25),
           transition: "border 0.2s linear",
         },
         "&:hover fieldset": {
-          borderColor: alpha(palette.primary.main, 0.5),
+          borderColor: alpha(palette.background.main, 0.5),
           transition: "border 0.2s linear",
         },
         "&.Mui-focused fieldset": {
-          borderColor: palette.secondary.main,
+          borderColor: palette.background.main,
           transition: "border 0.2s linear",
         },
       },
