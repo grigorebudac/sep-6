@@ -7,8 +7,6 @@ import ActorCard from 'components/Cards/ActorCard';
 import ActorModal from 'components/Modals/ActorModal';
 
 const Analytics = () => {
-  // const { data, isLoading } = useGetPopularMoviesQuery();
-
   const [data, setData] = useState();
   const [selectedActor, setSelectedActor] = useState<any>();
 
@@ -27,10 +25,6 @@ const Analytics = () => {
 
     getCategories();
   }, []);
-
-  // if (isLoading) {
-  //   return <h1>Loading...</h1>;
-  // }
 
   const actors = [
     {
