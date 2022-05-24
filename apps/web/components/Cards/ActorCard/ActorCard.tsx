@@ -7,11 +7,12 @@ interface MovieCardProps {
   name: string;
   popularity: number;
   imageUrl: string;
+  onClick?: () => void;
 }
 
 const MovieCard = (props: MovieCardProps) => {
   return (
-    <Styles.Container>
+    <Styles.Container onClick={props.onClick}>
       <Styles.Cover src={getImageByPath(props.imageUrl)} alt={props.name} />
 
       <Styles.Content>

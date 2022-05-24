@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { alpha, Dialog as MuiDialog } from "@mui/material";
+import styled from '@emotion/styled';
+import { alpha, Dialog as MuiDialog } from '@mui/material';
 
 export const Dialog = styled(MuiDialog)`
   z-index: 9999;
@@ -63,7 +63,7 @@ export const ChartContainer = styled.div`
   width: 100%;
   height: 40rem;
 
-  ${(props) => props.theme.breakpoints.down("sm")} {
+  ${(props) => props.theme.breakpoints.down('sm')} {
     height: 20rem;
   }
 `;
