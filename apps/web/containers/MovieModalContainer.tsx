@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from "react";
-import { useRouter } from "next/router";
-import MovieModal from "components/Modals";
-import { useLazyGetMovieQuery } from "redux/endpoints/movies.endpoints";
+import React, { useCallback, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import MovieModal from 'components/Modals/MovieModal';
+import { useLazyGetMovieQuery } from 'redux/endpoints/movies.endpoints';
 
 const MovieModalContainer = () => {
   const [getMovie, { data, isLoading }] = useLazyGetMovieQuery();

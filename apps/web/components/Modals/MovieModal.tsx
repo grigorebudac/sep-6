@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Dialog,
@@ -7,17 +7,17 @@ import {
   Grid,
   IconButton,
   Typography,
-} from "@mui/material";
-import { getImageByPath } from "utils/tmdb.utils";
-import { Movie } from "types";
+} from '@mui/material';
+import { getImageByPath } from 'utils/tmdb.utils';
+import { Movie } from 'types';
 
-import * as Styles from "./MovieModal.styles";
-import SimpleLineChart from "components/Charts/SimpleLineChart";
-import { Close } from "@mui/icons-material";
-import SimpleTextSection from "components/Sections/SimpleTextSection";
+import * as Styles from './MovieModal.styles';
+import SimpleLineChart from 'components/Charts/SimpleLineChart';
+import { Close } from '@mui/icons-material';
+import SimpleTextSection from 'components/Sections/SimpleTextSection';
 
 interface MovieModalProps {
-  open: DialogProps["open"];
+  open: DialogProps['open'];
   movie?: Movie.GetMovieResponse;
   isLoading: boolean;
   onClose: () => void;
@@ -25,40 +25,40 @@ interface MovieModalProps {
 
 const DUMMY_DATA = [
   {
-    x: "Wed",
+    x: 'Wed',
     y: 10,
   },
   {
-    x: "Thu",
+    x: 'Thu',
     y: 30,
   },
   {
-    x: "Fri",
+    x: 'Fri',
     y: 2,
   },
   {
-    x: "Sat",
+    x: 'Sat',
     y: 0,
   },
   {
-    x: "Sun",
+    x: 'Sun',
     y: 7,
   },
   {
-    x: "Mon",
+    x: 'Mon',
     y: 15,
   },
   {
-    x: "Tue",
+    x: 'Tue',
     y: 7,
   },
 ];
 
 const MovieModal = ({ movie, ...props }: MovieModalProps) => {
-  const genres = movie?.genres.map((genre) => genre.name)?.join(", ");
+  const genres = movie?.genres.map((genre) => genre.name)?.join(', ');
   const spokenLanguages = movie?.spoken_languages
     .map(({ name }) => name)
-    ?.join(", ");
+    ?.join(', ');
 
   return (
     <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
@@ -78,7 +78,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
 
         <Styles.CoverContent>
           <Typography
-            fontSize={["3.2rem", "4.8rem"]}
+            fontSize={['3.2rem', '4.8rem']}
             fontWeight="bold"
             color="system.main"
           >
