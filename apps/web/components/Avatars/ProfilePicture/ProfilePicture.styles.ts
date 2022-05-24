@@ -6,7 +6,7 @@ export const Container = styled.div<{ showBorder: boolean }>`
   padding: 0.2rem;
   border: 0.2rem solid
     ${({ theme, showBorder }) =>
-      showBorder ? theme.palette.secondary.main : "transparent"};
+      showBorder ? theme.palette.tertiary.main : "transparent"};
 `;
 
 export const Avatar = styled(MuiAvatar)`
