@@ -5,7 +5,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import { ViewList, Add } from "@mui/icons-material";
-import { WatchList } from "types";
+import { WatchList, Movie } from "types";
 import {
   useAddMovieToWatchListMutation,
 } from 'redux/endpoints/watch-lists.endpoints';
@@ -20,6 +20,7 @@ export interface SimpleDialogProps {
   title?: string;
   cover?: string;
   open: boolean;
+  genres: Movie.Genre[];
   onClose: (value?: string) => void;
 }
 
@@ -29,14 +30,15 @@ const AddToPlayListModal = (props: SimpleDialogProps) => {
   const [createWatchListModalOpen, setCreateWatchListModalOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  async function handleAddMovieToWatchList({ watchListId, movieId, title, cover, }: WatchList.addMovieToWatchListPayload) {
+  async function handleAddMovieToWatchList({ watchListId, movieId, title, cover, genres }: WatchList.addMovieToWatchListPayload) {
     try {
       setIsLoading(true);
       await addMovieToWatchList({
         watchListId,
         movieId,
         title,
-        cover
+        cover,
+        genres
       }).unwrap().then((res) => {
         console.log({ res });
         onClose();
@@ -58,7 +60,8 @@ const AddToPlayListModal = (props: SimpleDialogProps) => {
         watchListId,
         movieId: props.movieId!,
         title: props.title!,
-        cover: props.cover
+        cover: props.cover,
+        genres: props.genres
       });
     } else
       handleClickCreateWatchListModalOpen();

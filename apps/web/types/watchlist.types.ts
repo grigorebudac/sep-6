@@ -4,6 +4,7 @@ export declare module WatchList {
     createdAt: string;
     movieId: string;
     cover?: string;
+    genres?: Genre[]
   }
 
   interface WatchList {
@@ -13,6 +14,11 @@ export declare module WatchList {
     id: string;
     movies?: Movie[];
     title: string;
+  }
+
+  interface Genre {
+    id: number;
+    name: string;
   }
 
   interface CreateWatchListPayload {
@@ -32,6 +38,7 @@ export declare module WatchList {
     movieId: number,
     title: string,
     cover?: string,
+    genres?: Genre[]
   }
 
   interface DeleteMovieFromWatchListPayload {

@@ -102,7 +102,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
         <Styles.IconButtonWrapper onClick={handleClickOpen} size="large">
           <Add fontSize="large" />
         </Styles.IconButtonWrapper>
-        <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} open={open} onClose={handleClose} />
+        <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={open} onClose={handleClose} />
       </Styles.AddToPlayListBtnContainer>
 
       <Styles.Content>
