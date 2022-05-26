@@ -8,52 +8,22 @@ import {
   Typography,
 } from "@mui/material";
 import { getImageByPath } from "utils/tmdb.utils";
-import { Movie, WatchList } from "types";
+import { Credits, Movie, WatchList } from "types";
 import * as Styles from "./MovieModal.styles";
-import SimpleLineChart from "components/Charts/SimpleLineChart";
 import { Close, Add } from "@mui/icons-material";
 import SimpleTextSection from "components/Sections/SimpleTextSection";
 import AddToPlayListModal from "components/Modals/AddToPlayListModal";
 import ReviewsContainer from 'containers/ReviewsContainer';
 import { useGetWatchListsQuery } from "redux/endpoints/watch-lists.endpoints";
+import MovieCreditsSection from 'components/Sections/MovieCreditsSection';
 
 interface MovieModalProps {
   open: DialogProps['open'];
   movie?: Movie.GetMovieResponse;
+  credits?: Credits.Credits
   isLoading: boolean;
   onClose: () => void;
 }
-
-const DUMMY_DATA = [
-  {
-    x: 'Wed',
-    y: 10,
-  },
-  {
-    x: 'Thu',
-    y: 30,
-  },
-  {
-    x: 'Fri',
-    y: 2,
-  },
-  {
-    x: 'Sat',
-    y: 0,
-  },
-  {
-    x: 'Sun',
-    y: 7,
-  },
-  {
-    x: 'Mon',
-    y: 15,
-  },
-  {
-    x: 'Tue',
-    y: 7,
-  },
-];
 
 const MovieModal = ({ movie, ...props }: MovieModalProps) => {
   const { data, isLoading } = useGetWatchListsQuery();
@@ -127,11 +97,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
       <Styles.Content>
         <Divider />
 
-        <Styles.ChartContainer>
-          <SimpleLineChart data={DUMMY_DATA} isLoading={false} />
-        </Styles.ChartContainer>
-
-        <Divider />
+        <MovieCreditsSection credits={props.credits} />
       </Styles.Content>
 
       {movie != null && (

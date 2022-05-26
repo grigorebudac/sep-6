@@ -20,7 +20,7 @@ export interface SimpleDialogProps {
   title?: string;
   cover?: string;
   open: boolean;
-  genres: Movie.Genre[];
+  genres?: Movie.Genre[];
   onClose: (value?: string) => void;
 }
 
