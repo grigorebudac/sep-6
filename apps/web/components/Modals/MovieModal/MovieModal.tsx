@@ -26,14 +26,14 @@ interface MovieModalProps {
 }
 
 const MovieModal = ({ movie, ...props }: MovieModalProps) => {
-  const { data, isLoading } = useGetWatchListsQuery();
-  const [open, setOpen] = React.useState(false);
+  const { data } = useGetWatchListsQuery();
+  const [openModal, setOpenModal] = React.useState(false);
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenModal(true);
   };
 
   const handleClose = (value?: string) => {
-    setOpen(false);
+    setOpenModal(false);
   };
 
   const genres = movie?.genres.map((genre) => genre.name)?.join(', ');
@@ -72,7 +72,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
         <Styles.IconButtonWrapper onClick={handleClickOpen} size="large">
           <Add fontSize="large" />
         </Styles.IconButtonWrapper>
-        <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={open} onClose={handleClose} />
+        <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={openModal} onClose={handleClose} />
       </Styles.AddToPlayListBtnContainer>
 
       <Styles.Content>

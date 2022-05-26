@@ -82,7 +82,7 @@ export const IconButtonWrapper = styled(MuiIconButton)`
   margin-right: 1rem;
   padding: 1rem;
   transition: all 0.2s linear 0s;
-  background:  ${({ theme }) => alpha(theme.palette.danger.main, 1)};
+  background:  ${({ theme }) => theme.palette.danger.main};
 
   > svg {
     fill: ${({ theme }) => theme.palette.system.main};
@@ -90,7 +90,7 @@ export const IconButtonWrapper = styled(MuiIconButton)`
   }
 
   &:hover {
-    background: ${({ theme }) => alpha(theme.palette.danger.dark!, 1)};
+    background: ${({ theme }) => theme.palette.danger.dark!};
     transition: all 0.2s linear 0s;
 
     & > svg {

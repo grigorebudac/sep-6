@@ -26,27 +26,21 @@ export interface SimpleDialogProps {
 
 const AddToPlayListModal = (props: SimpleDialogProps) => {
   const { onClose, open, watchLists } = props;
-  const [addMovieToWatchList] = useAddMovieToWatchListMutation();
+  const [addMovieToWatchList, { isLoading }] = useAddMovieToWatchListMutation();
   const [createWatchListModalOpen, setCreateWatchListModalOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
 
   async function handleAddMovieToWatchList({ watchListId, movieId, title, cover, genres }: WatchList.addMovieToWatchListPayload) {
     try {
-      setIsLoading(true);
       await addMovieToWatchList({
         watchListId,
         movieId,
         title,
         cover,
         genres
-      }).unwrap().then((res) => {
-        console.log({ res });
-        onClose();
-      });
+      }).unwrap();
+      onClose();
     } catch (error) {
       console.log({ error });
-    } finally {
-      setIsLoading(false);
     }
   }
 

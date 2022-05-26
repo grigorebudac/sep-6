@@ -21,54 +21,45 @@ export interface SimpleDialogProps {
 const EditWatchListModal = (props: SimpleDialogProps) => {
   const { action, open, onClose } = props;
   const [editWatchList] = useEditWatchListMutation();
-  const [deleteWatchList] = useDeleteWatchListMutation();
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [deleteWatchList, { isLoading }] = useDeleteWatchListMutation();
 
-  async function handleCreateWatchList(params: WatchList.CreateWatchListInput) {
-    setIsSubmitting(true);
-    await editWatchList({
-      id: props.watchList.id,
-      title: params.title,
-    })
-      .unwrap()
-      .then((res) => {
-        console.log({ res });
-        onClose();
+  async function handleEditWatchList(params: WatchList.CreateWatchListInput) {
+    try {
+      await editWatchList({
+        id: props.watchList.id,
+        title: params.title,
       })
-      .catch((error) => {
-        console.log({ error })
-      })
-      .finally(() => setIsSubmitting(false));
+        .unwrap();
+      onClose();
+    } catch (error) {
+      console.log({ error });
+    }
   }
 
   async function handleDeleteWatchList() {
-    setIsSubmitting(true);
-    await deleteWatchList({
-      id: props.watchList.id,
-    })
-      .unwrap()
-      .then((res) => {
-        console.log({ res });
-        onClose();
+    try {
+      await deleteWatchList({
+        id: props.watchList.id,
       })
-      .catch((error) => console.log({ error }))
-      .finally(() => setIsSubmitting(false));
+        .unwrap();
+      onClose();
+    } catch (error) {
+      console.log({ error });
+    }
   }
 
   return (
     <Styles.Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" >
       {action === WatchListActions.Edit && (
-        <Styles.Title>Edit Watch List Name</Styles.Title>
-      )}
-      {action === WatchListActions.Delete && (
-        <Styles.Title>Delete Watch List</Styles.Title>
-      )}
+        <>
+          <Styles.Title>Edit Watch List Name</Styles.Title>
+          <UpdateWatchListForm title={props.watchList.title} action={action} onClose={onClose} onSubmit={handleEditWatchList} />
+        </>
 
-      {action === WatchListActions.Edit && (
-        <UpdateWatchListForm title={props.watchList.title} action={action} onClose={onClose} onSubmit={handleCreateWatchList} />)}
-
+      )}
       {action === WatchListActions.Delete && (
         <>
+          <Styles.Title>Delete Watch List</Styles.Title>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               Are you sure you want to delete your <b>{props.watchList.title}</b> watchlist?
@@ -79,7 +70,7 @@ const EditWatchListModal = (props: SimpleDialogProps) => {
             <LoadingButton
               type="submit"
               onClick={handleDeleteWatchList} autoFocus
-              loading={isSubmitting}
+              loading={isLoading}
               color="error"
             >
               Delete

@@ -9,6 +9,8 @@ interface MovieCardProps {
   editable?: boolean;
 }
 
+const imagePlaceHolderBase64 = "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAADCAQAAAAT4xYKAAAADklEQVR42mNkAAJGOAEAAC0ABNxMS2YAAAAASUVORK5CYII=";
+
 const MovieCard = (props: MovieCardProps) => {
   return (
     <Styles.Container>
@@ -16,11 +18,11 @@ const MovieCard = (props: MovieCardProps) => {
         src={
           props.posterUrl ?
             props.posterUrl :
-            "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAADCAQAAAAT4xYKAAAADklEQVR42mNkAAJGOAEAAC0ABNxMS2YAAAAASUVORK5CYII="}
+            imagePlaceHolderBase64}
         alt={props.title}
       />
 
-      {props.title && props.rating ? (
+      {props.title && props.rating && (
         <Styles.Content>
           <Styles.EllipsedTypography fontSize="1.6rem" color="system.main">
             {props.title}
@@ -34,7 +36,7 @@ const MovieCard = (props: MovieCardProps) => {
             </Styles.EllipsedTypography>
           </Styles.Subtitle>
         </Styles.Content>
-      ) : React.Fragment}
+      )}
     </Styles.Container >
   );
 };
