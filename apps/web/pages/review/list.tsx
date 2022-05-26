@@ -2,7 +2,7 @@ import React from "react";
 import { useGetReviewsQuery } from "redux/endpoints/review.endpoints";
 
 const CreateReview = () => {
-  const { data, isLoading } = useGetReviewsQuery({ movieId: "1" });
+  const { data, isLoading } = useGetReviewsQuery({ movieId: 1 });
 
   if (isLoading) {
     return <h1>Loading...</h1>;

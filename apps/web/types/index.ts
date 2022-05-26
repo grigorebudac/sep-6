@@ -7,3 +7,5 @@ export * from './watchlist.types';
 export * from './credits.types';
 export * from './person.types';
 export * from './genre.types';
+export * from './analytics.types';
+export * from './discover.types';
