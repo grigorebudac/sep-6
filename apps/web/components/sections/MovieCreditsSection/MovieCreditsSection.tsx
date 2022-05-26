@@ -24,7 +24,7 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={{ width: '33%', flexShrink: 0 }} fontWeight="bold" >
+          <Typography sx={{ width: '15%', flexShrink: 0 }} fontWeight="bold" >
             Cast
           </Typography>
           {expanded !== 'panel1' && (
@@ -35,7 +35,7 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
         </AccordionSummary>
         <AccordionDetails>
           <Styles.List>
-            {props.credits?.cast?.map((castMember, index) => (
+            {props.credits?.cast?.filter(person => person.profile_path).map((castMember, index) => (
               <Styles.ListItem key={index}>
                 <Link href={`/person?id=${castMember.id}`}>{castMember.name}</Link>
               </Styles.ListItem>
@@ -49,7 +49,7 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
           aria-controls="panel2bh-content"
           id="panel2bh-header"
         >
-          <Typography sx={{ width: '33%', flexShrink: 0 }} fontWeight="bold" >
+          <Typography sx={{ width: '15%', flexShrink: 0 }} fontWeight="bold" >
             Crew
           </Typography>
           {expanded !== 'panel2' && (
@@ -60,7 +60,7 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
         </AccordionSummary>
         <AccordionDetails>
           <Styles.List>
-            {props.credits?.crew?.map((crewMember, index) => (
+            {props.credits?.crew?.filter(person => person.profile_path).map((crewMember, index) => (
               <Styles.ListItem key={index}>
                 <Link href={`/person?id=${crewMember.id}`}>{crewMember.name}</Link>
               </Styles.ListItem>
