@@ -12,7 +12,8 @@ export const Container = styled.div<{ title: CategoryTitle }>`
   flex: 1;
   flex-direction: column;
   background-color: ${(props) =>
-    props.theme.palette.category?.[props.title] || '#ff0000'};
+    props.theme.palette.category?.[props.title] ||
+    props.theme.palette.common.white};
   border-radius: 1rem;
   overflow: hidden;
 `;
@@ -26,7 +27,11 @@ export const EllipsedTypography = styled(Typography)<{ title: CategoryTitle }>`
   overflow: hidden;
   text-overflow: ellipsis;
   color: ${(props) =>
-    darken(props.theme.palette.category?.[props.title] || '#ff0000', 0.5)};
+    darken(
+      props.theme.palette.category?.[props.title] ||
+        props.theme.palette.common.white,
+      0.5,
+    )};
 `;
 
 export const Subtitle = styled.div`

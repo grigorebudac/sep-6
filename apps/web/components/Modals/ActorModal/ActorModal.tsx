@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Box, DialogProps, Grid, IconButton, Typography } from '@mui/material';
 
 import * as Styles from './ActorModal.styles';
-import { Close, Style } from '@mui/icons-material';
+import { Close } from '@mui/icons-material';
 import { getImageByPath } from 'utils/tmdb.utils';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
+import { Person } from 'types/person.types';
+import { useLazyGetActorQuery } from 'redux/endpoints/person.endpoints';
 
 interface ActorModalProps {
   open: DialogProps['open'];
-  actor?: any;
+  actor?: Person.ActorResponse;
   onClose: () => void;
 }
 
 const ActorModal = ({ actor, ...props }: ActorModalProps) => {
-  const [loading, setLoading] = useState(true);
+  const [getActor, { data, isLoading }] = useLazyGetActorQuery();
+  const isOpen = !!actor;
+
+  const handleLoadData = useCallback(() => {
+    if (isOpen) {
+      getActor(actor.id);
+    }
+  }, [isOpen, actor, getActor]);
 
   useEffect(() => {
-    if (actor) {
-      setLoading(false);
-    }
-  }, [actor]);
+    handleLoadData();
+  }, [handleLoadData]);
 
   return (
     <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
       <Styles.ContentContainer>
         <Styles.Cover>
           <Styles.Avatar
-            src={getImageByPath(actor?.profile_path)}
-            alt={actor?.title}
+            src={getImageByPath(data?.profile_path || '')}
+            alt={data?.name}
           />
 
           <Typography
@@ -36,7 +43,7 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
             fontWeight="bold"
             color="system.main"
           >
-            {actor?.name}
+            {data?.name}
           </Typography>
         </Styles.Cover>
 
@@ -55,7 +62,7 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
                   <Styles.StarIcon />
 
                   <Typography fontSize="3rem" fontWeight="bold">
-                    {actor?.popularity}
+                    {data?.popularity}
                   </Typography>
                 </Box>
               </Box>
@@ -63,18 +70,18 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
               <Box marginTop={2}>
                 <Typography>
                   <b>Birthday:</b>
-                  {' ' + new Date(actor?.birthday).toLocaleDateString()}
+                  {' ' + new Date(data?.birthday || '').toLocaleDateString()}
                 </Typography>
 
                 <Typography marginTop={1}>
-                  <b>Place of birth:</b> {actor?.place_of_birth}
+                  <b>Place of birth:</b> {data?.place_of_birth}
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={12} sm={8}>
               <SimpleTextSection
                 title="Biography:"
-                subtitle={actor?.biography}
+                subtitle={data?.biography}
               />
             </Grid>
           </Grid>
