@@ -6,18 +6,18 @@ import {
   ResponsiveContainer,
   CartesianGrid,
   Tooltip,
-} from "recharts";
-import { BaseAxisProps } from "recharts/types/util/types";
-import { TooltipProps } from "recharts/types/component/Tooltip";
-import { useTheme, Skeleton, Theme } from "@mui/material";
+} from 'recharts';
+import { BaseAxisProps } from 'recharts/types/util/types';
+import { TooltipProps } from 'recharts/types/component/Tooltip';
+import { useTheme, Skeleton, Theme } from '@mui/material';
 
-import * as Styles from "./SimpleLineChart.styles";
+import * as Styles from './SimpleLineChart.styles';
 
 interface SimpleLineChartProps {
   isLoading: boolean;
   data: { x: any; y: any }[];
-  xTickFormatter?: BaseAxisProps["tickFormatter"];
-  yTickFormatter?: BaseAxisProps["tickFormatter"];
+  xTickFormatter?: BaseAxisProps['tickFormatter'];
+  yTickFormatter?: BaseAxisProps['tickFormatter'];
 }
 
 const CustomTooltip = (props: TooltipProps<any, string>) => {

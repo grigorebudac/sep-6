@@ -7,6 +7,38 @@ import { getImageByPath } from 'utils/tmdb.utils';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
 import { Person } from 'types/person.types';
 import { useLazyGetActorQuery } from 'redux/endpoints/person.endpoints';
+import PaddingLineChart from 'components/Charts/PaddingLineChart';
+
+const chartData = [
+  {
+    year: 2000,
+    rating: 2400,
+  },
+  {
+    year: 2002,
+    rating: 1398,
+  },
+  {
+    year: 2003,
+    rating: 9800,
+  },
+  {
+    year: 2005,
+    rating: 3908,
+  },
+  {
+    year: 2006,
+    rating: 4800,
+  },
+  {
+    year: 2008,
+    rating: 3800,
+  },
+  {
+    year: 2012,
+    rating: 4300,
+  },
+];
 
 interface ActorModalProps {
   open: DialogProps['open'];
@@ -31,7 +63,7 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
   }, [handleLoadData]);
 
   const getCoverColor = () => {
-    const colors = ['#B8B2D0', '#5DBBE0', '#ADBCDA', '#854CA4', '#7BBEA1'];
+    const colors = ['#B8576A', '#5DBBE0', '#ADBCDA', '#854CA4', '#7BBEA1'];
     return setCoverColor(colors[Math.floor(Math.random() * colors.length)]);
   };
 
@@ -65,7 +97,11 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
               <Box>
                 <SimpleTextSection title="Popularity:" />
 
-                <Box display="flex" paddingTop={1}>
+                <Box
+                  display="flex"
+                  paddingTop={1}
+                  style={{ color: coverColor }}
+                >
                   <Styles.StarIcon />
 
                   <Typography fontSize="3rem" fontWeight="bold">
@@ -85,8 +121,23 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={8}></Grid>
+            <Grid item xs={12} sm={8}>
+              <PaddingLineChart
+                data={chartData}
+                lineColor={coverColor}
+                isLoading={isLoading}
+              />
+            </Grid>
           </Grid>
+          <Box marginTop={5}>
+            <Typography
+              fontSize={['2rem', '3rem']}
+              fontWeight="bold"
+              color={coverColor}
+            >
+              Known for:
+            </Typography>
+          </Box>
           <Box marginTop={5}>
             <SimpleTextSection title="Biography:" subtitle={data?.biography} />
           </Box>
