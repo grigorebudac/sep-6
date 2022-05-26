@@ -7,6 +7,8 @@ import { getImageByPath } from 'utils/tmdb.utils';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
 import { Person } from 'types/person.types';
 import { useLazyGetActorQuery } from 'redux/endpoints/person.endpoints';
+import { getAverageMovieRatingOverTheYearsOfActor } from 'utils/analytics.utils';
+import { Analytics } from 'types';
 
 interface ActorModalProps {
   open: DialogProps['open'];
@@ -16,12 +18,14 @@ interface ActorModalProps {
 
 const ActorModal = ({ actor, ...props }: ActorModalProps) => {
   const [coverColor, setCoverColor] = useState('');
+  const [averageRatingOverYears, setAverageRatingOverYears] = useState<Analytics.AverageRatingOverYears[]>();
   const [getActor, { data, isLoading }] = useLazyGetActorQuery();
   const isOpen = !!actor;
 
   const handleLoadData = useCallback(() => {
     if (isOpen) {
       getActor(actor.id);
+      getAverageMovieRatingOverTheYearsOfActor(actor.id).then(setAverageRatingOverYears);
       getCoverColor();
     }
   }, [isOpen, actor, getActor]);
