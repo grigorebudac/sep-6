@@ -9,7 +9,7 @@ interface SimpleTextSectionProps {
 const SimpleTextSection = (props: SimpleTextSectionProps) => {
   return (
     <>
-      <Typography variant="subtitle2" fontWeight="bold">
+      <Typography variant="subtitle1" fontWeight="bold">
         {props.title}
       </Typography>
 

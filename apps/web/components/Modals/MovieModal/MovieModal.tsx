@@ -1,61 +1,41 @@
 import React from 'react';
 import {
   Box,
-  Dialog,
   DialogProps,
   Divider,
   Grid,
   IconButton,
   Typography,
-} from '@mui/material';
-import { getImageByPath } from 'utils/tmdb.utils';
-import { Movie } from 'types';
-
-import * as Styles from './MovieModal.styles';
-import SimpleLineChart from 'components/Charts/SimpleLineChart';
-import { Close } from '@mui/icons-material';
-import SimpleTextSection from 'components/Sections/SimpleTextSection';
+} from "@mui/material";
+import { getImageByPath } from "utils/tmdb.utils";
+import { Credits, Movie, WatchList } from "types";
+import * as Styles from "./MovieModal.styles";
+import { Close, Add } from "@mui/icons-material";
+import SimpleTextSection from "components/Sections/SimpleTextSection";
+import AddToPlayListModal from "components/Modals/AddToPlayListModal";
 import ReviewsContainer from 'containers/ReviewsContainer';
+import { useGetWatchListsQuery } from "redux/endpoints/watch-lists.endpoints";
+import MovieCreditsSection from 'components/Sections/MovieCreditsSection';
 
 interface MovieModalProps {
   open: DialogProps['open'];
   movie?: Movie.GetMovieResponse;
+  credits?: Credits.Credits
   isLoading: boolean;
   onClose: () => void;
 }
 
-const DUMMY_DATA = [
-  {
-    x: 'Wed',
-    y: 10,
-  },
-  {
-    x: 'Thu',
-    y: 30,
-  },
-  {
-    x: 'Fri',
-    y: 2,
-  },
-  {
-    x: 'Sat',
-    y: 0,
-  },
-  {
-    x: 'Sun',
-    y: 7,
-  },
-  {
-    x: 'Mon',
-    y: 15,
-  },
-  {
-    x: 'Tue',
-    y: 7,
-  },
-];
-
 const MovieModal = ({ movie, ...props }: MovieModalProps) => {
+  const { data } = useGetWatchListsQuery();
+  const [openModal, setOpenModal] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpenModal(true);
+  };
+
+  const handleClose = (value?: string) => {
+    setOpenModal(false);
+  };
+
   const genres = movie?.genres.map((genre) => genre.name)?.join(', ');
   const spokenLanguages = movie?.spoken_languages
     .map(({ name }) => name)
@@ -88,6 +68,13 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
         </Styles.CoverContent>
       </Styles.CoverContainer>
 
+      <Styles.AddToPlayListBtnContainer>
+        <Styles.IconButtonWrapper onClick={handleClickOpen} size="large">
+          <Add fontSize="large" />
+        </Styles.IconButtonWrapper>
+        <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={openModal} onClose={handleClose} />
+      </Styles.AddToPlayListBtnContainer>
+
       <Styles.Content>
         <Grid container gap={2}>
           <Grid item xs={12} sm={8}>
@@ -110,11 +97,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
       <Styles.Content>
         <Divider />
 
-        <Styles.ChartContainer>
-          <SimpleLineChart data={DUMMY_DATA} isLoading={false} />
-        </Styles.ChartContainer>
-
-        <Divider />
+        <MovieCreditsSection credits={props.credits} />
       </Styles.Content>
 
       {movie != null && (
