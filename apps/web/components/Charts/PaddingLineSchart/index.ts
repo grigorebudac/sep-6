@@ -1,1 +1,1 @@
-export { default } from "./SimpleLineChart";
+export { default } from './PaddingLineSchart';
