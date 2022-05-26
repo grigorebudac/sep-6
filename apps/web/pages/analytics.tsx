@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import ApplicationLayout from 'components/Layouts/ApplicationLayout';
+import { useGetWatchListsQuery } from "redux/endpoints/watch-lists.endpoints";
 import CategoryCard from 'components/Cards/CategoryCard';
 import { Typography } from '@mui/material';
 import ActorCard from 'components/Cards/ActorCard';
@@ -32,8 +33,11 @@ const actors = [
 ];
 
 const Analytics = () => {
-  const genres: Genre.Genre[] = [];
+  const { data, isLoading } = useGetWatchListsQuery();
+  const [genres, setGenres] = useState<Genre.Genre[]>([]);
   const [selectedActor, setSelectedActor] = useState<Person.ActorResponse>();
+
+  console.log(data)
 
   return (
     <ApplicationLayout title="Analytics">
@@ -50,6 +54,7 @@ const Analytics = () => {
       <Grid container>
         {genres?.map((genre) => (
           <Grid key={genre.id} item xs={12} sm={4} md={2} padding="1rem">
+            {/* @ts-ignore */}
             <CategoryCard title={genre.name.toLowerCase()} size={20} />
           </Grid>
         ))}
