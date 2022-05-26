@@ -49,7 +49,7 @@ const data = [
   },
 ];
 
-const SimpleLineChart = () => {
+const PaddingLineChart = () => {
   const theme = useTheme<Theme>();
 
   if (false) {
@@ -76,4 +76,4 @@ const SimpleLineChart = () => {
   );
 };
 
-export default SimpleLineChart;
+export default PaddingLineChart;
