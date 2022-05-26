@@ -55,7 +55,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     }
 
     movieIndex = watchLists?.Items?.[0]?.movies?.findIndex(
-      (movie) => movie.movieId === movieId,
+      (movie) => movie.movieId == movieId,
     );
 
     if (movieIndex === undefined || movieIndex === -1) {

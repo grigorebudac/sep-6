@@ -19,6 +19,10 @@ const palette: CustomThemeColors = {
   background: {
     main: "#141020",
   },
+  danger: {
+    main: "#ff0000",
+    dark: "#de0003",
+  },
   system: {
     main: "#FFFFFF",
   },

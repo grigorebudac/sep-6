@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import { alpha, Dialog as MuiDialog } from "@mui/material";
+import { alpha, Dialog as MuiDialog, Button as MuiButton, IconButton as MuiIconButton } from "@mui/material";
 
 export const Dialog = styled(MuiDialog)`
-  z-index: 9999;
+  z-index: 10000;
 `;
 
 export const CoverContainer = styled.div`
@@ -66,5 +66,35 @@ export const ChartContainer = styled.div`
 
   ${(props) => props.theme.breakpoints.down("sm")} {
     height: 20rem;
+  }
+`;
+
+export const AddToPlayListBtnContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  transform: translateY(-50%);
+  margin-bottom: -5rem;
+`;
+
+export const IconButtonWrapper = styled(MuiIconButton)`
+  box-shadow: 0px 0px 10px 3px ${({ theme }) => alpha(theme.palette.danger.main, 0.55)};
+  min-width: 0;
+  margin-right: 1rem;
+  padding: 1rem;
+  transition: all 0.2s linear 0s;
+  background:  ${({ theme }) => theme.palette.danger.main};
+
+  > svg {
+    fill: ${({ theme }) => theme.palette.system.main};
+    transition: all 0.2s linear 0s;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.palette.danger.dark!};
+    transition: all 0.2s linear 0s;
+
+    & > svg {
+      fill: ${({ theme }) => theme.palette.system.main};
+    }
   }
 `;
