@@ -11,7 +11,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
 
   try {
     const { sub } = event.requestContext.authorizer.claims;
-    const watchlistId = event.pathParameters?.["id"];
+    const watchlistId = event.pathParameters?.["watchListId"];
 
     if (watchlistId == null) {
       throw new Error("Watchlist id is missing");

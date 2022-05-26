@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const MOVIE_TAG = 'MOVIE';
 export const POPULAR_MOVIE_TAG = 'MOVIE';
+export const CREDITS_TAG = 'CREDITS';
 export const ACTOR_TAG = 'ACTOR';
 
 export const TmdbApi = createApi({
@@ -15,6 +16,6 @@ export const TmdbApi = createApi({
       return output.toString();
     },
   }),
-  tagTypes: [MOVIE_TAG, POPULAR_MOVIE_TAG, ACTOR_TAG],
+  tagTypes: [MOVIE_TAG, POPULAR_MOVIE_TAG, CREDITS_TAG, ACTOR_TAG],
   endpoints: () => ({}),
 });

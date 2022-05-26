@@ -3,9 +3,16 @@ import AWS from 'aws-sdk';
 
 const DynamoDB = new AWS.DynamoDB.DocumentClient();
 
+interface Genre {
+  id: number;
+  name: string;
+}
+
 interface Payload {
   movieId: string;
   title: string;
+  cover: string;
+  genres: Genre[];
 }
 
 export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
@@ -37,6 +44,8 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     const Movie = {
       movieId: data.movieId,
       title: data.title,
+      cover: data.cover,
+      genres: data.genres,
       createdAt: currentUnixTime,
     };
 
@@ -59,7 +68,7 @@ export const handler: APIGatewayProxyWithCognitoAuthorizerHandler = async (
     }).promise();
 
     statusCode = 200;
-    body = Movie;
+    body = watchListId;
   } catch (error) {
     statusCode = 500;
     body = error instanceof Error ? error.message : error;

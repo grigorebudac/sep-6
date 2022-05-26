@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const USER_TAG = "USER";
 export const REVIEW_TAG = "REVIEW";
+export const WATCH_LIST_TAG = "WATCH_LIST";
 
 export const RootApi = createApi({
   reducerPath: "RootApi",
@@ -19,6 +20,6 @@ export const RootApi = createApi({
       return headers;
     },
   }),
-  tagTypes: [USER_TAG, REVIEW_TAG],
+  tagTypes: [USER_TAG, REVIEW_TAG, WATCH_LIST_TAG],
   endpoints: () => ({}),
 });

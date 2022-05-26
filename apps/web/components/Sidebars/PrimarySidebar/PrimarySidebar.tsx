@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { List } from '@mui/material';
-import { Home, Settings, Assessment } from '@mui/icons-material';
+import { Home, Settings, ViewList, Assessment } from '@mui/icons-material';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 import { SidebarMinimiseIcon } from 'assets/animated-icons/SidebarMinimiseIcon';
@@ -24,6 +24,11 @@ const NAV_LINKS = [
     title: 'About you',
     icon: <Assessment />,
     href: '/analytics',
+  },
+  {
+    title: 'Watch lists',
+    icon: <ViewList />,
+    href: '/watch-lists',
   },
 ];
 
