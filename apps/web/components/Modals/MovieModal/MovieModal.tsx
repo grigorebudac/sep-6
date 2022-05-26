@@ -9,17 +9,19 @@ import {
   Typography,
 } from '@mui/material';
 import { getImageByPath } from 'utils/tmdb.utils';
-import { Movie } from 'types';
+import { Credits, Movie } from 'types';
 
 import * as Styles from './MovieModal.styles';
 import SimpleLineChart from 'components/Charts/SimpleLineChart';
 import { Close } from '@mui/icons-material';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
 import ReviewsContainer from 'containers/ReviewsContainer';
+import MovieCreditsSection from 'components/Sections/MovieCreditsSection';
 
 interface MovieModalProps {
   open: DialogProps['open'];
   movie?: Movie.GetMovieResponse;
+  credits?: Credits.Credits
   isLoading: boolean;
   onClose: () => void;
 }
@@ -110,12 +112,18 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
       <Styles.Content>
         <Divider />
 
+        <MovieCreditsSection credits={props.credits} />
+      </Styles.Content>
+
+      {/* <Styles.Content>
+        <Divider />
+
         <Styles.ChartContainer>
           <SimpleLineChart data={DUMMY_DATA} isLoading={false} />
         </Styles.ChartContainer>
 
         <Divider />
-      </Styles.Content>
+      </Styles.Content> */}
 
       {movie != null && (
         <Styles.Content>
