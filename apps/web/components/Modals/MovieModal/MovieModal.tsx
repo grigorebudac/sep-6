@@ -12,7 +12,6 @@ import { getImageByPath } from 'utils/tmdb.utils';
 import { Credits, Movie } from 'types';
 
 import * as Styles from './MovieModal.styles';
-import SimpleLineChart from 'components/Charts/SimpleLineChart';
 import { Close } from '@mui/icons-material';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
 import ReviewsContainer from 'containers/ReviewsContainer';
@@ -25,37 +24,6 @@ interface MovieModalProps {
   isLoading: boolean;
   onClose: () => void;
 }
-
-const DUMMY_DATA = [
-  {
-    x: 'Wed',
-    y: 10,
-  },
-  {
-    x: 'Thu',
-    y: 30,
-  },
-  {
-    x: 'Fri',
-    y: 2,
-  },
-  {
-    x: 'Sat',
-    y: 0,
-  },
-  {
-    x: 'Sun',
-    y: 7,
-  },
-  {
-    x: 'Mon',
-    y: 15,
-  },
-  {
-    x: 'Tue',
-    y: 7,
-  },
-];
 
 const MovieModal = ({ movie, ...props }: MovieModalProps) => {
   const genres = movie?.genres.map((genre) => genre.name)?.join(', ');
@@ -114,16 +82,6 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
 
         <MovieCreditsSection credits={props.credits} />
       </Styles.Content>
-
-      {/* <Styles.Content>
-        <Divider />
-
-        <Styles.ChartContainer>
-          <SimpleLineChart data={DUMMY_DATA} isLoading={false} />
-        </Styles.ChartContainer>
-
-        <Divider />
-      </Styles.Content> */}
 
       {movie != null && (
         <Styles.Content>
