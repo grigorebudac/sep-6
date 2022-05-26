@@ -6,8 +6,12 @@ import { Close } from '@mui/icons-material';
 import { getImageByPath } from 'utils/tmdb.utils';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
 import { Person } from 'types/person.types';
-import { useLazyGetActorQuery } from 'redux/endpoints/person.endpoints';
+import {
+  useLazyGetActorQuery,
+  useLazyGetMoviesQuery,
+} from 'redux/endpoints/person.endpoints';
 import PaddingLineChart from 'components/Charts/PaddingLineChart';
+import MovieList from 'components/Lists/MovieList';
 
 const chartData = [
   {
@@ -48,12 +52,17 @@ interface ActorModalProps {
 
 const ActorModal = ({ actor, ...props }: ActorModalProps) => {
   const [coverColor, setCoverColor] = useState('');
-  const [getActor, { data, isLoading }] = useLazyGetActorQuery();
+  const [getActor, { data: actorData, isLoading: isActorLoading }] =
+    useLazyGetActorQuery();
+  const [getMovies, { data: movieData, isLoading: isMovieLoading }] =
+    useLazyGetMoviesQuery();
+
   const isOpen = !!actor;
 
   const handleLoadData = useCallback(() => {
     if (isOpen) {
       getActor(actor.id);
+      getMovies(actor.id);
       getCoverColor();
     }
   }, [isOpen, actor, getActor]);
@@ -72,8 +81,8 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
       <Styles.ContentContainer>
         <Styles.Cover style={{ background: coverColor }}>
           <Styles.Avatar
-            src={getImageByPath(data?.profile_path || '')}
-            alt={data?.name}
+            src={getImageByPath(actorData?.profile_path || '')}
+            alt={actorData?.name}
           />
 
           <Typography
@@ -82,7 +91,7 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
             fontWeight="bold"
             color="system.main"
           >
-            {data?.name}
+            {actorData?.name}
           </Typography>
         </Styles.Cover>
 
@@ -105,7 +114,7 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
                   <Styles.StarIcon />
 
                   <Typography fontSize="3rem" fontWeight="bold">
-                    {data?.popularity}
+                    {actorData?.popularity}
                   </Typography>
                 </Box>
               </Box>
@@ -113,11 +122,12 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
               <Box marginTop={2}>
                 <Typography>
                   <b>Birthday:</b>
-                  {' ' + new Date(data?.birthday || '').toLocaleDateString()}
+                  {' ' +
+                    new Date(actorData?.birthday || '').toLocaleDateString()}
                 </Typography>
 
                 <Typography marginTop={1}>
-                  <b>Place of birth:</b> {data?.place_of_birth}
+                  <b>Place of birth:</b> {actorData?.place_of_birth}
                 </Typography>
               </Box>
             </Grid>
@@ -125,7 +135,7 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
               <PaddingLineChart
                 data={chartData}
                 lineColor={coverColor}
-                isLoading={isLoading}
+                isLoading={isActorLoading}
               />
             </Grid>
           </Grid>
@@ -137,9 +147,14 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
             >
               Known for:
             </Typography>
+
+            <MovieList movies={movieData?.cast || []} />
           </Box>
           <Box marginTop={5}>
-            <SimpleTextSection title="Biography:" subtitle={data?.biography} />
+            <SimpleTextSection
+              title="Biography:"
+              subtitle={actorData?.biography}
+            />
           </Box>
         </Styles.Content>
       </Styles.ContentContainer>
