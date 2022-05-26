@@ -25,8 +25,8 @@ export const Avatar = styled.img`
   width: 20rem;
   height: 20rem;
   object-fit: cover;
-  border: 0.3rem solid ${(props) => props.theme.palette.common.white};
-  background-color: ${(props) => props.theme.palette.common.white};
+  border: 0.3rem solid ${(props) => props.theme.palette.background.main};
+  background-color: ${(props) => props.theme.palette.background.main};
   border-radius: 50%;
   position: absolute;
   bottom: -10rem;
@@ -50,6 +50,8 @@ export const CloseBtnContainer = styled.div`
 
 export const Content = styled.div`
   padding: 5rem;
+  background: ${(props) => props.theme.palette.background.main};
+  color: ${(props) => props.theme.palette.common.white};
 `;
 
 export const StarIcon = styled(StarPurple500Icon)`

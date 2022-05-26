@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Box, DialogProps, Grid, IconButton, Typography } from '@mui/material';
 
 import * as Styles from './ActorModal.styles';
@@ -15,12 +15,14 @@ interface ActorModalProps {
 }
 
 const ActorModal = ({ actor, ...props }: ActorModalProps) => {
+  const [coverColor, setCoverColor] = useState('');
   const [getActor, { data, isLoading }] = useLazyGetActorQuery();
   const isOpen = !!actor;
 
   const handleLoadData = useCallback(() => {
     if (isOpen) {
       getActor(actor.id);
+      getCoverColor();
     }
   }, [isOpen, actor, getActor]);
 
@@ -28,10 +30,15 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
     handleLoadData();
   }, [handleLoadData]);
 
+  const getCoverColor = () => {
+    const colors = ['#B8B2D0', '#5DBBE0', '#ADBCDA', '#854CA4', '#7BBEA1'];
+    return setCoverColor(colors[Math.floor(Math.random() * colors.length)]);
+  };
+
   return (
     <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
       <Styles.ContentContainer>
-        <Styles.Cover>
+        <Styles.Cover style={{ background: coverColor }}>
           <Styles.Avatar
             src={getImageByPath(data?.profile_path || '')}
             alt={data?.name}
@@ -78,13 +85,11 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={8}>
-              <SimpleTextSection
-                title="Biography:"
-                subtitle={data?.biography}
-              />
-            </Grid>
+            <Grid item xs={12} sm={8}></Grid>
           </Grid>
+          <Box marginTop={5}>
+            <SimpleTextSection title="Biography:" subtitle={data?.biography} />
+          </Box>
         </Styles.Content>
       </Styles.ContentContainer>
     </Styles.Dialog>

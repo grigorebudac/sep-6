@@ -16,8 +16,6 @@ export const Container = styled.div`
   cursor: pointer;
 `;
 
-export const Cover = styled.img``;
-
 export const Content = styled.div`
   padding: 2rem 2rem 0.5rem 2rem;
   position: absolute;

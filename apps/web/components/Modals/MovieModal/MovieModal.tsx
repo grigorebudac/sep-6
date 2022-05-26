@@ -17,7 +17,6 @@ import { Close } from '@mui/icons-material';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
 import ReviewsContainer from 'containers/ReviewsContainer';
 
-
 interface MovieModalProps {
   open: DialogProps['open'];
   movie?: Movie.GetMovieResponse;

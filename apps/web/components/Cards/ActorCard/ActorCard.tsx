@@ -1,5 +1,6 @@
 import React from 'react';
 import { getImageByPath } from 'utils/tmdb.utils';
+import Image from 'next/image';
 
 import * as Styles from './ActorCard.styles';
 
@@ -13,7 +14,13 @@ interface MovieCardProps {
 const MovieCard = (props: MovieCardProps) => {
   return (
     <Styles.Container onClick={props.onClick}>
-      <Styles.Cover src={getImageByPath(props.imageUrl)} alt={props.name} />
+      <Image
+        src={getImageByPath(props.imageUrl)}
+        alt={props.name}
+        layout="responsive"
+        width={100}
+        height={150}
+      />
 
       <Styles.Content>
         <Styles.EllipsedTypography fontSize="1.6rem" color="system.main">
