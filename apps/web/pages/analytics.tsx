@@ -50,6 +50,7 @@ const Analytics = () => {
       <Grid container>
         {genres?.map((genre) => (
           <Grid key={genre.id} item xs={12} sm={4} md={2} padding="1rem">
+            {/* @ts-ignore */}
             <CategoryCard title={genre.name.toLowerCase()} size={20} />
           </Grid>
         ))}

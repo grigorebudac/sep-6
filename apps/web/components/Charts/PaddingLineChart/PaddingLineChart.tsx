@@ -10,13 +10,14 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { TooltipProps } from 'recharts/types/component/Tooltip';
+import { Analytics } from 'types';
 
 import * as Styles from './PaddingLineChart.styles';
 
 interface PaddingLineChartProps {
   lineColor: string;
   isLoading: boolean;
-  data: { year: number; rating: number }[];
+  data: Analytics.AverageRatingOverYears[];
 }
 
 const CustomTooltip = (props: TooltipProps<any, string>) => {

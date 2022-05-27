@@ -6,43 +6,14 @@ import { Close } from '@mui/icons-material';
 import { getImageByPath } from 'utils/tmdb.utils';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
 import { Person } from 'types/person.types';
+import { Analytics } from 'types';
 import {
   useLazyGetActorQuery,
   useLazyGetMoviesQuery,
 } from 'redux/endpoints/person.endpoints';
 import PaddingLineChart from 'components/Charts/PaddingLineChart';
+import { getAverageMovieRatingOverTheYearsOfActor } from 'utils/analytics.utils';
 import MovieList from 'components/Lists/MovieList';
-
-const chartData = [
-  {
-    year: 2000,
-    rating: 2400,
-  },
-  {
-    year: 2002,
-    rating: 1398,
-  },
-  {
-    year: 2003,
-    rating: 9800,
-  },
-  {
-    year: 2005,
-    rating: 3908,
-  },
-  {
-    year: 2006,
-    rating: 4800,
-  },
-  {
-    year: 2008,
-    rating: 3800,
-  },
-  {
-    year: 2012,
-    rating: 4300,
-  },
-];
 
 interface ActorModalProps {
   open: DialogProps['open'];
@@ -51,21 +22,28 @@ interface ActorModalProps {
 }
 
 const ActorModal = ({ actor, ...props }: ActorModalProps) => {
-  const [coverColor, setCoverColor] = useState('');
+  // Data
   const [getActor, { data: actorData, isLoading: isActorLoading }] =
     useLazyGetActorQuery();
   const [getMovies, { data: movieData, isLoading: isMovieLoading }] =
     useLazyGetMoviesQuery();
 
+  // States
+  const [coverColor, setCoverColor] = useState('');
+  const [averageRatingOverYears, setAverageRatingOverYears] =
+    useState<Analytics.AverageRatingOverYears[]>();
   const isOpen = !!actor;
 
   const handleLoadData = useCallback(() => {
     if (isOpen) {
       getActor(actor.id);
       getMovies(actor.id);
+      getAverageMovieRatingOverTheYearsOfActor(actor.id).then(
+        setAverageRatingOverYears,
+      );
       getCoverColor();
     }
-  }, [isOpen, actor, getActor]);
+  }, [isOpen, actor, getActor, getMovies]);
 
   useEffect(() => {
     handleLoadData();
@@ -133,7 +111,7 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
             </Grid>
             <Grid item xs={12} sm={8}>
               <PaddingLineChart
-                data={chartData}
+                data={averageRatingOverYears || []}
                 lineColor={coverColor}
                 isLoading={isActorLoading}
               />

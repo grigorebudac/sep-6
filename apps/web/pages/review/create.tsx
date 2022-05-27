@@ -6,7 +6,7 @@ const CreateReview = () => {
 
   async function handleCreateReview() {
     await createReview({
-      movieId: "1",
+      movieId: 1,
       message: `Hey ${Date.now()}`,
       rating: 4.5,
     })

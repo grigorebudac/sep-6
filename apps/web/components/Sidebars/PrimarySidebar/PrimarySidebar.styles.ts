@@ -1,5 +1,5 @@
 import styled, { CSSObject } from "@emotion/styled";
-import { ScopeTicketsTheme } from "ui";
+import { CustomTheme } from "types"
 
 import {
   Drawer as MuiDrawer,
@@ -14,7 +14,7 @@ import {
 export const WIDTH_EXPANDED = 240;
 export const WIDTH_COLLAPSED = 90;
 
-const openedMixin = (theme: ScopeTicketsTheme): CSSObject => ({
+const openedMixin = (theme: CustomTheme): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -23,7 +23,7 @@ const openedMixin = (theme: ScopeTicketsTheme): CSSObject => ({
   overflowX: "hidden",
 });
 
-const closedMixin = (theme: ScopeTicketsTheme): CSSObject => ({
+const closedMixin = (theme: CustomTheme): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -83,7 +83,7 @@ export const ListItemIcon = styled(MuiListItemIcon)`
   }
 `;
 
-const ListItemButtonActiveMixin = (theme: ScopeTicketsTheme) => css`
+const ListItemButtonActiveMixin = (theme: CustomTheme) => css`
   color: ${theme.palette.system.main};
 
   ${ListItemIcon}, ${ListItemText} {
@@ -95,7 +95,7 @@ const ListItemButtonActiveMixin = (theme: ScopeTicketsTheme) => css`
   }
 `;
 
-const ListItemButtonHoverMixin = (theme: ScopeTicketsTheme) => css`
+const ListItemButtonHoverMixin = (theme: CustomTheme) => css`
   color: ${theme.palette.system.main};
 
   ${ListItemIcon}, ${ListItemText} {
@@ -107,14 +107,14 @@ const ListItemButtonHoverMixin = (theme: ScopeTicketsTheme) => css`
   }
 `;
 
-export const ListItemButton = styled(MuiListItemButton)<{ isActive?: boolean }>`
+export const ListItemButton = styled(MuiListItemButton) <{ isActive?: boolean }>`
   transition: color 0.2s linear;
 
   &:hover {
     ${(props) =>
-      props.isActive
-        ? ListItemButtonActiveMixin(props.theme)
-        : ListItemButtonHoverMixin(props.theme)}
+    props.isActive
+      ? ListItemButtonActiveMixin(props.theme)
+      : ListItemButtonHoverMixin(props.theme)}
   }
 
   ${(props) => props.isActive && ListItemButtonActiveMixin(props.theme)}

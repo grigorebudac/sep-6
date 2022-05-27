@@ -70,19 +70,19 @@ const SimpleLineChart = (props: SimpleLineChartProps) => {
           axisLine={false}
           tickLine={false}
           fontSize={14}
-          stroke={theme.palette.tertiary.main}
+          stroke={theme.palette.secondary.main}
         />
         <Line
           type="monotoneX"
           dataKey="y"
-          stroke={theme.palette.primary.main}
+          stroke={theme.palette.secondary.main}
           dot={true}
         />
         <CartesianGrid
           horizontal={true}
           vertical={false}
           strokeDasharray="2 10"
-          stroke={theme.palette.tertiary.main}
+          stroke={theme.palette.secondary.main}
         />
         <Tooltip
           content={<CustomTooltip />}
