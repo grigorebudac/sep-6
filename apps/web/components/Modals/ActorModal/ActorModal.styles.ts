@@ -4,6 +4,10 @@ import StarPurple500Icon from '@mui/icons-material/StarPurple500';
 
 export const Dialog = styled(MuiDialog)`
   z-index: 9999;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ContentContainer = styled.div`

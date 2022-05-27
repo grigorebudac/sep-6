@@ -1,3 +1,5 @@
+import { Movie } from './movie.types';
+
 export declare module Person {
   interface ActorResponse {
     id: number;
@@ -8,5 +10,11 @@ export declare module Person {
     biography: string;
     birthday: string;
     deathday?: string;
+  }
+
+  interface MovieResponse {
+    cast: Movie.Movie[];
+    crew: any[];
+    id: number;
   }
 }

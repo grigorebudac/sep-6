@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
-import { Typography } from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import { Grid, IconButton as MuiIconButton } from "@mui/material";
+import styled from '@emotion/styled';
+import { Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import { Grid, IconButton as MuiIconButton } from '@mui/material';
 
 export const WatchListHeader = styled(Typography)`
   display: flex;
@@ -16,15 +16,16 @@ export const MovieList = styled(Grid)`
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
+  scroll-behavior: smooth;
 
   div {
     width: 20vh;
     max-width: 20vh;
   }
 
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-  
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
   ::-webkit-scrollbar {
     display: none;
   }
@@ -72,5 +73,23 @@ export const DeleteIconButton = styled(MuiIconButton)`
 
 export const MovieWrapper = styled.div`
   position: relative;
+`;
 
-  `;
+export const ScrollButton = styled.div<{ left?: boolean }>`
+  z-index: 10;
+  position: absolute;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  top: 12rem;
+  ${({ left }) => (left ? `left: -2rem;` : `right: -2rem;`)}
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fef9ef;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
+`;

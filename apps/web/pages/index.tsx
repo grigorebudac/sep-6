@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <ApplicationLayout title="Home">
       <Grid container>
-        {data && data.results.length ?
+        {data && data.results.length ? (
           data.results.map((movie) => (
             <Link
               key={movie.id}
@@ -28,15 +28,16 @@ const Home = () => {
             >
               <Grid item xs={12} sm={4} md={2} padding="1rem">
                 <MovieCard
-                  posterUrl={getImageByPath(movie.poster_path)}
+                  posterUrl={movie.poster_path}
                   title={movie.title}
                   rating={movie.vote_average}
                 />
               </Grid>
             </Link>
           ))
-          :
-          <h1>No data</h1>}
+        ) : (
+          <h1>No data</h1>
+        )}
 
         <MovieModalContainer />
       </Grid>
