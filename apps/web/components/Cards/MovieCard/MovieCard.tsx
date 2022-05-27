@@ -1,6 +1,7 @@
-import React from "react";
+import React from 'react';
+import { getImageByPath } from 'utils/tmdb.utils';
 
-import * as Styles from "./MovieCard.styles";
+import * as Styles from './MovieCard.styles';
 
 interface MovieCardProps {
   title?: string;
@@ -9,16 +10,18 @@ interface MovieCardProps {
   editable?: boolean;
 }
 
-const imagePlaceHolderBase64 = "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAADCAQAAAAT4xYKAAAADklEQVR42mNkAAJGOAEAAC0ABNxMS2YAAAAASUVORK5CYII=";
+const imagePlaceHolderBase64 =
+  'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAADCAQAAAAT4xYKAAAADklEQVR42mNkAAJGOAEAAC0ABNxMS2YAAAAASUVORK5CYII=';
 
 const MovieCard = (props: MovieCardProps) => {
   return (
     <Styles.Container>
       <img
         src={
-          props.posterUrl ?
-            props.posterUrl :
-            imagePlaceHolderBase64}
+          props.posterUrl
+            ? getImageByPath(props.posterUrl)
+            : imagePlaceHolderBase64
+        }
         alt={props.title}
       />
 
@@ -37,7 +40,7 @@ const MovieCard = (props: MovieCardProps) => {
           </Styles.Subtitle>
         </Styles.Content>
       )}
-    </Styles.Container >
+    </Styles.Container>
   );
 };
 

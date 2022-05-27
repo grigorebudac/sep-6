@@ -6,9 +6,14 @@ import { Close } from '@mui/icons-material';
 import { getImageByPath } from 'utils/tmdb.utils';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
 import { Person } from 'types/person.types';
-import { useLazyGetActorQuery } from 'redux/endpoints/person.endpoints';
-import { getAverageMovieRatingOverTheYearsOfActor } from 'utils/analytics.utils';
 import { Analytics } from 'types';
+import {
+  useLazyGetActorQuery,
+  useLazyGetMoviesQuery,
+} from 'redux/endpoints/person.endpoints';
+import PaddingLineChart from 'components/Charts/PaddingLineChart';
+import { getAverageMovieRatingOverTheYearsOfActor } from 'utils/analytics.utils';
+import MovieList from 'components/Lists/MovieList';
 
 interface ActorModalProps {
   open: DialogProps['open'];
@@ -17,25 +22,35 @@ interface ActorModalProps {
 }
 
 const ActorModal = ({ actor, ...props }: ActorModalProps) => {
+  // Data
+  const [getActor, { data: actorData, isLoading: isActorLoading }] =
+    useLazyGetActorQuery();
+  const [getMovies, { data: movieData, isLoading: isMovieLoading }] =
+    useLazyGetMoviesQuery();
+
+  // States
   const [coverColor, setCoverColor] = useState('');
-  const [averageRatingOverYears, setAverageRatingOverYears] = useState<Analytics.AverageRatingOverYears[]>();
-  const [getActor, { data, isLoading }] = useLazyGetActorQuery();
+  const [averageRatingOverYears, setAverageRatingOverYears] =
+    useState<Analytics.AverageRatingOverYears[]>();
   const isOpen = !!actor;
 
   const handleLoadData = useCallback(() => {
     if (isOpen) {
       getActor(actor.id);
-      getAverageMovieRatingOverTheYearsOfActor(actor.id).then(setAverageRatingOverYears);
+      getMovies(actor.id);
+      getAverageMovieRatingOverTheYearsOfActor(actor.id).then(
+        setAverageRatingOverYears,
+      );
       getCoverColor();
     }
-  }, [isOpen, actor, getActor]);
+  }, [isOpen, actor, getActor, getMovies]);
 
   useEffect(() => {
     handleLoadData();
   }, [handleLoadData]);
 
   const getCoverColor = () => {
-    const colors = ['#B8B2D0', '#5DBBE0', '#ADBCDA', '#854CA4', '#7BBEA1'];
+    const colors = ['#B8576A', '#5DBBE0', '#ADBCDA', '#854CA4', '#7BBEA1'];
     return setCoverColor(colors[Math.floor(Math.random() * colors.length)]);
   };
 
@@ -44,8 +59,8 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
       <Styles.ContentContainer>
         <Styles.Cover style={{ background: coverColor }}>
           <Styles.Avatar
-            src={getImageByPath(data?.profile_path || '')}
-            alt={data?.name}
+            src={getImageByPath(actorData?.profile_path || '')}
+            alt={actorData?.name}
           />
 
           <Typography
@@ -54,7 +69,7 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
             fontWeight="bold"
             color="system.main"
           >
-            {data?.name}
+            {actorData?.name}
           </Typography>
         </Styles.Cover>
 
@@ -69,11 +84,15 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
               <Box>
                 <SimpleTextSection title="Popularity:" />
 
-                <Box display="flex" paddingTop={1}>
+                <Box
+                  display="flex"
+                  paddingTop={1}
+                  style={{ color: coverColor }}
+                >
                   <Styles.StarIcon />
 
                   <Typography fontSize="3rem" fontWeight="bold">
-                    {data?.popularity}
+                    {actorData?.popularity}
                   </Typography>
                 </Box>
               </Box>
@@ -81,18 +100,43 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
               <Box marginTop={2}>
                 <Typography>
                   <b>Birthday:</b>
-                  {' ' + new Date(data?.birthday || '').toLocaleDateString()}
+                  {' ' +
+                    new Date(actorData?.birthday || '').toLocaleDateString()}
                 </Typography>
 
                 <Typography marginTop={1}>
-                  <b>Place of birth:</b> {data?.place_of_birth}
+                  <b>Place of birth:</b> {actorData?.place_of_birth}
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={8}></Grid>
+            <Grid item xs={12} sm={8}>
+              <PaddingLineChart
+                data={averageRatingOverYears || []}
+                lineColor={coverColor}
+                isLoading={isActorLoading}
+              />
+            </Grid>
           </Grid>
           <Box marginTop={5}>
-            <SimpleTextSection title="Biography:" subtitle={data?.biography} />
+            <Typography
+              fontSize={['2rem', '3rem']}
+              fontWeight="bold"
+              color={coverColor}
+              marginBottom={1}
+            >
+              Known for:
+            </Typography>
+
+            <MovieList
+              movies={movieData?.cast || []}
+              buttonColor={coverColor}
+            />
+          </Box>
+          <Box marginTop={5}>
+            <SimpleTextSection
+              title="Biography:"
+              subtitle={actorData?.biography}
+            />
           </Box>
         </Styles.Content>
       </Styles.ContentContainer>
