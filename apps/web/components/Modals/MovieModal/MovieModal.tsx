@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { getImageByPath } from "utils/tmdb.utils";
-import { Credits, Movie, WatchList } from "types";
+import { Credits, Movie } from "types";
 import * as Styles from "./MovieModal.styles";
 import { Close, Add } from "@mui/icons-material";
 import SimpleTextSection from "components/Sections/SimpleTextSection";
@@ -28,6 +28,7 @@ interface MovieModalProps {
 const MovieModal = ({ movie, ...props }: MovieModalProps) => {
   const { data } = useGetWatchListsQuery();
   const [openModal, setOpenModal] = React.useState(false);
+
   const handleClickOpen = () => {
     setOpenModal(true);
   };

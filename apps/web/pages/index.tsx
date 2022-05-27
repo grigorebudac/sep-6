@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import { useGetPopularMoviesQuery } from 'redux/endpoints/movies.endpoints';
-import { getImageByPath } from 'utils/tmdb.utils';
 import Link from 'next/link';
 import MovieModalContainer from 'containers/MovieModalContainer';
 import ApplicationLayout from 'components/Layouts/ApplicationLayout';

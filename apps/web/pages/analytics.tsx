@@ -13,14 +13,31 @@ import SimpleSupratextSection from 'components/Sections/SimpleSupratextSection';
 const Analytics = () => {
   const { data, isLoading } = useGetWatchListsQuery();
   const [favoriteActors, setFavoriteActors] = useState<AnalyticsType.FavoriteAcotrs[]>([]);
+  const [favoriteGenres, setFavoriteGenres] = useState<AnalyticsType.FavoriteGenres[]>([]);
   const [selectedActor, setSelectedActor] = useState<Person.ActorResponse>();
 
-  const favoriteGenres = useMemo(() => { if (data) return getFavoriteGenres(data); }, [data]);
   useEffect(() => {
     if (data) {
+      setFavoriteGenres(getFavoriteGenres(data));
       getFavoriteActors(data).then(setFavoriteActors);
     }
   }, [data]);
+
+  if (!isLoading && favoriteActors?.length === 0) {
+    return (
+      <ApplicationLayout title="Analytics">
+        <Typography
+          paddingLeft={'1rem'}
+          marginBottom={'1rem'}
+          fontSize="3rem"
+          color="system.main"
+          fontWeight={900}
+        >
+          Add some movies to your watch lists to see some statistics
+        </Typography>
+      </ApplicationLayout>
+    )
+  }
 
   return (
     <ApplicationLayout title="Analytics">
@@ -35,12 +52,12 @@ const Analytics = () => {
       </Typography>
 
       <Grid container>
-        {favoriteGenres ? (favoriteGenres.map((genre) => (
+        {favoriteGenres.length > 0 ? (favoriteGenres.map((genre) => (
           <Grid key={genre.name} item xs={12} sm={4} md={2} padding="1rem">
             <CategoryCard title={genre.name} size={genre.quantity} />
           </Grid>
         ))) : ([...Array(6)].map(skeleton => (
-          <Grid item xs={12} sm={4} md={2} padding="1rem" key={skeleton}>
+          <Grid item xs={12} sm={4} md={2} padding="1rem" key={Math.random()}>
             <Skeleton variant="rectangular" sx={{ bgcolor: 'grey.900', borderRadius: '1rem' }} width="full" height={145} animation="pulse" />
           </Grid>
         )))}
@@ -58,7 +75,7 @@ const Analytics = () => {
       </Typography>
 
       <Grid container>
-        {favoriteActors.length != 0 ? (favoriteActors.map((actorData) => (
+        {favoriteActors.length > 0 ? (favoriteActors.map((actorData) => (
           <Grid key={actorData.actor.id} item xs={12} sm={4} md={2} padding="1rem">
             <ActorCard
               name={actorData.actor.name}
@@ -68,7 +85,7 @@ const Analytics = () => {
             />
           </Grid>)))
           : ([...Array(6)].map(skeleton => (
-            <Grid item xs={12} sm={4} md={2} padding="1rem" key={skeleton}>
+            <Grid item xs={12} sm={4} md={2} padding="1rem" key={Math.random()}>
               <Skeleton variant="rectangular" sx={{ bgcolor: 'grey.900', borderRadius: '1rem' }} width="full" height={345} animation="pulse" />
             </Grid>
           )))}
