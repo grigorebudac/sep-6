@@ -3,20 +3,22 @@ import React from 'react';
 import * as Styles from './CategoryCard.styles';
 
 interface CategoryCardProps {
-  title: Styles.CategoryTitle;
+  title: string;
   size: number;
 }
 
 const CategoryCard = (props: CategoryCardProps) => {
   return (
-    <Styles.Container title={props.title}>
+    // @ts-ignore
+    <Styles.Container title={props.title.toLowerCase()}>
       <Styles.Content>
         <Styles.EllipsedTypography
           fontSize="3rem"
           color="system.main"
           align="center"
-          fontWeight={900}
-          title={props.title}
+          fontWeight="bold"
+          // @ts-ignore
+          title={props.title.toLowerCase()}
         >
           {props.size}
         </Styles.EllipsedTypography>
@@ -25,7 +27,9 @@ const CategoryCard = (props: CategoryCardProps) => {
           fontSize="1.4rem"
           color="system.main"
           align="center"
-          title={props.title}
+          fontWeight="bold"
+          // @ts-ignore
+          title={props.title.toLowerCase()}
         >
           {props.title}
         </Styles.EllipsedTypography>

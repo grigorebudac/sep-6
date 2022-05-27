@@ -4,7 +4,7 @@ export declare module WatchList {
     createdAt: string;
     movieId: string;
     cover?: string;
-    genres?: Genre[]
+    genres: Genre[]
   }
 
   interface WatchList {

@@ -19,17 +19,17 @@ export const Container = styled.div<{ title: CategoryTitle }>`
 `;
 
 export const Content = styled.div`
-  padding: 4rem 2rem;
+  padding: 4rem;
 `;
 
-export const EllipsedTypography = styled(Typography)<{ title: CategoryTitle }>`
+export const EllipsedTypography = styled(Typography) <{ title: CategoryTitle }>`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   color: ${(props) =>
     darken(
       props.theme.palette.category?.[props.title] ||
-        props.theme.palette.common.white,
+      props.theme.palette.common.white,
       0.5,
     )};
 `;
