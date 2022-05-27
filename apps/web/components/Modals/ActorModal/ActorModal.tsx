@@ -144,11 +144,15 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
               fontSize={['2rem', '3rem']}
               fontWeight="bold"
               color={coverColor}
+              marginBottom={1}
             >
               Known for:
             </Typography>
 
-            <MovieList movies={movieData?.cast || []} />
+            <MovieList
+              movies={movieData?.cast || []}
+              buttonColor={coverColor}
+            />
           </Box>
           <Box marginTop={5}>
             <SimpleTextSection

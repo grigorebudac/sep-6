@@ -19,11 +19,6 @@ interface PaddingLineChartProps {
   data: { year: number; rating: number }[];
 }
 
-interface CustomTooltipProps {
-  year: number;
-  rating: number;
-}
-
 const CustomTooltip = (props: TooltipProps<any, string>) => {
   const { active, payload } = props;
 
@@ -31,8 +26,10 @@ const CustomTooltip = (props: TooltipProps<any, string>) => {
     return (
       <div className="custom-tooltip">
         <Styles.Tooltip>
-          <p className="label">{`Year: ${payload[0].value}`}</p>
-          <p className="label">{`Rating: ${payload[0].value}`}</p>
+          <p className="label">{`Year: ${payload[0].payload.year}`}</p>
+          <p className="label">{`Rating: ${payload[0].payload.rating.toFixed(
+            2,
+          )}`}</p>
         </Styles.Tooltip>
       </div>
     );

@@ -1,8 +1,8 @@
-import styled from "@emotion/styled";
-import { Typography } from "@mui/material";
-import { Star } from "@mui/icons-material";
-import { alpha } from "@mui/material/styles";
-import Image from "next/image";
+import styled from '@emotion/styled';
+import { Typography } from '@mui/material';
+import { Star } from '@mui/icons-material';
+import { alpha } from '@mui/material/styles';
+import Image from 'next/image';
 
 export const Container = styled.div`
   height: 100%;
