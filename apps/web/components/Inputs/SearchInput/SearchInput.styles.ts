@@ -29,4 +29,5 @@ export const Cover = styled.img`
   height: 4rem;
   margin-right: 1rem;
   border-radius: 0.2em;
+  object-fit: contain;
 `;
