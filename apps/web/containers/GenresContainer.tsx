@@ -2,8 +2,10 @@ import { Autocomplete, CircularProgress, TextField } from '@mui/material';
 import React from 'react';
 import { useGetGenresQuery } from 'redux/endpoints/movies.endpoints';
 import { Movie } from 'types';
+import { Filter } from 'types/filter.types';
 
 interface GenresContainerProps {
+  value?: Filter.FilterOption[];
   onChange: (genres: Movie.Genre[]) => void;
 }
 
@@ -14,6 +16,7 @@ const GenresContainer = (props: GenresContainerProps) => {
     <Autocomplete
       multiple
       options={genres ?? []}
+      value={props.value}
       getOptionLabel={(option) => option.name}
       filterSelectedOptions
       onChange={(__, options) => props.onChange(options)}

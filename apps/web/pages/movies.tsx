@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, Fab, Grid } from '@mui/material';
-import { useGetPopularMoviesQuery } from 'redux/endpoints/movies.endpoints';
+import { useLazyDiscoverMoviesQuery } from 'redux/endpoints/movies.endpoints';
 import Link from 'next/link';
 import ApplicationLayout from 'components/Layouts/ApplicationLayout';
 import MovieCard from 'components/Cards/MovieCard';
 import { withProtectedRoute } from 'hocs/withProtectedRoute';
-import MovieFiltersModalContainer from 'containers/MovieFiltersModalContainer';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { Filter } from 'types/filter.types';
+import MovieFiltersModal from 'components/Modals/MovieFiltersModal';
 
 const Home = () => {
-  const [isFilterOpen, setFilterOpen] = useState(true);
-  const { data, isLoading } = useGetPopularMoviesQuery();
+  const [isFilterOpen, setFilterOpen] = useState(false);
+  const [filters, setFilters] = useState<Partial<Filter.Filter>>({});
+  const [discoverMovies, { data }] = useLazyDiscoverMoviesQuery();
+
+  useEffect(() => {
+    discoverMovies({});
+  }, []);
 
   function handleOpenFilter() {
     setFilterOpen(true);
@@ -20,8 +26,32 @@ const Home = () => {
     setFilterOpen(false);
   }
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
+  function handleChangeFilter(
+    name: keyof Filter.Filter,
+    filters: Filter.FilterOption[],
+  ) {
+    setFilters((prev) => {
+      let temp = { ...prev };
+
+      if (filters == null || filters.length == 0) {
+        delete temp[name];
+      } else {
+        temp[name] = filters;
+      }
+
+      return temp;
+    });
+  }
+
+  function handleSubmitFilter() {
+    let nextFilters: Record<string, string> = {};
+
+    for (const [key, value] of Object.entries(filters)) {
+      nextFilters[key] = value.map((item) => item.id).join(',');
+    }
+
+    discoverMovies(nextFilters);
+    handleCloseFilter();
   }
 
   return (
@@ -55,9 +85,12 @@ const Home = () => {
         </Fab>
       </Box>
 
-      <MovieFiltersModalContainer
+      <MovieFiltersModal
         open={isFilterOpen}
+        filters={filters}
         onClose={handleCloseFilter}
+        onChange={handleChangeFilter}
+        onSubmit={handleSubmitFilter}
       />
     </ApplicationLayout>
   );

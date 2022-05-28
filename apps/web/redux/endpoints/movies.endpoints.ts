@@ -35,6 +35,23 @@ export const MoviesEndpoints = TmdbApi.injectEndpoints({
         }));
       },
     }),
+    discoverMovies: builder.query<
+      Movie.GetPopularMoviesResponse,
+      Record<string, string>
+    >({
+      query: (filters) => ({
+        url: `/discover/movie`,
+        params: {
+          ...filters,
+        },
+      }),
+      providesTags: (res) => {
+        return (res?.results ?? []).map(({ id }) => ({
+          type: POPULAR_MOVIE_TAG,
+          id,
+        }));
+      },
+    }),
     getGenres: builder.query<Movie.Genre[], void>({
       query: () => ({
         url: `/genre/movie/list`,
@@ -61,4 +78,5 @@ export const {
   useGetPopularMoviesQuery,
   useLazyGetMovieQuery,
   useGetGenresQuery,
+  useLazyDiscoverMoviesQuery,
 } = MoviesEndpoints;

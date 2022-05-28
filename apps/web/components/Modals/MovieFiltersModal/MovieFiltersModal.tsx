@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -15,16 +15,23 @@ import SearchPeopleContainer from 'containers/SearchPeopleContainer';
 import SearchCompaniesContainer from 'containers/SearchCompaniesContainer';
 import GenresContainer from 'containers/GenresContainer';
 import { Movie } from 'types';
+import { Filter } from 'types/filter.types';
 
 interface MovieFiltersModalProps {
+  filters: Partial<Filter.Filter>;
   open: DialogProps['open'];
-  isLoading: boolean;
   onClose: () => void;
+  onChange: (name: keyof Filter.Filter, value: Filter.FilterOption[]) => void;
+  onSubmit: () => void;
 }
 
 const MovieFiltersModal = (props: MovieFiltersModalProps) => {
   function handleChangeGenres(genres: Movie.Genre[]) {
-    console.log({ genres });
+    props.onChange('with_genres', genres);
+  }
+
+  function handleReset() {
+    handleChangeGenres([]);
   }
 
   return (
@@ -49,7 +56,10 @@ const MovieFiltersModal = (props: MovieFiltersModalProps) => {
 
         <Box mt="2rem">
           <FilterSection title="Genres">
-            <GenresContainer onChange={handleChangeGenres} />
+            <GenresContainer
+              value={props.filters['with_genres']}
+              onChange={handleChangeGenres}
+            />
           </FilterSection>
         </Box>
 
@@ -61,8 +71,10 @@ const MovieFiltersModal = (props: MovieFiltersModalProps) => {
       </DialogContent>
 
       <DialogActions>
-        <Button variant="text">Reset</Button>
-        <Button variant="contained" color="primary">
+        <Button variant="text" onClick={handleReset}>
+          Reset
+        </Button>
+        <Button variant="contained" color="primary" onClick={props.onSubmit}>
           Submit
         </Button>
       </DialogActions>
