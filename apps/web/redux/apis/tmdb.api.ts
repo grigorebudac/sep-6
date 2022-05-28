@@ -6,6 +6,7 @@ export const CREDITS_TAG = 'CREDITS';
 export const ACTOR_TAG = 'ACTOR';
 export const ACTOR_MOVIE = 'ACTOR-MOVIE';
 export const SEARCH_RESULT = 'SEARCH-RESULT';
+export const GENRE_TAG = 'GENRE';
 
 export const TmdbApi = createApi({
   reducerPath: 'TmdbApi',
@@ -25,6 +26,7 @@ export const TmdbApi = createApi({
     ACTOR_TAG,
     ACTOR_MOVIE,
     SEARCH_RESULT,
+    GENRE_TAG,
   ],
   endpoints: () => ({}),
 });

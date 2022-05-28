@@ -9,7 +9,7 @@ import MovieFiltersModalContainer from 'containers/MovieFiltersModalContainer';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
 const Home = () => {
-  const [isFilterOpen, setFilterOpen] = useState(false);
+  const [isFilterOpen, setFilterOpen] = useState(true);
   const { data, isLoading } = useGetPopularMoviesQuery();
 
   function handleOpenFilter() {

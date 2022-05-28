@@ -16,6 +16,11 @@ export declare module Movie {
     vote_count: number;
   }
 
+  interface Genre {
+    id: number;
+    name: string;
+  }
+
   interface GetPopularMoviesResponse {
     page: number;
     results: Movie[];
@@ -71,5 +76,9 @@ export declare module Movie {
   interface SpokenLanguage {
     iso_639_1: string;
     name: string;
+  }
+
+  interface GetGenresResponse {
+    genres: Genre[];
   }
 }

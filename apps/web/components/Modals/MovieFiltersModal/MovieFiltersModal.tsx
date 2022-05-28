@@ -14,6 +14,7 @@ import FilterSection from 'components/Sections/FilterSection';
 import SearchPeopleContainer from 'containers/SearchPeopleContainer';
 import SearchCompaniesContainer from 'containers/SearchCompaniesContainer';
 import GenresContainer from 'containers/GenresContainer';
+import { Movie } from 'types';
 
 interface MovieFiltersModalProps {
   open: DialogProps['open'];
@@ -22,6 +23,10 @@ interface MovieFiltersModalProps {
 }
 
 const MovieFiltersModal = (props: MovieFiltersModalProps) => {
+  function handleChangeGenres(genres: Movie.Genre[]) {
+    console.log({ genres });
+  }
+
   return (
     <Styles.Dialog
       open={props.open}
@@ -44,7 +49,7 @@ const MovieFiltersModal = (props: MovieFiltersModalProps) => {
 
         <Box mt="2rem">
           <FilterSection title="Genres">
-            <GenresContainer />
+            <GenresContainer onChange={handleChangeGenres} />
           </FilterSection>
         </Box>
 
