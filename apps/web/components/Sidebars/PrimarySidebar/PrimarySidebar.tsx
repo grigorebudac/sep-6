@@ -37,9 +37,9 @@ const NAV_LINKS = [
     href: '/watch-lists',
   },
   {
-    title: 'Movies',
+    title: 'Discover',
     icon: <TheatersSharp />,
-    href: '/movies',
+    href: '/discover',
   },
 ];
 

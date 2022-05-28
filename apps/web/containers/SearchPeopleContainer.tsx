@@ -1,6 +1,6 @@
-import { Autocomplete, CircularProgress, TextField } from '@mui/material';
+import FilterAutocomplete from 'components/Inputs/FilterAutocomplete';
 import debounce from 'lodash/debounce';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useLazySearchPeopleQuery } from 'redux/endpoints/search.endpoints';
 import { Filter } from 'types/filter.types';
 
@@ -11,10 +11,6 @@ interface SearchPeopleContainerProps {
 
 const SearchPeopleContainer = (props: SearchPeopleContainerProps) => {
   const [searchPeople, { data, isLoading }] = useLazySearchPeopleQuery();
-
-  const value = useMemo(() => {
-    return props.value ?? [];
-  }, [props.value]);
 
   const handleSearch = debounce((name: string) => {
     searchPeople(name);
@@ -30,30 +26,13 @@ const SearchPeopleContainer = (props: SearchPeopleContainerProps) => {
   }
 
   return (
-    <Autocomplete
-      multiple
-      options={data ?? []}
-      getOptionLabel={(option) => option.name}
-      filterSelectedOptions
-      isOptionEqualToValue={(option, value) => option.id === value.id}
-      value={value}
-      onChange={(__, options) => handleChange(options ?? [])}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {isLoading && <CircularProgress color="inherit" size={14} />}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
-          }}
-          placeholder="People"
-          onChange={(e) => handleSearch(e.target.value)}
-        />
-      )}
+    <FilterAutocomplete
+      placeholder="People"
+      value={props.value}
+      options={data}
+      isLoading={isLoading}
+      onChangeText={handleSearch}
+      onChange={handleChange}
     />
   );
 };

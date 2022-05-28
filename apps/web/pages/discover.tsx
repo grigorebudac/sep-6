@@ -9,7 +9,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { Filter } from 'types/filter.types';
 import MovieFiltersModal from 'components/Modals/MovieFiltersModal';
 
-const Home = () => {
+const Discover = () => {
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState<Partial<Filter.Filter>>({});
   const [discoverMovies, { data }] = useLazyDiscoverMoviesQuery();
@@ -55,7 +55,7 @@ const Home = () => {
   }
 
   return (
-    <ApplicationLayout title="Search">
+    <ApplicationLayout title="Discover">
       <Grid container>
         {data && data.results.length ? (
           data.results.map((movie) => (
@@ -96,4 +96,4 @@ const Home = () => {
   );
 };
 
-export default withProtectedRoute(Home);
+export default withProtectedRoute(Discover);
