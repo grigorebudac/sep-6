@@ -5,6 +5,7 @@ export const POPULAR_MOVIE_TAG = 'MOVIE';
 export const CREDITS_TAG = 'CREDITS';
 export const ACTOR_TAG = 'ACTOR';
 export const ACTOR_MOVIE = 'ACTOR-MOVIE';
+export const SEARCH_RESULT = 'SEARCH-RESULT';
 
 export const TmdbApi = createApi({
   reducerPath: 'TmdbApi',
@@ -17,6 +18,13 @@ export const TmdbApi = createApi({
       return output.toString();
     },
   }),
-  tagTypes: [MOVIE_TAG, POPULAR_MOVIE_TAG, CREDITS_TAG, ACTOR_TAG, ACTOR_MOVIE],
+  tagTypes: [
+    MOVIE_TAG,
+    POPULAR_MOVIE_TAG,
+    CREDITS_TAG,
+    ACTOR_TAG,
+    ACTOR_MOVIE,
+    SEARCH_RESULT,
+  ],
   endpoints: () => ({}),
 });
