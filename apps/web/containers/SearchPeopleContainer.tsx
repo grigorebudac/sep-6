@@ -1,6 +1,6 @@
 import { Autocomplete, CircularProgress, TextField } from '@mui/material';
 import debounce from 'lodash/debounce';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useLazySearchPeopleQuery } from 'redux/endpoints/search.endpoints';
 import { Filter } from 'types/filter.types';
 
@@ -11,6 +11,10 @@ interface SearchPeopleContainerProps {
 
 const SearchPeopleContainer = (props: SearchPeopleContainerProps) => {
   const [searchPeople, { data, isLoading }] = useLazySearchPeopleQuery();
+
+  const value = useMemo(() => {
+    return props.value ?? [];
+  }, [props.value]);
 
   const handleSearch = debounce((name: string) => {
     searchPeople(name);
@@ -31,7 +35,8 @@ const SearchPeopleContainer = (props: SearchPeopleContainerProps) => {
       options={data ?? []}
       getOptionLabel={(option) => option.name}
       filterSelectedOptions
-      value={props.value ?? []}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
+      value={value}
       onChange={(__, options) => handleChange(options ?? [])}
       renderInput={(params) => (
         <TextField

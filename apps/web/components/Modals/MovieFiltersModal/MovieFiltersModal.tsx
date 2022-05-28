@@ -33,8 +33,14 @@ const MovieFiltersModal = (props: MovieFiltersModalProps) => {
     props.onChange('with_people', people);
   }
 
+  function handleChangeCompanies(companies: Filter.FilterOption[]) {
+    props.onChange('with_companies', companies);
+  }
+
   function handleReset() {
     handleChangeGenres([]);
+    handleChangePeople([]);
+    handleChangeCompanies([]);
   }
 
   return (
@@ -56,7 +62,10 @@ const MovieFiltersModal = (props: MovieFiltersModalProps) => {
 
         <Box mt="2rem">
           <FilterSection title="Companies">
-            <SearchCompaniesContainer />
+            <SearchCompaniesContainer
+              value={props.filters['with_companies']}
+              onChange={handleChangeCompanies}
+            />
           </FilterSection>
         </Box>
 
@@ -66,12 +75,6 @@ const MovieFiltersModal = (props: MovieFiltersModalProps) => {
               value={props.filters['with_genres']}
               onChange={handleChangeGenres}
             />
-          </FilterSection>
-        </Box>
-
-        <Box mt="2rem">
-          <FilterSection title="Rating">
-            <Rating value={null} />
           </FilterSection>
         </Box>
       </DialogContent>
