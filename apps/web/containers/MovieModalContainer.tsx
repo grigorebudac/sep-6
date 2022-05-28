@@ -1,15 +1,23 @@
-import React, { useCallback, useEffect } from "react";
-import { useRouter } from "next/router";
-import MovieModal from "components/Modals/MovieModal";
-import { useLazyGetMovieQuery } from "redux/endpoints/movies.endpoints";
-import { useLazyGetMovieCreditsQuery } from "redux/endpoints/credits.endpoints";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
+import MovieModal from 'components/Modals/MovieModal';
+import { useLazyGetMovieQuery } from 'redux/endpoints/movies.endpoints';
+import { useLazyGetMovieCreditsQuery } from 'redux/endpoints/credits.endpoints';
 
 const MovieModalContainer = () => {
   const [getMovie, movieData] = useLazyGetMovieQuery();
   const [getMovieCredits, creditsData] = useLazyGetMovieCreditsQuery();
   const router = useRouter();
-  const movieId = router.query.movieId;
-  const isOpen = !!movieId;
+  const [isOpen, setOpen] = useState(router.query.movieId != null);
+
+  const movieId = useMemo(() => {
+    if (!router.isReady) {
+      return null;
+    }
+
+    const searchParams = new URLSearchParams(window.location.search);
+    return searchParams.get('movieId');
+  }, [router.isReady, router.asPath]);
 
   const handleLoadData = useCallback(() => {
     if (isOpen) {
@@ -17,6 +25,10 @@ const MovieModalContainer = () => {
       getMovieCredits(movieId as string);
     }
   }, [isOpen, movieId, getMovie, getMovieCredits]);
+
+  useEffect(() => {
+    setOpen(movieId != null);
+  }, [movieId]);
 
   useEffect(() => {
     handleLoadData();
@@ -28,7 +40,7 @@ const MovieModalContainer = () => {
 
   return (
     <MovieModal
-      open={!!movieId}
+      open={isOpen}
       onClose={handleClose}
       movie={movieData.data}
       credits={creditsData.data}

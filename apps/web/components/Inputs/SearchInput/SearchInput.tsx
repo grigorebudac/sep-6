@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Autocomplete,
   AutocompleteRenderInputParams,
@@ -6,16 +6,19 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
+import debounce from 'lodash/debounce';
+
+import { getImageByPath, isPerson } from 'utils/tmdb.utils';
+import { Search } from 'types/search.types';
 
 import * as Styles from './SearchInput.styles';
-import { debounce } from 'lodash';
-import { getImageByPath } from 'utils/tmdb.utils';
-import { Movie } from 'types';
 
+const SEARCH_INTERVAL = 500;
 interface SearchInputProps {
-  results?: Movie.Movie[];
+  results?: Search.SearchResults;
   isLoading: boolean;
   onSearch: (text: string) => void;
+  onClickResult: (result: Search.SearchResult) => void;
 }
 
 const SearchInput = (props: SearchInputProps) => {
@@ -29,19 +32,16 @@ const SearchInput = (props: SearchInputProps) => {
     setOpen(false);
   }
 
-  const handleChange = useCallback(
-    debounce((e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
+  const handleChange = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
 
-      if (value.length === 0) {
-        handleClose();
-        return;
-      }
+    if (value.length === 0) {
+      handleClose();
+      return;
+    }
 
-      props.onSearch(value);
-    }, 1000),
-    [],
-  );
+    props.onSearch(value);
+  }, SEARCH_INTERVAL);
 
   function handleRenderInput(params: AutocompleteRenderInputParams) {
     return (
@@ -67,20 +67,42 @@ const SearchInput = (props: SearchInputProps) => {
 
   function handleRenderOption(
     params: React.HTMLAttributes<HTMLLIElement>,
-    option: Movie.Movie,
+    option: Search.SearchResult,
   ) {
+    const cover = isPerson(option) ? option.profile_path : option.poster_path;
+    const name = isPerson(option) ? option.name : option.title;
+
     return (
-      <MenuItem key={option.id} {...params}>
-        <Styles.Cover
-          src={getImageByPath(option.poster_path)}
-          alt={option.title}
-        />
+      <MenuItem
+        key={option.id}
+        {...params}
+        onClick={() => props.onClickResult(option)}
+      >
+        <Styles.Cover src={getImageByPath(cover)} alt={name} />
 
         <Typography variant="inherit" noWrap>
-          {option.title}
+          {name}
         </Typography>
       </MenuItem>
     );
+  }
+
+  function handleOptionEqualToValue(
+    option: Search.SearchResult,
+    value: Search.SearchResult,
+  ) {
+    const optionName = isPerson(option) ? option.name : option.title;
+    const valueName = isPerson(value) ? value.name : value.title;
+
+    return optionName === valueName;
+  }
+
+  function handleGetOptionLabel(option: Search.SearchResult | string) {
+    if (typeof option === 'string') {
+      return option;
+    }
+
+    return isPerson(option) ? option.name : option.title;
   }
 
   return (
@@ -90,8 +112,8 @@ const SearchInput = (props: SearchInputProps) => {
         disableClearable
         open={open}
         options={props.results ?? []}
-        isOptionEqualToValue={(option, value) => option.title === value.title}
-        getOptionLabel={(option) => (option as Movie.Movie).title}
+        isOptionEqualToValue={handleOptionEqualToValue}
+        getOptionLabel={handleGetOptionLabel}
         renderInput={handleRenderInput}
         renderOption={handleRenderOption}
         onOpen={handleOpen}
