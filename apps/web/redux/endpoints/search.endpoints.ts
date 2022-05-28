@@ -1,4 +1,5 @@
 import { ACTOR_TAG, POPULAR_MOVIE_TAG, TmdbApi } from 'redux/apis/tmdb.api';
+import { Person } from 'types/person.types';
 import { Search } from 'types/search.types';
 import { isMovie } from 'utils/tmdb.utils';
 
@@ -34,7 +35,31 @@ export const SearchEndpoints = TmdbApi.injectEndpoints({
         );
       },
     }),
+    searchPeople: builder.query<Person.ActorResponse[], string>({
+      query: (query) => ({
+        url: `/search/person`,
+        params: {
+          query,
+        },
+      }),
+      providesTags: (res) => {
+        return (res ?? []).map((option) => {
+          return {
+            type: ACTOR_TAG,
+            id: option.id,
+          };
+        });
+      },
+      transformResponse: (res: Person.GetPeopleResponse) => {
+        if (res.results == null) {
+          return [];
+        }
+
+        return res.results;
+      },
+    }),
   }),
 });
 
-export const { useLazyGetSearchResultsQuery } = SearchEndpoints;
+export const { useLazyGetSearchResultsQuery, useLazySearchPeopleQuery } =
+  SearchEndpoints;

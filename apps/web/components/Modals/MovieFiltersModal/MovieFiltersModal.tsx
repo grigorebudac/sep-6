@@ -14,7 +14,6 @@ import FilterSection from 'components/Sections/FilterSection';
 import SearchPeopleContainer from 'containers/SearchPeopleContainer';
 import SearchCompaniesContainer from 'containers/SearchCompaniesContainer';
 import GenresContainer from 'containers/GenresContainer';
-import { Movie } from 'types';
 import { Filter } from 'types/filter.types';
 
 interface MovieFiltersModalProps {
@@ -26,8 +25,12 @@ interface MovieFiltersModalProps {
 }
 
 const MovieFiltersModal = (props: MovieFiltersModalProps) => {
-  function handleChangeGenres(genres: Movie.Genre[]) {
+  function handleChangeGenres(genres: Filter.FilterOption[]) {
     props.onChange('with_genres', genres);
+  }
+
+  function handleChangePeople(people: Filter.FilterOption[]) {
+    props.onChange('with_people', people);
   }
 
   function handleReset() {
@@ -45,7 +48,10 @@ const MovieFiltersModal = (props: MovieFiltersModalProps) => {
 
       <DialogContent>
         <FilterSection title="People">
-          <SearchPeopleContainer />
+          <SearchPeopleContainer
+            value={props.filters['with_people']}
+            onChange={handleChangePeople}
+          />
         </FilterSection>
 
         <Box mt="2rem">

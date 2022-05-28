@@ -16,10 +16,10 @@ const GenresContainer = (props: GenresContainerProps) => {
     <Autocomplete
       multiple
       options={genres ?? []}
-      value={props.value}
+      value={props.value ?? []}
       getOptionLabel={(option) => option.name}
       filterSelectedOptions
-      onChange={(__, options) => props.onChange(options)}
+      onChange={(__, options) => props.onChange(options ?? [])}
       renderInput={(params) => (
         <TextField
           {...params}
