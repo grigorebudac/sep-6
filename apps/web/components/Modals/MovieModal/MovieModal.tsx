@@ -42,7 +42,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
     .map(({ name }) => name)
     ?.join(', ');
 
-  if (!movie) return <>No movie data</>
+  if (!movie) return <></>
 
   return (
     <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
