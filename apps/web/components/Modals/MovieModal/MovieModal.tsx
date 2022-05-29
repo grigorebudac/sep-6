@@ -42,6 +42,8 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
     .map(({ name }) => name)
     ?.join(', ');
 
+  if (!movie) return <></>
+
   return (
     <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
       <Styles.CoverContainer>
@@ -69,11 +71,10 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
         </Styles.CoverContent>
       </Styles.CoverContainer>
 
-      <Styles.AddToPlayListBtnContainer>
-        <Styles.IconButtonWrapper onClick={handleClickOpen} size="large">
+      <Styles.AddToPlayListBtnContainer onClick={handleClickOpen} >
+        <Styles.IconButtonWrapper size="large">
           <Add fontSize="large" />
         </Styles.IconButtonWrapper>
-        <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={openModal} onClose={handleClose} />
       </Styles.AddToPlayListBtnContainer>
 
       <Styles.Content>
@@ -106,6 +107,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
           <ReviewsContainer movieId={movie?.id} />
         </Styles.Content>
       )}
+      <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={openModal} onClose={handleClose} />
     </Styles.Dialog>
   );
 };
