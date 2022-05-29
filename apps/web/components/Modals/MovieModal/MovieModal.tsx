@@ -42,73 +42,73 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
     .map(({ name }) => name)
     ?.join(', ');
 
+  if (!movie) return <>No movie data</>
+
   return (
-    movie && (
-      <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
-        <Styles.CoverContainer>
-          <Styles.CoverOverlay />
+    <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
+      <Styles.CoverContainer>
+        <Styles.CoverOverlay />
 
-          <Styles.Cover
-            src={getImageByPath(movie?.poster_path)}
-            alt={movie?.title}
-          />
+        <Styles.Cover
+          src={getImageByPath(movie?.poster_path)}
+          alt={movie?.title}
+        />
 
-          <Styles.CloseBtnContainer>
-            <IconButton color="inherit" onClick={props.onClose}>
-              <Close />
-            </IconButton>
-          </Styles.CloseBtnContainer>
+        <Styles.CloseBtnContainer>
+          <IconButton color="inherit" onClick={props.onClose}>
+            <Close />
+          </IconButton>
+        </Styles.CloseBtnContainer>
 
-          <Styles.CoverContent>
-            <Typography
-              fontSize={['3.2rem', '4.8rem']}
-              fontWeight="bold"
-              color="system.main"
-            >
-              {movie?.title}
-            </Typography>
-          </Styles.CoverContent>
-        </Styles.CoverContainer>
+        <Styles.CoverContent>
+          <Typography
+            fontSize={['3.2rem', '4.8rem']}
+            fontWeight="bold"
+            color="system.main"
+          >
+            {movie?.title}
+          </Typography>
+        </Styles.CoverContent>
+      </Styles.CoverContainer>
 
-        <Styles.AddToPlayListBtnContainer onClick={handleClickOpen} >
-          <Styles.IconButtonWrapper size="large">
-            <Add fontSize="large" />
-          </Styles.IconButtonWrapper>
-        </Styles.AddToPlayListBtnContainer>
+      <Styles.AddToPlayListBtnContainer onClick={handleClickOpen} >
+        <Styles.IconButtonWrapper size="large">
+          <Add fontSize="large" />
+        </Styles.IconButtonWrapper>
+      </Styles.AddToPlayListBtnContainer>
 
-        <Styles.Content>
-          <Grid container gap={2}>
-            <Grid item xs={12} sm={8}>
-              <SimpleTextSection title="Overview" subtitle={movie?.overview} />
-            </Grid>
-
-            <Grid item xs={12} sm={3}>
-              <SimpleTextSection title="Genres" subtitle={genres} />
-
-              <Box marginTop="2rem">
-                <SimpleTextSection
-                  title="Spoken Languages"
-                  subtitle={spokenLanguages}
-                />
-              </Box>
-            </Grid>
+      <Styles.Content>
+        <Grid container gap={2}>
+          <Grid item xs={12} sm={8}>
+            <SimpleTextSection title="Overview" subtitle={movie?.overview} />
           </Grid>
-        </Styles.Content>
 
+          <Grid item xs={12} sm={3}>
+            <SimpleTextSection title="Genres" subtitle={genres} />
+
+            <Box marginTop="2rem">
+              <SimpleTextSection
+                title="Spoken Languages"
+                subtitle={spokenLanguages}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </Styles.Content>
+
+      <Styles.Content>
+        <Divider />
+
+        <MovieCreditsSection credits={props.credits} />
+      </Styles.Content>
+
+      {movie != null && (
         <Styles.Content>
-          <Divider />
-
-          <MovieCreditsSection credits={props.credits} />
+          <ReviewsContainer movieId={movie?.id} />
         </Styles.Content>
-
-        {movie != null && (
-          <Styles.Content>
-            <ReviewsContainer movieId={movie?.id} />
-          </Styles.Content>
-        )}
-        <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={openModal} onClose={handleClose} />
-      </Styles.Dialog>
-    )
+      )}
+      <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={openModal} onClose={handleClose} />
+    </Styles.Dialog>
   );
 };
 
