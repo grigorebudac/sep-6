@@ -4,7 +4,7 @@ import { useLazyGetPersonQuery } from 'redux/endpoints/person.endpoints';
 import PersonModal from 'components/Modals/PersonModal';
 
 const PersonModalContainer = () => {
-  const [getPerson, { data: actorData, isLoading: isActorLoading }] =
+  const [getPerson, { data: actorData, isLoading: isPersonLoading }] =
     useLazyGetPersonQuery();
 
   const router = useRouter();
@@ -42,7 +42,7 @@ const PersonModalContainer = () => {
       open={isOpen}
       person={actorData}
       onClose={handleClose}
-      isActorLoading={isActorLoading}
+      isPersonLoading={isPersonLoading}
     />
   );
 };

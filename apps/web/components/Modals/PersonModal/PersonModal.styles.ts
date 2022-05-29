@@ -3,7 +3,7 @@ import { alpha, Dialog as MuiDialog } from '@mui/material';
 import StarPurple500Icon from '@mui/icons-material/StarPurple500';
 
 export const Dialog = styled(MuiDialog)`
-  z-index: 9999;
+  z-index: 10111;
 
   ::-webkit-scrollbar {
     display: none;

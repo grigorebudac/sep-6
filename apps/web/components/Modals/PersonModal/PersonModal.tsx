@@ -5,8 +5,7 @@ import * as Styles from './PersonModal.styles';
 import { Close } from '@mui/icons-material';
 import { getImageByPath } from 'utils/tmdb.utils';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
-import { Person } from 'types/person.types';
-import { Analytics } from 'types';
+import { Analytics, Person } from 'types';
 import { useLazyGetMoviesQuery } from 'redux/endpoints/person.endpoints';
 import PaddingLineChart from 'components/Charts/PaddingLineChart';
 import { getAverageMovieRatingOverTheYearsOfActor } from 'utils/analytics.utils';
@@ -14,7 +13,7 @@ import MovieList from 'components/Lists/MovieList';
 
 interface PersonModalProps {
   open: DialogProps['open'];
-  person?: Person.ActorResponse;
+  person?: Person.PersonResponse;
   isPersonLoading: boolean;
   onClose: () => void;
 }
