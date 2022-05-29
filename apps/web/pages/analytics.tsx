@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Grid, Skeleton } from '@mui/material';
+import Link from 'next/link';
 import ApplicationLayout from 'components/Layouts/ApplicationLayout';
 import { useGetWatchListsQuery } from "redux/endpoints/watch-lists.endpoints";
 import CategoryCard from 'components/Cards/CategoryCard';
 import { Typography } from '@mui/material';
 import ActorCard from 'components/Cards/ActorCard';
 import ActorModal from 'components/Modals/ActorModal';
-import { Person, Analytics as AnalyticsType } from 'types';
+import { Person, Analytics as AnalyticsType, Genre } from 'types';
 import { getFavoriteGenres, getFavoriteActors } from 'utils/analytics.utils';
 import SimpleSupratextSection from 'components/Sections/SimpleSupratextSection';
 
@@ -75,28 +76,37 @@ const Analytics = () => {
       </Typography>
 
       <Grid container>
-        {favoriteActors.length > 0 ? (favoriteActors.map((actorData) => (
-          <Grid key={actorData.actor.id} item xs={12} sm={4} md={2} padding="1rem">
-            <ActorCard
-              name={actorData.actor.name}
-              imageUrl={actorData.actor.profile_path}
-              popularity={actorData.actor.popularity}
-              onClick={() => setSelectedActor(actorData.actor)}
-            />
-          </Grid>)))
-          : ([...Array(6)].map(skeleton => (
-            <Grid item xs={12} sm={4} md={2} padding="1rem" key={Math.random()}>
-              <Skeleton variant="rectangular" sx={{ bgcolor: 'grey.900', borderRadius: '1rem' }} width="full" height={345} animation="pulse" />
-            </Grid>
-          )))}
-      </Grid>
+        {
+          favoriteActors.length > 0 ? (favoriteActors.map((actorData) => (
+            <Grid key={actorData.actor.id} item xs={12} sm={4} md={2} padding="1rem">
+              <Link
+                key={actorData.actor.id}
+                href={`/?actorId=${actorData.actor.id}`}
+                passHref
+                scroll={false}
+              >
+                <ActorCard
+                  name={actorData.actor.name}
+                  imageUrl={actorData.actor.profile_path}
+                  popularity={actorData.actor.popularity}
+                  onClick={() => setSelectedActor(actorData.actor)}
+                />
+              </Link>
+            </Grid>)))
+            : ([...Array(6)].map(skeleton => (
+              <Grid item xs={12} sm={4} md={2} padding="1rem" key={Math.random()}>
+                <Skeleton variant="rectangular" sx={{ bgcolor: 'grey.900', borderRadius: '1rem' }} width="full" height={345} animation="pulse" />
+              </Grid>
+            )))
+        }
+      </Grid >
 
-      <ActorModal
+      {/* <ActorModal
         open={!!selectedActor}
         actor={selectedActor}
         onClose={() => setSelectedActor(undefined)}
-      />
-    </ApplicationLayout >
+      /> */}
+    </ApplicationLayout>
   );
 };
 

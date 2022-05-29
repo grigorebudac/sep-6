@@ -1,6 +1,12 @@
 import { Movie } from './movie.types';
 
 export declare module Person {
+  interface GetPeopleResponse {
+    page: number;
+    results: ActorResponse[];
+    total_pages: number;
+    total_results: number;
+  }
   interface ActorResponse {
     id: number;
     name: string;

@@ -6,6 +6,9 @@ export const CREDITS_TAG = 'CREDITS';
 export const ACTOR_TAG = 'ACTOR';
 export const ACTOR_MOVIE = 'ACTOR-MOVIE';
 export const DISCOVER_TAG = "DISCOVER";
+export const SEARCH_RESULT = 'SEARCH-RESULT';
+export const GENRE_TAG = 'GENRE';
+export const COMPANY_TAG = 'COMPANY';
 
 export const TmdbApi = createApi({
   reducerPath: 'TmdbApi',
@@ -18,6 +21,6 @@ export const TmdbApi = createApi({
       return output.toString();
     },
   }),
-  tagTypes: [MOVIE_TAG, POPULAR_MOVIE_TAG, CREDITS_TAG, ACTOR_TAG, ACTOR_MOVIE, DISCOVER_TAG],
+  tagTypes: [MOVIE_TAG, POPULAR_MOVIE_TAG, CREDITS_TAG, ACTOR_TAG, ACTOR_MOVIE, DISCOVER_TAG, SEARCH_RESULT, GENRE_TAG, COMPANY_TAG],
   endpoints: () => ({}),
 });
