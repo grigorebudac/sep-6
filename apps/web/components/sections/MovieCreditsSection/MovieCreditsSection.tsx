@@ -37,7 +37,7 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
           <Styles.List>
             {props.credits?.cast?.filter(person => person.profile_path).map((castMember, index) => (
               <Styles.ListItem key={index}>
-                <Link href={`/person?id=${castMember.id}`}>{castMember.name}</Link>
+                {castMember.name}
               </Styles.ListItem>
             ))}
           </Styles.List>
@@ -62,7 +62,7 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
           <Styles.List>
             {props.credits?.crew?.filter(person => person.profile_path).map((crewMember, index) => (
               <Styles.ListItem key={index}>
-                <Link href={`/person?id=${crewMember.id}`}>{crewMember.name}</Link>
+                {crewMember.name}
               </Styles.ListItem>
             ))}
           </Styles.List>

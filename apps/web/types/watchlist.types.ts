@@ -4,7 +4,7 @@ export declare module WatchList {
     createdAt: string;
     movieId: string;
     cover?: string;
-    genres?: Genre[]
+    genres: Genre[]
   }
 
   interface WatchList {
@@ -12,7 +12,7 @@ export declare module WatchList {
     userId: string;
     createdAt: string;
     id: string;
-    movies?: Movie[];
+    movies: Movie[];
     title: string;
   }
 

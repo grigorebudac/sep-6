@@ -69,7 +69,7 @@ const PaddingLineChart = ({
         <Line
           type="monotone"
           dataKey="rating"
-          name="Average movies rating"
+          name="Average movie rating over the years"
           stroke={lineColor}
           activeDot={{ r: 8 }}
         />

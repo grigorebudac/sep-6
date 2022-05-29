@@ -15,6 +15,33 @@ export const Overlay = styled.div`
   border-radius: 1rem;
 `;
 
+export const InfoIconButton = styled(MuiIconButton)`
+  z-index: 10;
+  position: absolute;
+  right: 6rem;
+  top: 1rem;
+
+  transition: all 0.2s linear 0s;
+  background: ${({ theme }) => alpha(theme.palette.primary.light, 0.6)};
+
+  > svg {
+    width: 2rem;
+    height: 2rem;
+    fill: ${({ theme }) => theme.palette.system.main};
+    transition: all 0.2s linear 0s;
+  }
+
+  &:hover {
+    background: ${({ theme }) => alpha(theme.palette.primary.light, 1)};
+    transition: all 0.2s linear 0s;
+
+    & > svg {
+      fill: ${({ theme }) => theme.palette.info.light};
+    }
+  }
+`;
+
+
 export const DeleteIconButton = styled(MuiIconButton)`
   z-index: 10;
   position: absolute;

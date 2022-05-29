@@ -5,7 +5,6 @@ import * as Styles from './ActorModal.styles';
 import { Close } from '@mui/icons-material';
 import { getImageByPath } from 'utils/tmdb.utils';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
-import { Person } from 'types/person.types';
 import { Analytics } from 'types';
 import {
   useLazyGetActorQuery,
@@ -17,11 +16,11 @@ import MovieList from 'components/Lists/MovieList';
 
 interface ActorModalProps {
   open: DialogProps['open'];
-  actor?: Person.ActorResponse;
+  actorId: number;
   onClose: () => void;
 }
 
-const ActorModal = ({ actor, ...props }: ActorModalProps) => {
+const ActorModal = ({ actorId, ...props }: ActorModalProps) => {
   // Data
   const [getActor, { data: actorData, isLoading: isActorLoading }] =
     useLazyGetActorQuery();
@@ -32,18 +31,18 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
   const [coverColor, setCoverColor] = useState('');
   const [averageRatingOverYears, setAverageRatingOverYears] =
     useState<Analytics.AverageRatingOverYears[]>();
-  const isOpen = !!actor;
+  const isOpen = !!actorId;
 
   const handleLoadData = useCallback(() => {
     if (isOpen) {
-      getActor(actor.id);
-      getMovies(actor.id);
-      getAverageMovieRatingOverTheYearsOfActor(actor.id).then(
+      getActor(actorId);
+      getMovies(actorId);
+      getAverageMovieRatingOverTheYearsOfActor(actorId).then(
         setAverageRatingOverYears,
       );
       getCoverColor();
     }
-  }, [isOpen, actor, getActor, getMovies]);
+  }, [isOpen, actorId, getActor, getMovies]);
 
   useEffect(() => {
     handleLoadData();

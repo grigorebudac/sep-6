@@ -1,25 +1,33 @@
-const axios = require('axios');
-const _ = require("lodash");
-import { AxiosResponse } from "axios";
-import { Discover, Analytics } from "types";
+import groupBy from "lodash/groupBy"
+import meanBy from "lodash/meanBy"
+import mapValues from "lodash/mapValues"
+import compact from "lodash/compact"
+import { Discover, Analytics, WatchList, Credits } from "types";
+import store from "redux/store";
+import { DiscoverEndpoints } from 'redux/endpoints/discover.endpoints';
+import { CreditsEndpoints } from 'redux/endpoints/credits.endpoints';
 
-const baseEndpointForDiscover = (actorId: number, page: number) => `${process.env.NEXT_PUBLIC_TMDB_API_ENDPOINT}/discover/movie?with_cast=${actorId}&api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&page=${page}&language=en-US`;
-const baseEndpointForMovie = (movieId: number) => `${process.env.NEXT_PUBLIC_TMDB_API_ENDPOINT}/movie/${movieId}&api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=en-US`
+const MAX_FAVORITE_ACTORS = 12;
+const MAX_MOST_IMPORTANT_GENRES = 2;
 
-export async function getAverageMovieRatingOverTheYearsOfActor(actorId: number): Promise<Analytics.AverageRatingOverYears[]> {
-  const response: AxiosResponse<Discover.DiscoverResponse> = await axios.get(baseEndpointForDiscover(actorId, 1));
+const getAverageMovieRatingOverTheYearsOfActor = async (actorId: number): Promise<Analytics.AverageRatingOverYears[]> => {
+  let avereageRatingOverYears: Analytics.AverageRatingOverYears[] = [];
+  const response = await store.dispatch(DiscoverEndpoints.endpoints.getMoviesOfActor.initiate({ actorId, page: 1 }))
 
-  let allMovies = await fetchAllPages(actorId, response.data);
+  if (response.isError || response.data?.results.length === 0) return avereageRatingOverYears;
+
+  let allMovies = await fetchAllPages(actorId, response.data!);
+  allMovies = compact(allMovies);
   allMovies = allMovies.filter(movie => movie.release_date && movie.vote_average);
   allMovies = allMovies.map(movie => { return { ...movie, release_date_js: new Date(movie.release_date) } });
-  let groupedByYears = _.groupBy(allMovies, (movie: Discover.Result) => movie.release_date_js.getFullYear());
-  let groupedByRating = _.mapValues(groupedByYears, (movies: Discover.Result[]) => {
+  let groupedByYears = groupBy(allMovies, (movie: Discover.Result) => movie.release_date_js.getFullYear());
+  let groupedByRating = mapValues(groupedByYears, (movies: Discover.Result[]) => {
     return {
-      rating: _.meanBy(movies, 'vote_average'),
+      rating: meanBy(movies, 'vote_average'),
     }
   });
 
-  const avereageRatingOverYears = Object.keys(groupedByRating).map(year => {
+  avereageRatingOverYears = Object.keys(groupedByRating).map(year => {
     return {
       year: parseInt(year),
       rating: groupedByRating[year].rating,
@@ -33,19 +41,75 @@ function fetchAllPages(actorId: number, initialData: Discover.DiscoverResponse):
   let endpoints = [];
 
   for (let i = 1; i <= initialData.total_pages; i++) {
-    endpoints.push(baseEndpointForDiscover(actorId, i));
+    endpoints.push({ actorId, page: i });
   }
 
   const allMovies = Promise.all(
-    endpoints.map((endpoint) => axios.get(endpoint)))
+    endpoints.map((endpoint) => store.dispatch(DiscoverEndpoints.endpoints.getMoviesOfActor.initiate(endpoint))))
     .then(
-      axios.spread((...allPages: AxiosResponse<Discover.DiscoverResponse>[]) => {
-        const resultsArray = [...allPages.map(res => res.data.results)];
-        return Array.prototype.concat.apply([], resultsArray);
-      })
+      result => { return result.map(res => res.data?.results!) }
+    ).then(
+      result => { return result?.flat() }
     );
 
   return allMovies;
 }
 
+const getFavoriteGenres = (watchLists: WatchList.WatchList[]): Analytics.FavoriteGenres[] => {
+  let result: Analytics.FavoriteGenres[] = [];
 
+  if (watchLists.length !== 0) {
+    const movies = watchLists.map(watchList => watchList.movies).flat().filter(movie => movie?.genres);
+    const genres = movies.map(movie => movie?.genres.slice(0, MAX_MOST_IMPORTANT_GENRES)).flat();
+    const genresGroupedByName = groupBy(genres, (genre: WatchList.Genre) => genre.name);
+    result = Object.keys(genresGroupedByName).map(genre => {
+      return {
+        quantity: Number(genresGroupedByName[genre].length),
+        name: genre,
+      }
+    });
+    result = result.sort();
+  }
+  return result;
+}
+
+function fetchAllMovieCasts(movies: (WatchList.Movie)[]): Promise<Credits.Cast[]> {
+  const allCasts = Promise.all(
+    movies.map((movie) => store.dispatch(CreditsEndpoints.endpoints.getMovieCredits.initiate(movie.movieId))))
+    .then(
+      result => { return result.map(res => res.data?.cast!) }
+    ).then(
+      result => { return result?.flat() }
+    );
+
+  return allCasts;
+}
+
+const getFavoriteActors = async (watchLists: WatchList.WatchList[]): Promise<Analytics.FavoriteAcotrs[]> => {
+  let result: Analytics.FavoriteAcotrs[] = [];
+
+  if (watchLists.length !== 0) {
+    const movies = watchLists.filter(watchList => watchList.movies!)
+      .map(watchList => watchList.movies)
+      .flat();
+    if (movies.length !== 0) {
+      // fetching all casts of all movies in your watchlist in parralel
+      let allCasts = await fetchAllMovieCasts(movies);
+      allCasts = compact(allCasts);
+      // getting all the unique actors, because we dont want to show the same actor multiple times
+      // and grouping them by appearances in your watchlist movies
+      const groupedByActorId = groupBy(allCasts, (cast) => cast.id);
+      let actors = Object.keys(groupedByActorId).map(id => {
+        return {
+          quantity: Number(groupedByActorId[id].length),
+          actor: groupedByActorId[id][0],
+        }
+      }).sort((a, b) => a.quantity - b.quantity);
+
+      result = actors.slice(0, MAX_FAVORITE_ACTORS);
+    }
+  }
+  return result;
+}
+
+export { getAverageMovieRatingOverTheYearsOfActor, getFavoriteGenres, getFavoriteActors };

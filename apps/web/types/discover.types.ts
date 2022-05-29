@@ -25,5 +25,10 @@ export declare module Discover {
     vote_count: number;
   }
 
+  interface DiscoverRequestPayload {
+    page: number;
+    actorId: number;
+  }
+
 }
 
