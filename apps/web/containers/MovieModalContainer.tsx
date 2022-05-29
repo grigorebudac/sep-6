@@ -20,7 +20,7 @@ const MovieModalContainer = () => {
   }, [router.isReady, router.asPath]);
 
   const handleLoadData = useCallback(() => {
-    if (isOpen) {
+    if (isOpen && movieId) {
       getMovie(movieId as string);
       getMovieCredits(movieId as string);
     }
