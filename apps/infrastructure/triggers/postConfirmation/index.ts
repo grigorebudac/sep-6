@@ -1,12 +1,13 @@
-import { PostConfirmationTriggerHandler } from "aws-lambda";
-import AWS from "aws-sdk";
+import { PostConfirmationTriggerHandler } from 'aws-lambda';
+import AWS from 'aws-sdk';
+import { randomUUID } from 'crypto';
 
 const DynamoDB = new AWS.DynamoDB.DocumentClient();
 
 export const handler: PostConfirmationTriggerHandler = async (
   event,
   context,
-  callback
+  callback,
 ) => {
   const { sub, email, name, picture } = event.request.userAttributes;
   const currentUnixTime = Date.now().toString();
@@ -24,6 +25,19 @@ export const handler: PostConfirmationTriggerHandler = async (
   };
 
   await DynamoDB.put(params).promise();
+
+  const Item = {
+    id: randomUUID(),
+    title: 'Watch later',
+    userId: sub,
+    createdAt: currentUnixTime,
+    updatedAt: currentUnixTime,
+  };
+
+  await DynamoDB.put({
+    TableName: process.env.WATCHLISTS_TABLE!,
+    Item,
+  }).promise();
 
   callback(null, event);
 };

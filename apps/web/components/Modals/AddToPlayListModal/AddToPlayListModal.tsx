@@ -4,12 +4,11 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
-import { ViewList, Add } from "@mui/icons-material";
-import { WatchList, Movie } from "types";
-import {
-  useAddMovieToWatchListMutation,
-} from 'redux/endpoints/watch-lists.endpoints';
-import * as Styles from "./AddToPlayListModal.styles";
+import { ViewList, Add } from '@mui/icons-material';
+import { WatchList, Movie } from 'types';
+import { useAddMovieToWatchListMutation } from 'redux/endpoints/watch-lists.endpoints';
+import WatchLaterIcon from '@mui/icons-material/WatchLater';
+import * as Styles from './AddToPlayListModal.styles';
 import CreateWatchListModal from 'components/Modals/CreateWatchListModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -27,16 +26,23 @@ export interface SimpleDialogProps {
 const AddToPlayListModal = (props: SimpleDialogProps) => {
   const { onClose, open, watchLists } = props;
   const [addMovieToWatchList, { isLoading }] = useAddMovieToWatchListMutation();
-  const [createWatchListModalOpen, setCreateWatchListModalOpen] = React.useState(false);
+  const [createWatchListModalOpen, setCreateWatchListModalOpen] =
+    React.useState(false);
 
-  async function handleAddMovieToWatchList({ watchListId, movieId, title, cover, genres }: WatchList.addMovieToWatchListPayload) {
+  async function handleAddMovieToWatchList({
+    watchListId,
+    movieId,
+    title,
+    cover,
+    genres,
+  }: WatchList.addMovieToWatchListPayload) {
     try {
       await addMovieToWatchList({
         watchListId,
         movieId,
         title,
         cover,
-        genres
+        genres,
       }).unwrap();
       onClose();
     } catch (error) {
@@ -55,10 +61,9 @@ const AddToPlayListModal = (props: SimpleDialogProps) => {
         movieId: props.movieId!,
         title: props.title!,
         cover: props.cover,
-        genres: props.genres
+        genres: props.genres,
       });
-    } else
-      handleClickCreateWatchListModalOpen();
+    } else handleClickCreateWatchListModalOpen();
   };
 
   const handleClickCreateWatchListModalOpen = () => {
@@ -71,29 +76,51 @@ const AddToPlayListModal = (props: SimpleDialogProps) => {
 
   return (
     <Styles.Dialog onClose={handleClose} open={open}>
-      <Styles.ListTitle >Add movie to watch list</Styles.ListTitle>
+      <Styles.ListTitle>Add movie to watch list</Styles.ListTitle>
       {isLoading ? (
-        <Box p={5} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+        <Box
+          p={5}
+          display={'flex'}
+          justifyContent={'center'}
+          alignItems={'center'}
+        >
           <CircularProgress />
-        </Box>) : (
+        </Box>
+      ) : (
         <List sx={{ pt: 0 }}>
           {watchLists &&
             watchLists
-              .filter(watchList => {
+              .filter((watchList) => {
                 if (!watchList.movies) return -1;
-                return watchList.movies?.findIndex(movie => movie.movieId == String(props.movieId!)) === -1;
+                return (
+                  watchList.movies?.findIndex(
+                    (movie) => movie.movieId == String(props.movieId!),
+                  ) === -1
+                );
               })
               .map((watchList) => (
-                <ListItem button onClick={() => handleListItemClick(watchList.id)} key={watchList.id}>
+                <ListItem
+                  button
+                  onClick={() => handleListItemClick(watchList.id)}
+                  key={watchList.id}
+                >
                   <ListItemAvatar>
                     <Styles.ColoredAvatar>
-                      <ViewList />
+                      {watchList.title === 'Watch later' ? (
+                        <WatchLaterIcon />
+                      ) : (
+                        <ViewList />
+                      )}
                     </Styles.ColoredAvatar>
                   </ListItemAvatar>
                   <ListItemText primary={watchList.title} />
                 </ListItem>
               ))}
-          <ListItem autoFocus button onClick={() => handleListItemClick('createAccount')}>
+          <ListItem
+            autoFocus
+            button
+            onClick={() => handleListItemClick('createAccount')}
+          >
             <ListItemAvatar>
               <Avatar>
                 <Add />
@@ -103,8 +130,11 @@ const AddToPlayListModal = (props: SimpleDialogProps) => {
           </ListItem>
         </List>
       )}
-      <CreateWatchListModal open={createWatchListModalOpen} onClose={handleClosecreateWatchListModalClose} />
-    </Styles.Dialog >
+      <CreateWatchListModal
+        open={createWatchListModalOpen}
+        onClose={handleClosecreateWatchListModalClose}
+      />
+    </Styles.Dialog>
   );
 };
 
