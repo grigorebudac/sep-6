@@ -3,7 +3,7 @@ import { alpha, Dialog as MuiDialog, Button as MuiButton, IconButton as MuiIconB
 
 
 export const Dialog = styled(MuiDialog)`
-  z-index: 10200;
+  z-index: 10000;
 `;
 
 export const CoverContainer = styled.div`

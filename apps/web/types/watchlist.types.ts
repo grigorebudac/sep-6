@@ -12,7 +12,7 @@ export declare module WatchList {
     userId: string;
     createdAt: string;
     id: string;
-    movies?: Movie[];
+    movies: Movie[];
     title: string;
   }
 

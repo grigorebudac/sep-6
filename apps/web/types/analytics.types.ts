@@ -1,4 +1,4 @@
-import { Person } from "./person.types";
+import { Credits } from "./credits.types";
 
 export declare module Analytics {
   interface AverageRatingOverYears {
@@ -13,6 +13,6 @@ export declare module Analytics {
 
   interface FavoriteAcotrs {
     quantity: number;
-    actor: Person.ActorResponse
+    actor: Credits.Cast
   }
 }

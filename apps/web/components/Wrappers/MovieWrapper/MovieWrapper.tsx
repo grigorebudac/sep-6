@@ -52,19 +52,18 @@ const MovieWrapper = (props: MovieWrapperProps) => {
               <DeleteIcon />
             )}
           </Styles.DeleteIconButton>
-          <Styles.EditIconButton
+          <Styles.InfoIconButton
             size="large"
-          // onClick={() => handleDeleteMovieFromWatchList()}
           >
             <Link
               key={props.movie.movieId}
-              href={`${currentPath}/?movieId=${props.movie.movieId}`}
+              href={`${currentPath}?movieId=${props.movie.movieId}`}
               passHref
               scroll={false}
             >
               <InfoIcon />
             </Link>
-          </Styles.EditIconButton>
+          </Styles.InfoIconButton>
 
           <Styles.Overlay />
         </>

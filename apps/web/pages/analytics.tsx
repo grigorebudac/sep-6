@@ -56,8 +56,8 @@ const Analytics = () => {
           <Grid key={genre.name} item xs={12} sm={4} md={2} padding="1rem">
             <CategoryCard title={genre.name} size={genre.quantity} />
           </Grid>
-        ))) : ([...Array(6)].map(skeleton => (
-          <Grid item xs={12} sm={4} md={2} padding="1rem" key={Math.random()}>
+        ))) : ([...Array(6)].map((_, index) => (
+          <Grid item xs={12} sm={4} md={2} padding="1rem" key={index}>
             <Skeleton variant="rectangular" sx={{ bgcolor: 'grey.900', borderRadius: '1rem' }} width="full" height={145} animation="pulse" />
           </Grid>
         )))}

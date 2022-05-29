@@ -15,7 +15,7 @@ export const Overlay = styled.div`
   border-radius: 1rem;
 `;
 
-export const EditIconButton = styled(MuiIconButton)`
+export const InfoIconButton = styled(MuiIconButton)`
   z-index: 10;
   position: absolute;
   right: 6rem;
