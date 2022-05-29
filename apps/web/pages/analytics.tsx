@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Grid, Skeleton } from '@mui/material';
+import { Grid, Skeleton, Box } from '@mui/material';
 import Link from 'next/link';
 import ApplicationLayout from 'components/Layouts/ApplicationLayout';
 import { useGetWatchListsQuery } from "redux/endpoints/watch-lists.endpoints";
 import CategoryCard from 'components/Cards/CategoryCard';
 import { Typography } from '@mui/material';
 import ActorCard from 'components/Cards/ActorCard';
-import { Person, Analytics as AnalyticsType, Genre } from 'types';
+import { Analytics as AnalyticsType, Genre } from 'types';
 import { getFavoriteGenres, getFavoriteActors } from 'utils/analytics.utils';
 import SimpleSupratextSection from 'components/Sections/SimpleSupratextSection';
 
@@ -25,16 +25,19 @@ const Analytics = () => {
   if (!isLoading && favoriteGenres?.length === 0) {
     return (
       <ApplicationLayout title="Analytics">
-        <Typography
-          paddingLeft={'1rem'}
-          marginBottom={'1rem'}
-          fontSize="3rem"
-          color="system.main"
-          fontWeight={900}
-        >
-          Add some movies to your watch lists to see some statistics
-        </Typography>
-      </ApplicationLayout>
+        <Box display="flex" justifyContent="center" alignItems="center" height="100%" >
+          <Typography
+            paddingLeft={'1rem'}
+            marginBottom={'1rem'}
+            fontSize="3rem"
+            color="system.main"
+            align='center'
+            fontWeight={900}
+          >
+            Add some movies to your watch lists <br /> to see some statistics!
+          </Typography>
+        </Box>
+      </ApplicationLayout >
     )
   }
 
