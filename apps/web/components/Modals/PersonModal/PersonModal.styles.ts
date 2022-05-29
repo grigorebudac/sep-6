@@ -53,7 +53,7 @@ export const CloseBtnContainer = styled.div`
 `;
 
 export const Content = styled.div`
-  padding: 10rem;
+  padding: 5rem;
   background: ${(props) => props.theme.palette.background.main};
   color: ${(props) => props.theme.palette.common.white};
   width: 100%;
