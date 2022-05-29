@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const MOVIE_TAG = 'MOVIE';
 export const POPULAR_MOVIE_TAG = 'MOVIE';
 export const CREDITS_TAG = 'CREDITS';
-export const ACTOR_TAG = 'ACTOR';
-export const ACTOR_MOVIE = 'ACTOR-MOVIE';
+export const PERSON_TAG = 'PERSON';
+export const PERSON_MOVIE = 'PERSON-MOVIE';
 export const SEARCH_RESULT = 'SEARCH-RESULT';
 export const GENRE_TAG = 'GENRE';
 export const COMPANY_TAG = 'COMPANY';
@@ -24,8 +24,8 @@ export const TmdbApi = createApi({
     MOVIE_TAG,
     POPULAR_MOVIE_TAG,
     CREDITS_TAG,
-    ACTOR_TAG,
-    ACTOR_MOVIE,
+    PERSON_TAG,
+    PERSON_MOVIE,
     SEARCH_RESULT,
     GENRE_TAG,
     COMPANY_TAG,

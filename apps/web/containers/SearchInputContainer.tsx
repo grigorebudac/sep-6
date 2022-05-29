@@ -18,7 +18,7 @@ const SearchInputContainer = () => {
     }
 
     if (isPerson(result)) {
-      return navigate('actorId');
+      return navigate('personId');
     }
   }
 

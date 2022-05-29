@@ -1,5 +1,5 @@
 import {
-  ACTOR_TAG,
+  PERSON_TAG,
   COMPANY_TAG,
   POPULAR_MOVIE_TAG,
   TmdbApi,
@@ -21,7 +21,7 @@ export const SearchEndpoints = TmdbApi.injectEndpoints({
       }),
       providesTags: (res) => {
         return (res ?? []).map((option) => {
-          const type = isMovie(option) ? POPULAR_MOVIE_TAG : ACTOR_TAG;
+          const type = isMovie(option) ? POPULAR_MOVIE_TAG : PERSON_TAG;
 
           return {
             type,
@@ -41,7 +41,7 @@ export const SearchEndpoints = TmdbApi.injectEndpoints({
         );
       },
     }),
-    searchPeople: builder.query<Person.ActorResponse[], string>({
+    searchPeople: builder.query<Person.PersonResponse[], string>({
       query: (query) => ({
         url: `/search/person`,
         params: {
@@ -51,7 +51,7 @@ export const SearchEndpoints = TmdbApi.injectEndpoints({
       providesTags: (res) => {
         return (res ?? []).map((option) => {
           return {
-            type: ACTOR_TAG,
+            type: PERSON_TAG,
             id: option.id,
           };
         });

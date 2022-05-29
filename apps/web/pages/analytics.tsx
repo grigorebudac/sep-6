@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { Grid } from '@mui/material';
 import ApplicationLayout from 'components/Layouts/ApplicationLayout';
 import CategoryCard from 'components/Cards/CategoryCard';
 import { Typography } from '@mui/material';
 import ActorCard from 'components/Cards/ActorCard';
-import ActorModal from 'components/Modals/ActorModal';
-import { Person } from 'types/person.types';
 import { Genre } from 'types/genre.types';
 
 export const ACTORS = [
@@ -72,16 +70,17 @@ const Analytics = () => {
           <Grid key={actor.id} item xs={12} sm={4} md={2} padding="1rem">
             <Link
               key={actor.id}
-              href={`/?actorId=${actor.id}`}
-              passHref
+              href={`analytics/?personId=${actor.id}`}
               scroll={false}
+              passHref
             >
-              <ActorCard
-                name={actor.name}
-                imageUrl={actor.profile_path}
-                popularity={actor.popularity}
-                onClick={() => {}}
-              />
+              <a>
+                <ActorCard
+                  name={actor.name}
+                  imageUrl={actor.profile_path}
+                  popularity={actor.popularity}
+                />
+              </a>
             </Link>
           </Grid>
         ))}

@@ -53,9 +53,10 @@ export const CloseBtnContainer = styled.div`
 `;
 
 export const Content = styled.div`
-  padding: 5rem;
+  padding: 10rem;
   background: ${(props) => props.theme.palette.background.main};
   color: ${(props) => props.theme.palette.common.white};
+  width: 100%;
 `;
 
 export const StarIcon = styled(StarPurple500Icon)`

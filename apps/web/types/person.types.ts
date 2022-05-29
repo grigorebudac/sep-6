@@ -3,11 +3,11 @@ import { Movie } from './movie.types';
 export declare module Person {
   interface GetPeopleResponse {
     page: number;
-    results: ActorResponse[];
+    results: PersonResponse[];
     total_pages: number;
     total_results: number;
   }
-  interface ActorResponse {
+  interface PersonResponse {
     id: number;
     name: string;
     profile_path: string;
@@ -16,6 +16,7 @@ export declare module Person {
     biography: string;
     birthday: string;
     deathday?: string;
+    known_for_department?: string;
   }
 
   interface MovieResponse {

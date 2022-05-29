@@ -17,9 +17,9 @@ const SearchPeopleContainer = (props: SearchPeopleContainerProps) => {
   }, 500);
 
   function handleChange(people: Filter.FilterOption[]) {
-    const filters = people.map((actor) => ({
-      id: actor.id,
-      name: actor.name,
+    const filters = people.map((person) => ({
+      id: person.id,
+      name: person.name,
     }));
 
     props.onChange(filters);

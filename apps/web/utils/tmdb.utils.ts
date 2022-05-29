@@ -9,6 +9,6 @@ export function isMovie(obj: any): obj is Movie.Movie {
   return 'title' in obj;
 }
 
-export function isPerson(obj: any): obj is Person.ActorResponse {
+export function isPerson(obj: any): obj is Person.PersonResponse {
   return 'name' in obj;
 }

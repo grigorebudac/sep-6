@@ -1,30 +1,31 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Box, DialogProps, Grid, IconButton, Typography } from '@mui/material';
 
-import * as Styles from './ActorModal.styles';
+import * as Styles from './PersonModal.styles';
 import { Close } from '@mui/icons-material';
 import { getImageByPath } from 'utils/tmdb.utils';
 import SimpleTextSection from 'components/Sections/SimpleTextSection';
 import { Person } from 'types/person.types';
 import { Analytics } from 'types';
-import {
-  useLazyGetActorQuery,
-  useLazyGetMoviesQuery,
-} from 'redux/endpoints/person.endpoints';
+import { useLazyGetMoviesQuery } from 'redux/endpoints/person.endpoints';
 import PaddingLineChart from 'components/Charts/PaddingLineChart';
 import { getAverageMovieRatingOverTheYearsOfActor } from 'utils/analytics.utils';
 import MovieList from 'components/Lists/MovieList';
 
-interface ActorModalProps {
+interface PersonModalProps {
   open: DialogProps['open'];
-  actor?: Person.ActorResponse;
+  person?: Person.ActorResponse;
+  isPersonLoading: boolean;
   onClose: () => void;
 }
 
-const ActorModal = ({ actor, ...props }: ActorModalProps) => {
+const PersonModal = ({
+  person,
+  isPersonLoading,
+  ...props
+}: PersonModalProps) => {
   // Data
-  const [getActor, { data: actorData, isLoading: isActorLoading }] =
-    useLazyGetActorQuery();
+
   const [getMovies, { data: movieData, isLoading: isMovieLoading }] =
     useLazyGetMoviesQuery();
 
@@ -32,18 +33,17 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
   const [coverColor, setCoverColor] = useState('');
   const [averageRatingOverYears, setAverageRatingOverYears] =
     useState<Analytics.AverageRatingOverYears[]>();
-  const isOpen = !!actor;
+  const isOpen = !!person;
 
   const handleLoadData = useCallback(() => {
     if (isOpen) {
-      getActor(actor.id);
-      getMovies(actor.id);
-      getAverageMovieRatingOverTheYearsOfActor(actor.id).then(
+      getMovies(person.id);
+      getAverageMovieRatingOverTheYearsOfActor(person.id).then(
         setAverageRatingOverYears,
       );
       getCoverColor();
     }
-  }, [isOpen, actor, getActor, getMovies]);
+  }, [isOpen, person, getMovies]);
 
   useEffect(() => {
     handleLoadData();
@@ -55,12 +55,17 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
   };
 
   return (
-    <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
+    <Styles.Dialog
+      open={props.open}
+      fullWidth
+      maxWidth="md"
+      onClose={props.onClose}
+    >
       <Styles.ContentContainer>
         <Styles.Cover style={{ background: coverColor }}>
           <Styles.Avatar
-            src={getImageByPath(actorData?.profile_path || '')}
-            alt={actorData?.name}
+            src={getImageByPath(person?.profile_path || '')}
+            alt={person?.name}
           />
 
           <Typography
@@ -69,7 +74,7 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
             fontWeight="bold"
             color="system.main"
           >
-            {actorData?.name}
+            {person?.name}
           </Typography>
         </Styles.Cover>
 
@@ -92,56 +97,71 @@ const ActorModal = ({ actor, ...props }: ActorModalProps) => {
                   <Styles.StarIcon />
 
                   <Typography fontSize="3rem" fontWeight="bold">
-                    {actorData?.popularity}
+                    {person?.popularity}
                   </Typography>
                 </Box>
               </Box>
 
               <Box marginTop={2}>
-                <Typography>
-                  <b>Birthday:</b>
-                  {' ' +
-                    new Date(actorData?.birthday || '').toLocaleDateString()}
-                </Typography>
+                {person?.birthday && (
+                  <Typography>
+                    <b>Birthday:</b>
+                    {' ' +
+                      new Date(person?.birthday || '').toLocaleDateString()}
+                  </Typography>
+                )}
 
-                <Typography marginTop={1}>
-                  <b>Place of birth:</b> {actorData?.place_of_birth}
-                </Typography>
+                {person?.place_of_birth && (
+                  <Typography marginTop={1}>
+                    <b>Place of birth:</b> {person?.place_of_birth}
+                  </Typography>
+                )}
+
+                {person?.known_for_department &&
+                  person?.known_for_department !== 'Acting' && (
+                    <Typography marginTop={1}>
+                      <b>Department:</b> {person?.known_for_department}
+                    </Typography>
+                  )}
               </Box>
             </Grid>
             <Grid item xs={12} sm={8}>
               <PaddingLineChart
                 data={averageRatingOverYears || []}
                 lineColor={coverColor}
-                isLoading={isActorLoading}
+                isLoading={isPersonLoading}
               />
             </Grid>
           </Grid>
-          <Box marginTop={5}>
-            <Typography
-              fontSize={['2rem', '3rem']}
-              fontWeight="bold"
-              color={coverColor}
-              marginBottom={1}
-            >
-              Known for:
-            </Typography>
+          {movieData?.cast.length !== 0 && (
+            <Box marginTop={5}>
+              <Typography
+                fontSize={['2rem', '3rem']}
+                fontWeight="bold"
+                color={coverColor}
+                marginBottom={1}
+              >
+                Known for:
+              </Typography>
 
-            <MovieList
-              movies={movieData?.cast || []}
-              buttonColor={coverColor}
-            />
-          </Box>
-          <Box marginTop={5}>
-            <SimpleTextSection
-              title="Biography:"
-              subtitle={actorData?.biography}
-            />
-          </Box>
+              <MovieList
+                movies={movieData?.cast || []}
+                buttonColor={coverColor}
+              />
+            </Box>
+          )}
+          {person?.biography && (
+            <Box marginTop={5}>
+              <SimpleTextSection
+                title="Biography:"
+                subtitle={person?.biography}
+              />
+            </Box>
+          )}
         </Styles.Content>
       </Styles.ContentContainer>
     </Styles.Dialog>
   );
 };
 
-export default ActorModal;
+export default PersonModal;

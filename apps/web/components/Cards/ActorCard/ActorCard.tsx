@@ -4,16 +4,15 @@ import Image from 'next/image';
 
 import * as Styles from './ActorCard.styles';
 
-interface MovieCardProps {
+interface ActorCardProps {
   name: string;
   popularity: number;
   imageUrl: string;
-  onClick?: () => void;
 }
 
-const MovieCard = (props: MovieCardProps) => {
+const ActorCard = (props: ActorCardProps) => {
   return (
-    <Styles.Container onClick={props.onClick}>
+    <Styles.Container>
       <Image
         src={getImageByPath(props.imageUrl)}
         alt={props.name}
@@ -39,4 +38,4 @@ const MovieCard = (props: MovieCardProps) => {
   );
 };
 
-export default MovieCard;
+export default ActorCard;

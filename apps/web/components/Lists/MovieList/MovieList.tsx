@@ -5,6 +5,7 @@ import MovieCard from 'components/Cards/MovieCard';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Skeleton } from '@mui/material';
+import Link from 'next/link';
 
 interface MovieListProps {
   movies: Movie.Movie[];
@@ -34,12 +35,16 @@ const MovieList = ({ movies, buttonColor }: MovieListProps) => {
               .filter((movie) => movie.poster_path)
               .map((movie) => (
                 <Styles.MovieCardWrapper key={movie.id}>
-                  <MovieCard
-                    key={movie.id}
-                    title={movie.title}
-                    rating={movie.vote_average}
-                    posterUrl={movie.poster_path}
-                  />
+                  <Link href={`?movieId=${movie.id}`} scroll={false} passHref>
+                    <a>
+                      <MovieCard
+                        key={movie.id}
+                        title={movie.title}
+                        rating={movie.vote_average}
+                        posterUrl={movie.poster_path}
+                      />
+                    </a>
+                  </Link>
                 </Styles.MovieCardWrapper>
               ))
           : [...Array(6)].map((id, index) => (
