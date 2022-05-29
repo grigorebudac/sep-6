@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Grid } from '@mui/material';
 import ApplicationLayout from 'components/Layouts/ApplicationLayout';
 import CategoryCard from 'components/Cards/CategoryCard';
@@ -8,7 +9,7 @@ import ActorModal from 'components/Modals/ActorModal';
 import { Person } from 'types/person.types';
 import { Genre } from 'types/genre.types';
 
-const actors = [
+export const ACTORS = [
   {
     id: 71580,
     name: 'Benedict Cumberbatch',
@@ -33,7 +34,6 @@ const actors = [
 
 const Analytics = () => {
   const genres: Genre.Genre[] = [];
-  const [selectedActor, setSelectedActor] = useState<Person.ActorResponse>();
 
   return (
     <ApplicationLayout title="Analytics">
@@ -68,23 +68,24 @@ const Analytics = () => {
       </Typography>
 
       <Grid container>
-        {actors?.map((actor) => (
+        {ACTORS?.map((actor) => (
           <Grid key={actor.id} item xs={12} sm={4} md={2} padding="1rem">
-            <ActorCard
-              name={actor.name}
-              imageUrl={actor.profile_path}
-              popularity={actor.popularity}
-              onClick={() => setSelectedActor(actor)}
-            />
+            <Link
+              key={actor.id}
+              href={`/?actorId=${actor.id}`}
+              passHref
+              scroll={false}
+            >
+              <ActorCard
+                name={actor.name}
+                imageUrl={actor.profile_path}
+                popularity={actor.popularity}
+                onClick={() => {}}
+              />
+            </Link>
           </Grid>
         ))}
       </Grid>
-
-      <ActorModal
-        open={!!selectedActor}
-        actor={selectedActor}
-        onClose={() => setSelectedActor(undefined)}
-      />
     </ApplicationLayout>
   );
 };
