@@ -1,9 +1,8 @@
-import axios from 'axios';
 import groupBy from "lodash/groupBy"
 import meanBy from "lodash/meanBy"
 import mapValues from "lodash/mapValues"
-import { AxiosResponse } from "axios";
-import { Discover, Analytics, WatchList, Person, Credits } from "types";
+import compact from "lodash/compact"
+import { Discover, Analytics, WatchList, Credits } from "types";
 import store from "redux/store";
 import { DiscoverEndpoints } from 'redux/endpoints/discover.endpoints';
 import { CreditsEndpoints } from 'redux/endpoints/credits.endpoints';
@@ -18,6 +17,7 @@ const getAverageMovieRatingOverTheYearsOfActor = async (actorId: number): Promis
   if (response.isError || response.data?.results.length === 0) return avereageRatingOverYears;
 
   let allMovies = await fetchAllPages(actorId, response.data!);
+  allMovies = compact(allMovies);
   allMovies = allMovies.filter(movie => movie.release_date && movie.vote_average);
   allMovies = allMovies.map(movie => { return { ...movie, release_date_js: new Date(movie.release_date) } });
   let groupedByYears = groupBy(allMovies, (movie: Discover.Result) => movie.release_date_js.getFullYear());
@@ -95,6 +95,7 @@ const getFavoriteActors = async (watchLists: WatchList.WatchList[]): Promise<Ana
     if (movies.length !== 0) {
       // fetching all casts of all movies in your watchlist in parralel
       let allCasts = await fetchAllMovieCasts(movies);
+      allCasts = compact(allCasts);
       // getting all the unique actors, because we dont want to show the same actor multiple times
       // and grouping them by appearances in your watchlist movies
       const groupedByActorId = groupBy(allCasts, (cast) => cast.id);

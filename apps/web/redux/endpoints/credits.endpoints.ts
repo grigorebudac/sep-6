@@ -7,6 +7,7 @@ export const CreditsEndpoints = TmdbApi.injectEndpoints({
     getMovieCredits: builder.query<Credits.Credits, number | string>({
       query: (movieId) => ({
         url: `/movie/${movieId}/credits`,
+        params: {},
       }),
       providesTags: (res) => {
         return [

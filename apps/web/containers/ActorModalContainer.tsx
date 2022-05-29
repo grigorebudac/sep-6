@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import ActorModal from 'components/Modals/ActorModal';
-import { ACTORS } from 'pages/analytics';
 
 const ActorModalContainer = () => {
   const router = useRouter();
@@ -24,7 +23,7 @@ const ActorModalContainer = () => {
     router.push(router.route, undefined, { scroll: false });
   }
 
-  return <ActorModal open={isOpen} actor={ACTORS[0]} onClose={handleClose} />;
+  return <ActorModal open={isOpen} actorId={Number(actorId)} onClose={handleClose} />;
 };
 
 export default ActorModalContainer;

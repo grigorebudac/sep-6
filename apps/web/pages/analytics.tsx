@@ -6,7 +6,6 @@ import { useGetWatchListsQuery } from "redux/endpoints/watch-lists.endpoints";
 import CategoryCard from 'components/Cards/CategoryCard';
 import { Typography } from '@mui/material';
 import ActorCard from 'components/Cards/ActorCard';
-import ActorModal from 'components/Modals/ActorModal';
 import { Person, Analytics as AnalyticsType, Genre } from 'types';
 import { getFavoriteGenres, getFavoriteActors } from 'utils/analytics.utils';
 import SimpleSupratextSection from 'components/Sections/SimpleSupratextSection';
@@ -15,7 +14,6 @@ const Analytics = () => {
   const { data, isLoading } = useGetWatchListsQuery();
   const [favoriteActors, setFavoriteActors] = useState<AnalyticsType.FavoriteAcotrs[]>([]);
   const [favoriteGenres, setFavoriteGenres] = useState<AnalyticsType.FavoriteGenres[]>([]);
-  const [selectedActor, setSelectedActor] = useState<Person.ActorResponse>();
 
   useEffect(() => {
     if (data) {
@@ -24,7 +22,7 @@ const Analytics = () => {
     }
   }, [data]);
 
-  if (!isLoading && favoriteActors?.length === 0) {
+  if (!isLoading && favoriteGenres?.length === 0) {
     return (
       <ApplicationLayout title="Analytics">
         <Typography
@@ -89,7 +87,6 @@ const Analytics = () => {
                   name={actorData.actor.name}
                   imageUrl={actorData.actor.profile_path}
                   popularity={actorData.actor.popularity}
-                  onClick={() => setSelectedActor(actorData.actor)}
                 />
               </Link>
             </Grid>)))
@@ -100,12 +97,6 @@ const Analytics = () => {
             )))
         }
       </Grid >
-
-      {/* <ActorModal
-        open={!!selectedActor}
-        actor={selectedActor}
-        onClose={() => setSelectedActor(undefined)}
-      /> */}
     </ApplicationLayout>
   );
 };
