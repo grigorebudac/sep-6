@@ -1,4 +1,5 @@
 import { Movie, Person } from 'types';
+import { Filter } from 'types/filter.types';
 
 export function getImageByPath(path: string) {
   return `https://image.tmdb.org/t/p/w500${path}`;
