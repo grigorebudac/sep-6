@@ -18,7 +18,7 @@ export const Cover = styled.div`
   width: 100%;
   height: 20rem;
   object-fit: cover;
-  background-color: ${(props) => props.theme.palette.secondary.main};
+  background-color: ${(props) => props.theme.palette.background.main};
   position: relative;
   display: flex;
   align-items: flex-end;

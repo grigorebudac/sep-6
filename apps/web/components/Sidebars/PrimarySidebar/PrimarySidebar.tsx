@@ -23,22 +23,22 @@ type PrimarySidebarProps = {
 const NAV_LINKS = [
   {
     title: 'Home',
-    icon: <Home />,
+    icon: <Home titleAccess="Home" />,
     href: '/',
   },
   {
     title: 'Watch lists',
-    icon: <ViewList />,
+    icon: <ViewList titleAccess="Watch lists" />,
     href: '/watch-lists',
   },
   {
     title: 'Discover',
-    icon: <TheatersSharp />,
+    icon: <TheatersSharp titleAccess="Discover" />,
     href: '/discover',
   },
   {
     title: 'About you',
-    icon: <Assessment />,
+    icon: <Assessment titleAccess="About you" />,
     href: '/analytics',
   },
 ];
@@ -47,7 +47,7 @@ const ACTION_LINKS = [
   {
     title: 'Settings',
     icon: <Settings />,
-    href: '/settings',
+    href: '/',
   },
 ];
 

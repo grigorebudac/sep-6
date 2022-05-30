@@ -10,6 +10,7 @@ export const SEARCH_RESULT = 'SEARCH-RESULT';
 export const GENRE_TAG = 'GENRE';
 export const COMPANY_TAG = 'COMPANY';
 export const DISCOVER_GENRES_TAG = 'DISCOVER-GENRES';
+export const MOVIE_VIDEO_TAG = 'MOVIE-VIDEO';
 
 export const TmdbApi = createApi({
   reducerPath: 'TmdbApi',
@@ -33,6 +34,7 @@ export const TmdbApi = createApi({
     COMPANY_TAG,
     DISCOVER_TAG,
     DISCOVER_GENRES_TAG,
+    MOVIE_VIDEO_TAG,
   ],
   endpoints: () => ({}),
 });

@@ -9,6 +9,8 @@ import { getFavoriteGenres } from 'utils/analytics.utils';
 import { Analytics } from 'types';
 import { useGetWatchListsQuery } from 'redux/endpoints/watch-lists.endpoints';
 import { useLazyGetMoviesByGenresQuery } from 'redux/endpoints/discover.endpoints';
+import Hero from 'components/Hero';
+import SimpleSupratextSection from 'components/Sections/SimpleSupratextSection';
 
 const Home = () => {
   const { data, isLoading } = useGetPopularMoviesQuery();
@@ -18,6 +20,9 @@ const Home = () => {
   >([]);
   const [getMoviesByGenres, { data: forYouData, isLoading: isForYouLoading }] =
     useLazyGetMoviesByGenresQuery();
+
+  const heroMovies = data?.results.slice(0, 6);
+  const popularMovies = data?.results.slice(6);
 
   useEffect(() => {
     if (watchListData) {
@@ -38,9 +43,19 @@ const Home = () => {
 
   return (
     <ApplicationLayout title="Home">
+      <Hero data={heroMovies || []} />
+      <Typography
+        marginTop={10}
+        marginBottom={2}
+        fontSize={['2rem', '4rem']}
+        fontWeight="bold"
+        color="system.main"
+      >
+        Popular
+      </Typography>
       <Grid container>
-        {data && data.results.length ? (
-          data.results.map((movie) => (
+        {popularMovies ? (
+          popularMovies.map((movie) => (
             <Link
               key={movie.id}
               href={`/?movieId=${movie.id}`}
@@ -67,7 +82,7 @@ const Home = () => {
         fontWeight="bold"
         color="system.main"
       >
-        For you
+        For you <SimpleSupratextSection text="*based on your favorite genres" />
       </Typography>
       <Grid container>
         {forYouData && forYouData.results.length ? (

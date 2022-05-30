@@ -80,7 +80,7 @@ const Discover = () => {
       </Grid>
 
       <Box position="absolute" bottom="2rem" right="2rem">
-        <Fab color="secondary" onClick={handleOpenFilter}>
+        <Fab color="default" onClick={handleOpenFilter}>
           <FilterListIcon />
         </Fab>
       </Box>
