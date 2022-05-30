@@ -3,7 +3,7 @@ import { alpha, Dialog as MuiDialog } from '@mui/material';
 import StarPurple500Icon from '@mui/icons-material/StarPurple500';
 
 export const Dialog = styled(MuiDialog)`
-  z-index: 9999;
+  z-index: 10111;
 
   ::-webkit-scrollbar {
     display: none;
@@ -14,11 +14,11 @@ export const ContentContainer = styled.div`
   position: relative;
 `;
 
-export const Cover = styled.div`
+export const Cover = styled.div<{ coverColor: string }>`
   width: 100%;
   height: 20rem;
   object-fit: cover;
-  background-color: ${(props) => props.theme.palette.secondary.main};
+  background: ${(props) => props.coverColor};
   position: relative;
   display: flex;
   align-items: flex-end;
@@ -53,7 +53,7 @@ export const CloseBtnContainer = styled.div`
 `;
 
 export const Content = styled.div`
-  padding: 10rem;
+  padding: 5rem;
   background: ${(props) => props.theme.palette.background.main};
   color: ${(props) => props.theme.palette.common.white};
   width: 100%;

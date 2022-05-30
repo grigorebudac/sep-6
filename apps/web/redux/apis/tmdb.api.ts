@@ -5,6 +5,7 @@ export const POPULAR_MOVIE_TAG = 'MOVIE';
 export const CREDITS_TAG = 'CREDITS';
 export const PERSON_TAG = 'PERSON';
 export const PERSON_MOVIE = 'PERSON-MOVIE';
+export const DISCOVER_TAG = "DISCOVER";
 export const SEARCH_RESULT = 'SEARCH-RESULT';
 export const GENRE_TAG = 'GENRE';
 export const COMPANY_TAG = 'COMPANY';
@@ -29,6 +30,7 @@ export const TmdbApi = createApi({
     SEARCH_RESULT,
     GENRE_TAG,
     COMPANY_TAG,
+    DISCOVER_TAG
   ],
   endpoints: () => ({}),
 });

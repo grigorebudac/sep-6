@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { getImageByPath } from "utils/tmdb.utils";
-import { Credits, Movie, WatchList } from "types";
+import { Credits, Movie } from "types";
 import * as Styles from "./MovieModal.styles";
 import { Close, Add } from "@mui/icons-material";
 import SimpleTextSection from "components/Sections/SimpleTextSection";
@@ -28,6 +28,7 @@ interface MovieModalProps {
 const MovieModal = ({ movie, ...props }: MovieModalProps) => {
   const { data } = useGetWatchListsQuery();
   const [openModal, setOpenModal] = React.useState(false);
+
   const handleClickOpen = () => {
     setOpenModal(true);
   };
@@ -40,6 +41,8 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
   const spokenLanguages = movie?.spoken_languages
     .map(({ name }) => name)
     ?.join(', ');
+
+  if (!movie) return <></>
 
   return (
     <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
@@ -68,11 +71,10 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
         </Styles.CoverContent>
       </Styles.CoverContainer>
 
-      <Styles.AddToPlayListBtnContainer>
-        <Styles.IconButtonWrapper onClick={handleClickOpen} size="large">
+      <Styles.AddToPlayListBtnContainer onClick={handleClickOpen} >
+        <Styles.IconButtonWrapper size="large">
           <Add fontSize="large" />
         </Styles.IconButtonWrapper>
-        <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={openModal} onClose={handleClose} />
       </Styles.AddToPlayListBtnContainer>
 
       <Styles.Content>
@@ -105,6 +107,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
           <ReviewsContainer movieId={movie?.id} />
         </Styles.Content>
       )}
+      <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={openModal} onClose={handleClose} />
     </Styles.Dialog>
   );
 };

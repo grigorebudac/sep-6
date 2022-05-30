@@ -6,7 +6,7 @@ import { Filter } from 'types/filter.types';
 
 interface SearchPeopleContainerProps {
   value?: Filter.FilterOption[];
-  onChange: (genres: Filter.FilterOption[]) => void;
+  onChange?: (genres: Filter.FilterOption[]) => void;
 }
 
 const SearchPeopleContainer = (props: SearchPeopleContainerProps) => {
@@ -22,7 +22,7 @@ const SearchPeopleContainer = (props: SearchPeopleContainerProps) => {
       name: person.name,
     }));
 
-    props.onChange(filters);
+    props.onChange?.(filters)
   }
 
   return (

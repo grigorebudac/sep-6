@@ -6,7 +6,7 @@ import { Filter } from 'types/filter.types';
 
 interface SearchCompaniesProps {
   value?: Filter.FilterOption[];
-  onChange: (genres: Filter.FilterOption[]) => void;
+  onChange?: (genres: Filter.FilterOption[]) => void;
 }
 
 const SearchCompanies = (props: SearchCompaniesProps) => {

@@ -7,7 +7,7 @@ interface FilterAutocompleteProps {
   options?: Filter.FilterOption[];
   isLoading?: boolean;
   placeholder?: string;
-  onChange: (options: Filter.FilterOption[]) => void;
+  onChange?: (options: Filter.FilterOption[]) => void;
   onChangeText?: (value: string) => void;
 }
 
@@ -24,7 +24,7 @@ const FilterAutocomplete = (props: FilterAutocompleteProps) => {
       getOptionLabel={(option) => option.name}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       filterSelectedOptions
-      onChange={(__, options) => props.onChange(options ?? [])}
+      onChange={(__, options) => props.onChange?.(options ?? [])}
       renderInput={(params) => (
         <TextField
           {...params}

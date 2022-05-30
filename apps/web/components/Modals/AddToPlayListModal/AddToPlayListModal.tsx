@@ -4,11 +4,11 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
-import { ViewList, Add } from '@mui/icons-material';
 import { WatchList, Movie } from 'types';
 import { useAddMovieToWatchListMutation } from 'redux/endpoints/watch-lists.endpoints';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import * as Styles from './AddToPlayListModal.styles';
+import { ViewList, Add, Favorite } from "@mui/icons-material";
 import CreateWatchListModal from 'components/Modals/CreateWatchListModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -106,15 +106,19 @@ const AddToPlayListModal = (props: SimpleDialogProps) => {
                 >
                   <ListItemAvatar>
                     <Styles.ColoredAvatar>
-                      {watchList.title === 'Watch later' ? (
-                        <WatchLaterIcon />
-                      ) : (
-                        <ViewList />
-                      )}
-                    </Styles.ColoredAvatar>
-                  </ListItemAvatar>
+                      {
+                        watchList.title === 'Watch later' ? (
+                          <WatchLaterIcon />
+                        ) : watchList.title === 'Favorite' ? (
+                          <ViewList />
+                        ) : (
+                          <Favorite />
+                        )
+                      }
+                    </Styles.ColoredAvatar >
+                  </ListItemAvatar >
                   <ListItemText primary={watchList.title} />
-                </ListItem>
+                </ListItem >
               ))}
           <ListItem
             autoFocus
@@ -128,13 +132,13 @@ const AddToPlayListModal = (props: SimpleDialogProps) => {
             </ListItemAvatar>
             <ListItemText primary="New Watch List" />
           </ListItem>
-        </List>
+        </List >
       )}
       <CreateWatchListModal
         open={createWatchListModalOpen}
         onClose={handleClosecreateWatchListModalClose}
       />
-    </Styles.Dialog>
+    </Styles.Dialog >
   );
 };
 

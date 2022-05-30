@@ -3,8 +3,12 @@ import { WatchList } from 'types';
 import * as Styles from './MovieWrapper.styles';
 import MovieCard from 'components/Cards/MovieCard';
 import DeleteIcon from '@mui/icons-material/Delete';
+import InfoIcon from '@mui/icons-material/Info';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useDeleteMovieFromWatchListMutation } from 'redux/endpoints/watch-lists.endpoints';
+import MovieModalContainer from 'containers/MovieModalContainer';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface MovieWrapperProps {
   watchListId: string;
@@ -15,6 +19,8 @@ const MovieWrapper = (props: MovieWrapperProps) => {
   const [show, setShow] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [deleteMovieFromWatchList] = useDeleteMovieFromWatchListMutation();
+  const router = useRouter();
+  const currentPath = router.asPath;
 
   async function handleDeleteMovieFromWatchList() {
     setIsLoading(true);
@@ -46,11 +52,24 @@ const MovieWrapper = (props: MovieWrapperProps) => {
               <DeleteIcon />
             )}
           </Styles.DeleteIconButton>
+          <Styles.InfoIconButton
+            size="large"
+          >
+            <Link
+              key={props.movie.movieId}
+              href={`${currentPath}?movieId=${props.movie.movieId}`}
+              passHref
+              scroll={false}
+            >
+              <InfoIcon />
+            </Link>
+          </Styles.InfoIconButton>
 
           <Styles.Overlay />
         </>
       )}
       <MovieCard posterUrl={props.movie.cover!} />
+      <MovieModalContainer />
     </Styles.MovieCardWrapper>
   );
 };

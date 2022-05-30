@@ -8,5 +8,5 @@ s3_prefix = "sep6-app"
 region = "us-east-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "Environment=\"dev\""
+parameter_overrides = "Environment=\"dev\" OAuthCallbackUrl=\"http://localhost:3000/\" OAuthLogoutUrl=\"http://localhost:3000/\" UserPoolDomainName=\"sep6-app\" FacebookClientId=\"3351042171840664\" FacebookClientSecret=\"f60eb6762faad99503049b23c7c53da0\" GoogleClientId=\"1067023644030-negmtmckp20pfervq4q5edts5qmiqkco.apps.googleusercontent.com\" GoogleClientSecret=\"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\""
 image_repositories = []
