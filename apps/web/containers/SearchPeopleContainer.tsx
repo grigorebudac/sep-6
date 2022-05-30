@@ -22,8 +22,7 @@ const SearchPeopleContainer = (props: SearchPeopleContainerProps) => {
       name: person.name,
     }));
 
-    if (props.onChange)
-      props.onChange(filters);
+    props.onChange?.(filters)
   }
 
   return (

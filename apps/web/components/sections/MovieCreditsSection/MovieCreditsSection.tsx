@@ -15,6 +15,10 @@ interface MovieCreditsSectionProps {
   credits?: Credits.Credits;
 }
 
+const CAST_PANEL = 'castPanel';
+const CREW_PANEL = 'crewPanel';
+const MAX_SHOWN_CREW_CAST = 3
+
 const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
@@ -24,23 +28,22 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
     };
   return (
     <>
-      <Accordion
-        expanded={expanded === 'panel1'}
-        onChange={handleChange('panel1')}
-        style={{ boxShadow: 'none' }}
+      <Styles.AccordionWrapper
+        expanded={expanded === CAST_PANEL}
+        onChange={handleChange(CAST_PANEL)}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
+          aria-controls="castPanelbh-content"
+          id="castPanelbh-header"
         >
           <Typography sx={{ width: '15%', flexShrink: 0 }} fontWeight="bold">
             Cast
           </Typography>
-          {expanded !== 'panel1' && (
+          {expanded !== CAST_PANEL && (
             <Typography sx={{ color: 'text.secondary' }}>
               {props.credits?.cast
-                .slice(0, 3)
+                .slice(0, MAX_SHOWN_CREW_CAST)
                 .map((person) => person.name)
                 .join(', ')}
             </Typography>
@@ -49,8 +52,7 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
         <AccordionDetails>
           <Styles.List>
             {props.credits?.cast
-              ?.filter((person) => person.profile_path)
-              .map((castMember, index) => (
+              ?.map((castMember, index) => (
                 <Styles.ListItem key={index}>
                   <Link href={`?personId=${castMember.id}`}>
                     {castMember.name}
@@ -59,24 +61,23 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
               ))}
           </Styles.List>
         </AccordionDetails>
-      </Accordion>
-      <Accordion
-        expanded={expanded === 'panel2'}
-        onChange={handleChange('panel2')}
-        style={{ boxShadow: 'none' }}
+      </Styles.AccordionWrapper>
+      <Styles.AccordionWrapper
+        expanded={expanded === CREW_PANEL}
+        onChange={handleChange(CREW_PANEL)}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2bh-content"
-          id="panel2bh-header"
+          aria-controls="crewPanelbh-content"
+          id="crewPanelbh-header"
         >
           <Typography sx={{ width: '15%', flexShrink: 0 }} fontWeight="bold">
             Crew
           </Typography>
-          {expanded !== 'panel2' && (
+          {expanded !== CREW_PANEL && (
             <Typography sx={{ color: 'text.secondary' }}>
               {props.credits?.crew
-                .slice(0, 3)
+                .slice(0, MAX_SHOWN_CREW_CAST)
                 .map((person) => person.name)
                 .join(', ')}
             </Typography>
@@ -85,8 +86,7 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
         <AccordionDetails>
           <Styles.List>
             {props.credits?.crew
-              ?.filter((person) => person.profile_path)
-              .map((crewMember, index) => (
+              ?.map((crewMember, index) => (
                 <Styles.ListItem key={index}>
                   <Link href={`?personId=${crewMember.id}`}>
                     {crewMember.name}
@@ -95,7 +95,7 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
               ))}
           </Styles.List>
         </AccordionDetails>
-      </Accordion>
+      </Styles.AccordionWrapper>
     </>
   );
 };

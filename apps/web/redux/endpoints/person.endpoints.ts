@@ -4,7 +4,7 @@ import { Person } from 'types';
 export const PersonEndpoint = TmdbApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getPerson: builder.query<Person.PersonResponse, number>({
+    getPerson: builder.query<Person.PersonResponse, number | string>({
       query: (personId) => ({
         url: `/person/${personId}`,
         params: {},
@@ -18,7 +18,7 @@ export const PersonEndpoint = TmdbApi.injectEndpoints({
         ];
       },
     }),
-    getMovies: builder.query<Person.MovieResponse, number>({
+    getMovies: builder.query<Person.MovieResponse, number | string>({
       query: (personId) => ({
         url: `person/${personId}/movie_credits`,
         params: {},
