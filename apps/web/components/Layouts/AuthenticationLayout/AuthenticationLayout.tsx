@@ -23,9 +23,9 @@ const AuthenticationLayout: React.FC<AuthenticationLayoutProps> = (props) => {
                 See what all the fuss is about.
               </Typography>
               <Typography fontSize="1.6rem" color="white" fontWeight="500">
-                Join {`Ireland's`} newest ticketing software today and see why
-                more & more organisers are choosing easy, beautiful ticket
-                sales.
+                Join {`VIA's`} newest movie social media and get all the latest
+                movie news, reviews, and trailers. Save your favorite movies,
+                and get feedback from other movie lovers.
               </Typography>
             </Styles.SectionContent>
           </Grid>
