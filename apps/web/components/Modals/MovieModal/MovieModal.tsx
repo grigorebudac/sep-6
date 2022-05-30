@@ -6,26 +6,27 @@ import {
   Grid,
   IconButton,
   Typography,
-} from "@mui/material";
-import { getImageByPath } from "utils/tmdb.utils";
-import { Credits, Movie } from "types";
-import * as Styles from "./MovieModal.styles";
-import { Close, Add } from "@mui/icons-material";
-import SimpleTextSection from "components/Sections/SimpleTextSection";
-import AddToPlayListModal from "components/Modals/AddToPlayListModal";
+} from '@mui/material';
+import { getImageByPath } from 'utils/tmdb.utils';
+import { Credits, Movie } from 'types';
+import * as Styles from './MovieModal.styles';
+import { Close, Add } from '@mui/icons-material';
+import SimpleTextSection from 'components/Sections/SimpleTextSection';
+import AddToPlayListModal from 'components/Modals/AddToPlayListModal';
 import ReviewsContainer from 'containers/ReviewsContainer';
-import { useGetWatchListsQuery } from "redux/endpoints/watch-lists.endpoints";
+import { useGetWatchListsQuery } from 'redux/endpoints/watch-lists.endpoints';
 import MovieCreditsSection from 'components/Sections/MovieCreditsSection';
 
 interface MovieModalProps {
   open: DialogProps['open'];
   movie?: Movie.GetMovieResponse;
-  credits?: Credits.Credits
+  videoId?: string;
+  credits?: Credits.Credits;
   isLoading: boolean;
   onClose: () => void;
 }
 
-const MovieModal = ({ movie, ...props }: MovieModalProps) => {
+const MovieModal = ({ movie, videoId, ...props }: MovieModalProps) => {
   const { data } = useGetWatchListsQuery();
   const [openModal, setOpenModal] = React.useState(false);
 
@@ -42,7 +43,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
     .map(({ name }) => name)
     ?.join(', ');
 
-  if (!movie) return <></>
+  if (!movie) return <></>;
 
   return (
     <Styles.Dialog open={props.open} maxWidth="md" onClose={props.onClose}>
@@ -71,7 +72,7 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
         </Styles.CoverContent>
       </Styles.CoverContainer>
 
-      <Styles.AddToPlayListBtnContainer onClick={handleClickOpen} >
+      <Styles.AddToPlayListBtnContainer onClick={handleClickOpen}>
         <Styles.IconButtonWrapper size="large">
           <Add fontSize="large" />
         </Styles.IconButtonWrapper>
@@ -102,12 +103,32 @@ const MovieModal = ({ movie, ...props }: MovieModalProps) => {
         <MovieCreditsSection credits={props.credits} />
       </Styles.Content>
 
+      <Styles.TrailerContainer>
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}`}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          height={500}
+          width={'100%'}
+          title="Embedded youtube"
+        />
+      </Styles.TrailerContainer>
+
       {movie != null && (
         <Styles.Content>
           <ReviewsContainer movieId={movie?.id} />
         </Styles.Content>
       )}
-      <AddToPlayListModal watchLists={data} movieId={movie?.id} title={movie?.title} cover={movie?.poster_path} genres={movie?.genres} open={openModal} onClose={handleClose} />
+      <AddToPlayListModal
+        watchLists={data}
+        movieId={movie?.id}
+        title={movie?.title}
+        cover={movie?.poster_path}
+        genres={movie?.genres}
+        open={openModal}
+        onClose={handleClose}
+      />
     </Styles.Dialog>
   );
 };

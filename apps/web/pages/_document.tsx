@@ -4,7 +4,7 @@ import Document, {
   Head,
   Main,
   NextScript,
-} from "next/document";
+} from 'next/document';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -27,7 +27,9 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head></Head>
+        <Head>
+          <link rel="icon" href="favicon.png" />
+        </Head>
 
         <body>
           <Main />

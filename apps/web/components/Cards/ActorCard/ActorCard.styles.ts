@@ -9,7 +9,7 @@ export const Container = styled.div`
   flex: 1;
   flex-direction: column;
   background-color: ${(props) =>
-    alpha(props.theme.palette.secondary.main, 0.1)};
+    alpha(props.theme.palette.background.main, 0.1)};
   border-radius: 1rem;
   overflow: hidden;
   position: relative;

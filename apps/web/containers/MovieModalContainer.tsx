@@ -1,12 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import MovieModal from 'components/Modals/MovieModal';
-import { useLazyGetMovieQuery } from 'redux/endpoints/movies.endpoints';
+import {
+  useLazyGetMovieVideoQuery,
+  useLazyGetMovieQuery,
+} from 'redux/endpoints/movies.endpoints';
 import { useLazyGetMovieCreditsQuery } from 'redux/endpoints/credits.endpoints';
 
 const MovieModalContainer = () => {
   const [getMovie, movieData] = useLazyGetMovieQuery();
   const [getMovieCredits, creditsData] = useLazyGetMovieCreditsQuery();
+  const [getMovieVideo, video] = useLazyGetMovieVideoQuery();
+
   const router = useRouter();
   const [isOpen, setOpen] = useState(router.query.movieId != null);
 
@@ -23,8 +28,9 @@ const MovieModalContainer = () => {
     if (isOpen && movieId) {
       getMovie(movieId as string);
       getMovieCredits(movieId as string);
+      getMovieVideo(movieId as string);
     }
-  }, [isOpen, movieId, getMovie, getMovieCredits]);
+  }, [isOpen, movieId, getMovie, getMovieCredits, getMovieVideo]);
 
   useEffect(() => {
     setOpen(movieId != null);
@@ -44,6 +50,7 @@ const MovieModalContainer = () => {
       onClose={handleClose}
       movie={movieData.data}
       credits={creditsData.data}
+      videoId={video.data?.results?.[0]?.key}
       isLoading={movieData.isLoading && creditsData.isLoading}
     />
   );

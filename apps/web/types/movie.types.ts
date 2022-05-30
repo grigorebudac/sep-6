@@ -28,6 +28,24 @@ export declare module Movie {
     total_results: number;
   }
 
+  interface MovieVideoResponse {
+    id: number;
+    results: Video[];
+  }
+
+  interface Video {
+    iso_639_1: string;
+    iso_3166_1: string;
+    name: string;
+    key: string;
+    site: string;
+    size: number;
+    type: string;
+    official: boolean;
+    published_at: Date;
+    id: string;
+  }
+
   interface GetMovieResponse {
     adult: boolean;
     backdrop_path: string;

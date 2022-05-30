@@ -2,6 +2,7 @@ import {
   GENRE_TAG,
   MOVIE_TAG,
   POPULAR_MOVIE_TAG,
+  MOVIE_VIDEO_TAG,
   TmdbApi,
 } from 'redux/apis/tmdb.api';
 import { Movie } from 'types';
@@ -33,6 +34,20 @@ export const MoviesEndpoints = TmdbApi.injectEndpoints({
           type: POPULAR_MOVIE_TAG,
           id,
         }));
+      },
+    }),
+    getMovieVideo: builder.query<Movie.MovieVideoResponse, string | number>({
+      query: (movieId) => ({
+        url: `movie/${movieId}/videos`,
+        params: {},
+      }),
+      providesTags: (res) => {
+        return [
+          {
+            type: MOVIE_VIDEO_TAG,
+            id: res?.id,
+          },
+        ];
       },
     }),
     discoverMovies: builder.query<
@@ -77,6 +92,7 @@ export const MoviesEndpoints = TmdbApi.injectEndpoints({
 export const {
   useGetPopularMoviesQuery,
   useLazyGetMovieQuery,
+  useLazyGetMovieVideoQuery,
   useGetGenresQuery,
   useLazyDiscoverMoviesQuery,
 } = MoviesEndpoints;
