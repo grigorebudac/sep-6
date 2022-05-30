@@ -27,11 +27,6 @@ const NAV_LINKS = [
     href: '/',
   },
   {
-    title: 'About you',
-    icon: <Assessment />,
-    href: '/analytics',
-  },
-  {
     title: 'Watch lists',
     icon: <ViewList />,
     href: '/watch-lists',
@@ -40,6 +35,11 @@ const NAV_LINKS = [
     title: 'Discover',
     icon: <TheatersSharp />,
     href: '/discover',
+  },
+  {
+    title: 'About you',
+    icon: <Assessment />,
+    href: '/analytics',
   },
 ];
 
