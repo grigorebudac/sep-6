@@ -1,23 +1,13 @@
-import {
-  Box,
-  Typography,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-} from '@mui/material';
-import React from 'react';
+import { Box, Typography, Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import React from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import * as Styles from './MovieCreditsSection.styles';
-import { Credits } from 'types';
-import Link from 'next/link';
+import { Credits } from "types"
+import Link from "next/link";
 
 interface MovieCreditsSectionProps {
-  credits?: Credits.Credits;
+  credits?: Credits.Credits
 }
-
-const CAST_PANEL = 'castPanel';
-const CREW_PANEL = 'crewPanel';
-const MAX_SHOWN_CREW_CAST = 3
 
 const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
@@ -28,74 +18,56 @@ const MovieCreditsSection = (props: MovieCreditsSectionProps) => {
     };
   return (
     <>
-      <Styles.AccordionWrapper
-        expanded={expanded === CAST_PANEL}
-        onChange={handleChange(CAST_PANEL)}
-      >
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} style={{ boxShadow: "none" }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="castPanelbh-content"
-          id="castPanelbh-header"
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
         >
-          <Typography sx={{ width: '15%', flexShrink: 0 }} fontWeight="bold">
+          <Typography sx={{ width: '15%', flexShrink: 0 }} fontWeight="bold" >
             Cast
           </Typography>
-          {expanded !== CAST_PANEL && (
+          {expanded !== 'panel1' && (
             <Typography sx={{ color: 'text.secondary' }}>
-              {props.credits?.cast
-                .slice(0, MAX_SHOWN_CREW_CAST)
-                .map((person) => person.name)
-                .join(', ')}
+              {props.credits?.cast.slice(0, 3).map(person => person.name).join(', ')}
             </Typography>
           )}
         </AccordionSummary>
         <AccordionDetails>
           <Styles.List>
-            {props.credits?.cast
-              ?.map((castMember, index) => (
-                <Styles.ListItem key={index}>
-                  <Link href={`?personId=${castMember.id}`}>
-                    {castMember.name}
-                  </Link>
-                </Styles.ListItem>
-              ))}
+            {props.credits?.cast?.filter(person => person.profile_path).map((castMember, index) => (
+              <Styles.ListItem key={index}>
+                {castMember.name}
+              </Styles.ListItem>
+            ))}
           </Styles.List>
         </AccordionDetails>
-      </Styles.AccordionWrapper>
-      <Styles.AccordionWrapper
-        expanded={expanded === CREW_PANEL}
-        onChange={handleChange(CREW_PANEL)}
-      >
+      </Accordion>
+      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')} style={{ boxShadow: "none" }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="crewPanelbh-content"
-          id="crewPanelbh-header"
+          aria-controls="panel2bh-content"
+          id="panel2bh-header"
         >
-          <Typography sx={{ width: '15%', flexShrink: 0 }} fontWeight="bold">
+          <Typography sx={{ width: '15%', flexShrink: 0 }} fontWeight="bold" >
             Crew
           </Typography>
-          {expanded !== CREW_PANEL && (
+          {expanded !== 'panel2' && (
             <Typography sx={{ color: 'text.secondary' }}>
-              {props.credits?.crew
-                .slice(0, MAX_SHOWN_CREW_CAST)
-                .map((person) => person.name)
-                .join(', ')}
+              {props.credits?.crew.slice(0, 3).map(person => person.name).join(', ')}
             </Typography>
           )}
         </AccordionSummary>
         <AccordionDetails>
           <Styles.List>
-            {props.credits?.crew
-              ?.map((crewMember, index) => (
-                <Styles.ListItem key={index}>
-                  <Link href={`?personId=${crewMember.id}`}>
-                    {crewMember.name}
-                  </Link>
-                </Styles.ListItem>
-              ))}
+            {props.credits?.crew?.filter(person => person.profile_path).map((crewMember, index) => (
+              <Styles.ListItem key={index}>
+                {crewMember.name}
+              </Styles.ListItem>
+            ))}
           </Styles.List>
         </AccordionDetails>
-      </Styles.AccordionWrapper>
+      </Accordion>
     </>
   );
 };

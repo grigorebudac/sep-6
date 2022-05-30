@@ -1,15 +1,17 @@
-import { CustomMessageTriggerHandler } from "aws-lambda";
+import { CustomMessageTriggerHandler } from 'aws-lambda';
 
 export const handler: CustomMessageTriggerHandler = async (
   event,
   context,
-  callback
+  callback,
 ) => {
   const code = event.request.codeParameter;
   const username = event.userName;
 
   const baseUrl =
-    process.env.STAGE === "dev" ? "http://localhost:3000" : "http://sep-6.com";
+    process.env.STAGE === 'dev'
+      ? 'http://localhost:3000'
+      : 'https://sep-6-six.vercel.app/';
 
   const forgotPasswordMessage = `
       <p>
@@ -23,13 +25,13 @@ export const handler: CustomMessageTriggerHandler = async (
       Click  <a href="${baseUrl}/callback/confirm-account?code=${code}&username=${username}">Verify Email</a>  to verify your account. <br />
       `;
 
-  if (event.triggerSource === "CustomMessage_ForgotPassword") {
-    event.response.emailSubject = "Reset your Password";
+  if (event.triggerSource === 'CustomMessage_ForgotPassword') {
+    event.response.emailSubject = 'Reset your Password';
     event.response.emailMessage = forgotPasswordMessage;
   }
 
-  if (event.triggerSource === "CustomMessage_SignUp") {
-    event.response.emailSubject = "Confirm your Account";
+  if (event.triggerSource === 'CustomMessage_SignUp') {
+    event.response.emailSubject = 'Confirm your Account';
     event.response.emailMessage = verifyAccountMessage;
   }
 

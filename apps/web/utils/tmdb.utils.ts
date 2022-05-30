@@ -5,6 +5,10 @@ export function getImageByPath(path: string) {
   return `https://image.tmdb.org/t/p/w500${path}`;
 }
 
+export function getFullImageByPath(path: string) {
+  return `https://image.tmdb.org/t/p/original${path}`;
+}
+
 export function isMovie(obj: any): obj is Movie.Movie {
   return 'title' in obj;
 }

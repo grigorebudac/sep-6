@@ -100,6 +100,7 @@ const getFavoriteGenres = (
     );
     result = Object.keys(genresGroupedByName).map((genre) => {
       return {
+        id: genresGroupedByName[genre][0].id,
         quantity: Number(genresGroupedByName[genre].length),
         name: genre,
       };
