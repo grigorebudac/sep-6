@@ -14,6 +14,8 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { SidebarMinimiseIcon } from 'assets/animated-icons/SidebarMinimiseIcon';
 
 import * as Styles from './PrimarySidebar.styles';
+import { Auth } from '@aws-amplify/auth';
+import { useDispatch } from 'react-redux';
 
 type PrimarySidebarProps = {
   isExpanded: boolean;
@@ -53,6 +55,7 @@ const ACTION_LINKS = [
 
 const PrimarySidebar = (props: PrimarySidebarProps) => {
   const history = useRouter();
+  const dispatch = useDispatch();
 
   const handleToggleDrawerOpen = () => {
     props.onExpand((prev) => !prev);
@@ -60,6 +63,10 @@ const PrimarySidebar = (props: PrimarySidebarProps) => {
 
   const handleNavigate = (link: string) => {
     history.push(link);
+  };
+
+  const handleSignOut = async () => {
+    await Auth.signOut();
   };
 
   return (
@@ -114,7 +121,7 @@ const PrimarySidebar = (props: PrimarySidebarProps) => {
             );
           })}
 
-          <Styles.ListItemButton>
+          <Styles.ListItemButton onClick={handleSignOut}>
             <Styles.ListItemIcon>
               <PowerSettingsNewIcon />
             </Styles.ListItemIcon>

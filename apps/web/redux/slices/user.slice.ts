@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AppThunk, User } from 'types';
+import { User } from 'types';
 
 type UserState = {
   user: User.User | null;
@@ -19,10 +19,6 @@ const slice = createSlice({
     },
   },
 });
-
-export const signOut = (): AppThunk => (dispatch, getStore) => {
-  dispatch(setUser(null));
-};
 
 export const { setUser } = slice.actions;
 
