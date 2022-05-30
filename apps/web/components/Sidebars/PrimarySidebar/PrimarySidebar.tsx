@@ -67,6 +67,7 @@ const PrimarySidebar = (props: PrimarySidebarProps) => {
 
   const handleSignOut = async () => {
     await Auth.signOut();
+    history.push('/login');
   };
 
   return (
