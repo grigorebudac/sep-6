@@ -26,30 +26,26 @@ export const handler: PostConfirmationTriggerHandler = async (
 
   await DynamoDB.put(params).promise();
 
-  const WatchLaterWatchList = {
-    id: randomUUID(),
-    title: 'Watch later',
-    userId: sub,
-    createdAt: currentUnixTime,
-    updatedAt: currentUnixTime,
-  };
-
-  const FavoriteWatchList = {
-    id: randomUUID(),
-    title: 'Favorite',
-    userId: sub,
-    createdAt: currentUnixTime,
-    updatedAt: currentUnixTime,
-  };
-
   await DynamoDB.put({
     TableName: process.env.WATCHLISTS_TABLE!,
-    WatchLaterWatchList,
+    Item: {
+      id: randomUUID(),
+      title: 'Watch later',
+      userId: sub,
+      createdAt: currentUnixTime,
+      updatedAt: currentUnixTime,
+    }
   }).promise();
 
   await DynamoDB.put({
     TableName: process.env.WATCHLISTS_TABLE!,
-    FavoriteWatchList,
+    Item: {
+      id: randomUUID(),
+      title: 'Favorite',
+      userId: sub,
+      createdAt: currentUnixTime,
+      updatedAt: currentUnixTime,
+    }
   }).promise();
 
   callback(null, event);

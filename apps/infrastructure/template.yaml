@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
   sep6 infrastructure
@@ -12,25 +12,25 @@ Parameters:
       - prod
   OAuthCallbackUrl:
     Type: String
-    Default: 'http://localhost:3000/'
+    Default: "http://localhost:3000/"
   OAuthLogoutUrl:
     Type: String
-    Default: 'http://localhost:3000/'
+    Default: "http://localhost:3000/"
   UserPoolDomainName:
     Type: String
-    Default: ''
+    Default: ""
   FacebookClientId:
     Type: String
-    Default: ''
+    Default: ""
   FacebookClientSecret:
     Type: String
-    Default: ''
+    Default: ""
   GoogleClientId:
     Type: String
-    Default: ''
+    Default: ""
   GoogleClientSecret:
     Type: String
-    Default: ''
+    Default: ""
 Globals:
   Function:
     Timeout: 10
@@ -38,9 +38,9 @@ Globals:
     Handler: index.handler
     Environment:
       Variables:
-        USERS_TABLE: 'Users'
-        REVIEWS_TABLE: 'Reviews'
-        WATCHLISTS_TABLE: 'Watchlists'
+        USERS_TABLE: "Users"
+        REVIEWS_TABLE: "Reviews"
+        WATCHLISTS_TABLE: "Watchlists"
 
 Resources:
   # API
@@ -101,13 +101,13 @@ Resources:
       AllowedOAuthFlowsUserPoolClient: true
       PreventUserExistenceErrors: ENABLED
       AllowedOAuthScopes:
-        - 'email'
-        - 'openid'
-        - 'profile'
-        - 'aws.cognito.signin.user.admin'
+        - "email"
+        - "openid"
+        - "profile"
+        - "aws.cognito.signin.user.admin"
       AllowedOAuthFlows:
-        - 'implicit'
-        - 'code'
+        - "implicit"
+        - "code"
       SupportedIdentityProviders:
         - Facebook
         - Google
@@ -138,12 +138,12 @@ Resources:
       ProviderName: Facebook
       ProviderType: Facebook
       AttributeMapping:
-        email: 'email'
-        name: 'name'
+        email: "email"
+        name: "name"
       ProviderDetails:
         client_id: !Sub ${FacebookClientId}
         client_secret: !Sub ${FacebookClientSecret}
-        authorize_scopes: 'public_profile,email'
+        authorize_scopes: "public_profile,email"
   # Google
   GoogleUserPoolIdentityProvider:
     Type: AWS::Cognito::UserPoolIdentityProvider
@@ -152,12 +152,12 @@ Resources:
       ProviderName: Google
       ProviderType: Google
       AttributeMapping:
-        email: 'email'
-        name: 'name'
+        email: "email"
+        name: "name"
       ProviderDetails:
         client_id: !Sub ${GoogleClientId}
         client_secret: !Sub ${GoogleClientSecret}
-        authorize_scopes: 'email'
+        authorize_scopes: "email"
   # Roles
   CognitoUnAuthorizedRole:
     Type: AWS::IAM::Role
@@ -183,40 +183,40 @@ Resources:
                 Action:
                   - mobileanalytics:PutEvents
                   - cognito-sync:*
-                Resource: '*'
+                Resource: "*"
   CognitoAuthorizedRole:
-    Type: 'AWS::IAM::Role'
+    Type: "AWS::IAM::Role"
     Properties:
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Statement:
-          - Effect: 'Allow'
+          - Effect: "Allow"
             Principal:
-              Federated: 'cognito-identity.amazonaws.com'
+              Federated: "cognito-identity.amazonaws.com"
             Action:
-              - 'sts:AssumeRoleWithWebIdentity'
+              - "sts:AssumeRoleWithWebIdentity"
             Condition:
               StringEquals:
-                'cognito-identity.amazonaws.com:aud': !Ref UserIdentityPool
+                "cognito-identity.amazonaws.com:aud": !Ref UserIdentityPool
               ForAnyValue:StringLike:
-                'cognito-identity.amazonaws.com:amr': authenticated
+                "cognito-identity.amazonaws.com:amr": authenticated
       Policies:
-        - PolicyName: 'CognitoAuthorizedPolicy'
+        - PolicyName: "CognitoAuthorizedPolicy"
           PolicyDocument:
-            Version: '2012-10-17'
+            Version: "2012-10-17"
             Statement:
-              - Effect: 'Allow'
+              - Effect: "Allow"
                 Action:
-                  - 'mobileanalytics:PutEvents'
-                  - 'cognito-sync:*'
-                  - 'cognito-identity:*'
-                  - 'mobiletargeting:UpdateEndpoint'
-                  - 'mobiletargeting:PutEvents'
-                  - 'lambda:InvokeFunction'
-                Resource: '*'
+                  - "mobileanalytics:PutEvents"
+                  - "cognito-sync:*"
+                  - "cognito-identity:*"
+                  - "mobiletargeting:UpdateEndpoint"
+                  - "mobiletargeting:PutEvents"
+                  - "lambda:InvokeFunction"
+                Resource: "*"
   # Assigns the roles to the Identity Pool
   IdentityPoolRoleMapping:
-    Type: 'AWS::Cognito::IdentityPoolRoleAttachment'
+    Type: "AWS::Cognito::IdentityPoolRoleAttachment"
     Properties:
       IdentityPoolId: !Ref UserIdentityPool
       Roles:
@@ -250,7 +250,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -262,11 +262,13 @@ Resources:
       Policies:
         - DynamoDBWritePolicy:
             TableName: !Ref UsersTable
+        - DynamoDBWritePolicy:
+            TableName: !Ref WatchlistTable
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -287,7 +289,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -310,7 +312,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -334,7 +336,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -357,7 +359,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -380,7 +382,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -403,7 +405,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -426,7 +428,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -449,7 +451,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -472,7 +474,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -495,7 +497,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -518,7 +520,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: 'es2020'
+        Target: "es2020"
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -526,25 +528,25 @@ Resources:
   UsersTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: 'Users'
+      TableName: "Users"
       PrimaryKey:
-        Name: 'id'
-        Type: 'String'
+        Name: "id"
+        Type: "String"
   ReviewsTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: 'Reviews'
+      TableName: "Reviews"
       PrimaryKey:
-        Name: 'id'
-        Type: 'String'
+        Name: "id"
+        Type: "String"
   WatchlistTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: 'Watchlists'
+      TableName: "Watchlists"
       PrimaryKey:
-        Name: 'id'
-        Type: 'String'
+        Name: "id"
+        Type: "String"
 Outputs:
   API:
-    Description: 'API Gateway endpoint URL'
-    Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/v1'
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${Api}.execute-api.${AWS::Region}.amazonaws.com/v1"
