@@ -6,9 +6,11 @@ import { UserSlice } from 'redux/slices';
 import { UserSelectors } from 'redux/selectors';
 import { Auth, CognitoUser } from '@aws-amplify/auth';
 
-// type WithProtectedRouteProps = {};
+type WithProtectedRouteProps = {};
 
-function withProtectedRoute<P>(WrappedComponent: React.ComponentType<P>) {
+function withProtectedRoute<P>(
+  WrappedComponent: React.ComponentType<P & WithProtectedRouteProps>,
+) {
   const ComponentWithExtraInfo = (props: P) => {
     const router = useRouter();
     const dispatch = useDispatch();
