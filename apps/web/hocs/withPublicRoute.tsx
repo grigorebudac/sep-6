@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Auth } from '@aws-amplify/auth';
 
-type WithPublicRouteProps = {};
+type WithPublicRouteProps = (Component: FC) => FC;;
 
 function withPublicRoute<P>(
   WrappedComponent: React.ComponentType<P & WithPublicRouteProps>,
