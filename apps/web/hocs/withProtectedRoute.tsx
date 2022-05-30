@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { UserSlice } from 'redux/slices';
 import { UserSelectors } from 'redux/selectors';
-import { Auth, CognitoUser } from '@aws-amplify/auth';
+import { Auth } from '@aws-amplify/auth';
 
 type WithProtectedRouteProps = {};
 
@@ -39,7 +39,7 @@ function withProtectedRoute<P>(
             email,
           }),
         );
-      } catch {
+      } catch (error) {
         router.push('/login');
       } finally {
         setLoading(false);

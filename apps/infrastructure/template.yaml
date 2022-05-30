@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
   sep6 infrastructure
@@ -10,6 +10,27 @@ Parameters:
     AllowedValues:
       - dev
       - prod
+  OAuthCallbackUrl:
+    Type: String
+    Default: 'http://localhost:3000/'
+  OAuthLogoutUrl:
+    Type: String
+    Default: 'http://localhost:3000/'
+  UserPoolDomainName:
+    Type: String
+    Default: ''
+  FacebookClientId:
+    Type: String
+    Default: ''
+  FacebookClientSecret:
+    Type: String
+    Default: ''
+  GoogleClientId:
+    Type: String
+    Default: ''
+  GoogleClientSecret:
+    Type: String
+    Default: ''
 Globals:
   Function:
     Timeout: 10
@@ -17,9 +38,9 @@ Globals:
     Handler: index.handler
     Environment:
       Variables:
-        USERS_TABLE: "Users"
-        REVIEWS_TABLE: "Reviews"
-        WATCHLISTS_TABLE: "Watchlists"
+        USERS_TABLE: 'Users'
+        REVIEWS_TABLE: 'Reviews'
+        WATCHLISTS_TABLE: 'Watchlists'
 
 Resources:
   # API
@@ -76,7 +97,131 @@ Resources:
       UserPoolId: !Ref UserPool
       ClientName: !Sub user_pool_client
       GenerateSecret: false
-      RefreshTokenValidity: 30
+      RefreshTokenValidity: 365
+      AllowedOAuthFlowsUserPoolClient: true
+      PreventUserExistenceErrors: ENABLED
+      AllowedOAuthScopes:
+        - 'email'
+        - 'openid'
+        - 'profile'
+        - 'aws.cognito.signin.user.admin'
+      AllowedOAuthFlows:
+        - 'implicit'
+        - 'code'
+      SupportedIdentityProviders:
+        - Facebook
+        - Google
+      CallbackURLs:
+        - !Sub ${OAuthCallbackUrl}
+      LogoutURLs:
+        - !Sub ${OAuthLogoutUrl}
+  # Identity Pool
+  UserIdentityPool:
+    Type: AWS::Cognito::IdentityPool
+    Properties:
+      IdentityPoolName: !Sub user_identity_pool
+      AllowUnauthenticatedIdentities: false
+      CognitoIdentityProviders:
+        - ClientId: !Ref UserPoolClient
+          ProviderName: !GetAtt UserPool.ProviderName
+  # User Pool Domain
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Sub ${UserPoolDomainName}
+      UserPoolId: !Ref UserPool
+  # Facebook
+  FacebookUserPoolIdentityProvider:
+    Type: AWS::Cognito::UserPoolIdentityProvider
+    Properties:
+      UserPoolId: !Ref UserPool
+      ProviderName: Facebook
+      ProviderType: Facebook
+      AttributeMapping:
+        email: 'email'
+        name: 'name'
+      ProviderDetails:
+        client_id: !Sub ${FacebookClientId}
+        client_secret: !Sub ${FacebookClientSecret}
+        authorize_scopes: 'public_profile,email'
+  # Google
+  GoogleUserPoolIdentityProvider:
+    Type: AWS::Cognito::UserPoolIdentityProvider
+    Properties:
+      UserPoolId: !Ref UserPool
+      ProviderName: Google
+      ProviderType: Google
+      AttributeMapping:
+        email: 'email'
+        name: 'name'
+      ProviderDetails:
+        client_id: !Sub ${GoogleClientId}
+        client_secret: !Sub ${GoogleClientSecret}
+        authorize_scopes: 'email'
+  # Roles
+  CognitoUnAuthorizedRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: cognito-identity.amazonaws.com
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                cognito-identity.amazonaws.com:aud: !Ref UserIdentityPool
+              ForAnyValue:StringLike:
+                cognito-identity.amazonaws.com:amr: unauthenticated
+      Policies:
+        - PolicyName: CognitoUnauthorizedPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - mobileanalytics:PutEvents
+                  - cognito-sync:*
+                Resource: '*'
+  CognitoAuthorizedRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Federated: 'cognito-identity.amazonaws.com'
+            Action:
+              - 'sts:AssumeRoleWithWebIdentity'
+            Condition:
+              StringEquals:
+                'cognito-identity.amazonaws.com:aud': !Ref UserIdentityPool
+              ForAnyValue:StringLike:
+                'cognito-identity.amazonaws.com:amr': authenticated
+      Policies:
+        - PolicyName: 'CognitoAuthorizedPolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 'mobileanalytics:PutEvents'
+                  - 'cognito-sync:*'
+                  - 'cognito-identity:*'
+                  - 'mobiletargeting:UpdateEndpoint'
+                  - 'mobiletargeting:PutEvents'
+                  - 'lambda:InvokeFunction'
+                Resource: '*'
+  # Assigns the roles to the Identity Pool
+  IdentityPoolRoleMapping:
+    Type: 'AWS::Cognito::IdentityPoolRoleAttachment'
+    Properties:
+      IdentityPoolId: !Ref UserIdentityPool
+      Roles:
+        authenticated: !GetAtt CognitoAuthorizedRole.Arn
+        unauthenticated: !GetAtt CognitoUnAuthorizedRole.Arn
   # Invocations
   CustomMessageInvocationPermission:
     Type: AWS::Lambda::Permission
@@ -105,7 +250,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -121,7 +266,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -142,7 +287,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -165,7 +310,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -189,7 +334,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -212,7 +357,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -235,7 +380,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -258,7 +403,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -281,7 +426,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -304,7 +449,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -327,7 +472,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -350,7 +495,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -373,7 +518,7 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Minify: true
-        Target: "es2020"
+        Target: 'es2020'
         Sourcemap: true
         EntryPoints:
           - index.ts
@@ -381,25 +526,25 @@ Resources:
   UsersTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: "Users"
+      TableName: 'Users'
       PrimaryKey:
-        Name: "id"
-        Type: "String"
+        Name: 'id'
+        Type: 'String'
   ReviewsTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: "Reviews"
+      TableName: 'Reviews'
       PrimaryKey:
-        Name: "id"
-        Type: "String"
+        Name: 'id'
+        Type: 'String'
   WatchlistTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: "Watchlists"
+      TableName: 'Watchlists'
       PrimaryKey:
-        Name: "id"
-        Type: "String"
+        Name: 'id'
+        Type: 'String'
 Outputs:
   API:
-    Description: "API Gateway endpoint URL"
-    Value: !Sub "https://${Api}.execute-api.${AWS::Region}.amazonaws.com/v1"
+    Description: 'API Gateway endpoint URL'
+    Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/v1'
