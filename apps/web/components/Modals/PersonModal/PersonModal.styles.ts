@@ -14,11 +14,11 @@ export const ContentContainer = styled.div`
   position: relative;
 `;
 
-export const Cover = styled.div`
+export const Cover = styled.div<{ coverColor: string }>`
   width: 100%;
   height: 20rem;
   object-fit: cover;
-  background-color: ${(props) => props.theme.palette.secondary.main};
+  background: ${(props) => props.coverColor};
   position: relative;
   display: flex;
   align-items: flex-end;
@@ -56,6 +56,7 @@ export const Content = styled.div`
   padding: 5rem;
   background: ${(props) => props.theme.palette.background.main};
   color: ${(props) => props.theme.palette.common.white};
+  width: 100%;
 `;
 
 export const StarIcon = styled(StarPurple500Icon)`

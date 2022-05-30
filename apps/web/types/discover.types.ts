@@ -27,7 +27,7 @@ export declare module Discover {
 
   interface DiscoverRequestPayload {
     page: number;
-    actorId: number;
+    personId: number;
   }
 
 }
