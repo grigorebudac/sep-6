@@ -32,8 +32,11 @@ const WatchLists = () => {
         ))) :
         (
           <>
-            <Box display="flex" ml={2} gap={2}>
-              <Typography fontSize="3.2rem" color="primary.contrastText" fontWeight="500">
+            <Box gap={2} display="flex" justifyContent="center" alignItems="center" height="100%" >
+              <Typography fontSize="3rem"
+                color="system.main"
+                align='center'
+                fontWeight={900}>
                 You have no watch-lists yet.
               </Typography>
               <Fab color="default" aria-label="add" onClick={handleClickCreateWatchListModalOpen}>

@@ -4,7 +4,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
-import { ViewList, Add } from "@mui/icons-material";
+import { ViewList, Add, Favorite } from "@mui/icons-material";
 import { WatchList, Movie } from "types";
 import {
   useAddMovieToWatchListMutation,
@@ -87,7 +87,7 @@ const AddToPlayListModal = (props: SimpleDialogProps) => {
                 <ListItem button onClick={() => handleListItemClick(watchList.id)} key={watchList.id}>
                   <ListItemAvatar>
                     <Styles.ColoredAvatar>
-                      <ViewList />
+                      {watchList.title === 'Favorite' ? <Favorite /> : <ViewList />}
                     </Styles.ColoredAvatar>
                   </ListItemAvatar>
                   <ListItemText primary={watchList.title} />
