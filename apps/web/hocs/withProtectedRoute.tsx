@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -6,11 +6,9 @@ import { UserSlice } from 'redux/slices';
 import { UserSelectors } from 'redux/selectors';
 import { Auth, CognitoUser } from '@aws-amplify/auth';
 
-type WithProtectedRouteProps = (Component: FC) => FC;
+// type WithProtectedRouteProps = {};
 
-function withProtectedRoute<P>(
-  WrappedComponent: React.ComponentType<P & WithProtectedRouteProps>,
-) {
+function withProtectedRoute<P>(WrappedComponent: React.ComponentType<P>) {
   const ComponentWithExtraInfo = (props: P) => {
     const router = useRouter();
     const dispatch = useDispatch();
