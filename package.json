@@ -20,8 +20,5 @@
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
   },
-  "packageManager": "npm@8.1.0",
-  "dependencies": {
-    "babel-plugin-inline-react-svg": "^2.0.1"
-  }
+  "packageManager": "npm@8.1.0"
 }
