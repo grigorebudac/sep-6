@@ -110,9 +110,10 @@ const AddToPlayListModal = (props: SimpleDialogProps) => {
                         watchList.title === 'Watch later' ? (
                           <WatchLaterIcon />
                         ) : watchList.title === 'Favorite' ? (
-                          <ViewList />
-                        ) : (
                           <Favorite />
+                        ) : (
+                          <ViewList />
+
                         )
                       }
                     </Styles.ColoredAvatar >
