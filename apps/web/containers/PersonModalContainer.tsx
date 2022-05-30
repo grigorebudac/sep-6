@@ -20,8 +20,8 @@ const PersonModalContainer = () => {
   }, [router.isReady, router.asPath]);
 
   const handleLoadData = useCallback(() => {
-    if (isOpen) {
-      getPerson(parseInt(personId || ''));
+    if (isOpen && personId) {
+      getPerson(personId);
     }
   }, [isOpen, personId, getPerson]);
 

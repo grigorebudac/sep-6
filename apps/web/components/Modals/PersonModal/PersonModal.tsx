@@ -18,6 +18,8 @@ interface PersonModalProps {
   onClose: () => void;
 }
 
+const ACTING_DEPARTMENT = 'Acting';
+
 const PersonModal = ({
   person,
   isPersonLoading,
@@ -53,6 +55,9 @@ const PersonModal = ({
     return setCoverColor(colors[Math.floor(Math.random() * colors.length)]);
   };
 
+  const imagePlaceHolderBase64 =
+    'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAADCAQAAAAT4xYKAAAADklEQVR42mNkAAJGOAEAAC0ABNxMS2YAAAAASUVORK5CYII=';
+
   return (
     <Styles.Dialog
       open={props.open}
@@ -61,9 +66,9 @@ const PersonModal = ({
       onClose={props.onClose}
     >
       <Styles.ContentContainer>
-        <Styles.Cover style={{ background: coverColor }}>
+        <Styles.Cover coverColor={coverColor}>
           <Styles.Avatar
-            src={getImageByPath(person?.profile_path || '')}
+            src={person?.profile_path ? getImageByPath(person?.profile_path) : imagePlaceHolderBase64}
             alt={person?.name}
           />
 
@@ -117,7 +122,7 @@ const PersonModal = ({
                 )}
 
                 {person?.known_for_department &&
-                  person?.known_for_department !== 'Acting' && (
+                  person?.known_for_department !== ACTING_DEPARTMENT && (
                     <Typography marginTop={1}>
                       <b>Department:</b> {person?.known_for_department}
                     </Typography>
@@ -132,7 +137,7 @@ const PersonModal = ({
               />
             </Grid>
           </Grid>
-          {movieData?.cast.length !== 0 && (
+          {movieData?.cast?.length !== 0 && (
             <Box marginTop={5}>
               <Typography
                 fontSize={['2rem', '3rem']}
@@ -159,7 +164,7 @@ const PersonModal = ({
           )}
         </Styles.Content>
       </Styles.ContentContainer>
-    </Styles.Dialog>
+    </Styles.Dialog >
   );
 };
 

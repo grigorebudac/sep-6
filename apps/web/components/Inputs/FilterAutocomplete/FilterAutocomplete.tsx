@@ -24,7 +24,7 @@ const FilterAutocomplete = (props: FilterAutocompleteProps) => {
       getOptionLabel={(option) => option.name}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       filterSelectedOptions
-      onChange={(__, options) => props.onChange && props.onChange(options ?? [])}
+      onChange={(__, options) => props.onChange?.(options ?? [])}
       renderInput={(params) => (
         <TextField
           {...params}

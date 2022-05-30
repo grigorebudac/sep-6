@@ -14,11 +14,11 @@ export const ContentContainer = styled.div`
   position: relative;
 `;
 
-export const Cover = styled.div`
+export const Cover = styled.div<{ coverColor: string }>`
   width: 100%;
   height: 20rem;
   object-fit: cover;
-  background-color: ${(props) => props.theme.palette.background.main};
+  background: ${(props) => props.coverColor};
   position: relative;
   display: flex;
   align-items: flex-end;
