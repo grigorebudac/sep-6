@@ -1,8 +1,8 @@
 import { Box, Button } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
-import * as Styles from './OAuthButtonsSection.styles';
 import React from 'react';
+import * as Styles from './OAuthButtonsSection.styles';
 
 interface OAuthButtonsSectionProps {
   onClickGoogle: () => void;

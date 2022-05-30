@@ -1,31 +1,31 @@
-import { ACTOR_TAG, ACTOR_MOVIE, TmdbApi } from 'redux/apis/tmdb.api';
+import { PERSON_TAG, PERSON_MOVIE, TmdbApi } from 'redux/apis/tmdb.api';
 import { Person } from 'types';
 
 export const PersonEndpoint = TmdbApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getActor: builder.query<Person.ActorResponse, number>({
-      query: (actorId) => ({
-        url: `/person/${actorId}`,
+    getPerson: builder.query<Person.PersonResponse, number | string>({
+      query: (personId) => ({
+        url: `/person/${personId}`,
         params: {},
       }),
       providesTags: (res) => {
         return [
           {
-            type: ACTOR_TAG,
+            type: PERSON_TAG,
             id: res?.id,
           },
         ];
       },
     }),
-    getMovies: builder.query<Person.MovieResponse, number>({
-      query: (actorId) => ({
-        url: `person/${actorId}/movie_credits`,
+    getMovies: builder.query<Person.MovieResponse, number | string>({
+      query: (personId) => ({
+        url: `person/${personId}/movie_credits`,
         params: {},
       }),
       providesTags: (res) => {
-        return (res?.cast ?? []).map(({ id }) => ({
-          type: ACTOR_MOVIE,
+        return (res?.cast || []).map(({ id }) => ({
+          type: PERSON_MOVIE,
           id,
         }));
       },
@@ -33,4 +33,4 @@ export const PersonEndpoint = TmdbApi.injectEndpoints({
   }),
 });
 
-export const { useLazyGetActorQuery, useLazyGetMoviesQuery } = PersonEndpoint;
+export const { useLazyGetPersonQuery, useLazyGetMoviesQuery } = PersonEndpoint;

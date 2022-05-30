@@ -5,8 +5,8 @@ export const DiscoverEndpoints = TmdbApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getMoviesOfActor: builder.query<Discover.DiscoverResponse, Discover.DiscoverRequestPayload>({
-      query: ({ actorId, page }) => ({
-        url: `/discover/movie?with_cast=${actorId}&page=${page}`,
+      query: ({ personId, page }) => ({
+        url: `/discover/movie?with_cast=${personId}&page=${page}`,
         params: {},
       }),
       providesTags: (res) => {

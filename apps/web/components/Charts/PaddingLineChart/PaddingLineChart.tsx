@@ -1,4 +1,4 @@
-import { Skeleton, Theme, useTheme } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import React from 'react';
 import {
   LineChart,
@@ -44,8 +44,6 @@ const PaddingLineChart = ({
   lineColor,
   data,
 }: PaddingLineChartProps) => {
-  const theme = useTheme<Theme>();
-
   if (isLoading) {
     return <Skeleton variant="rectangular" width="100%" height="100%" />;
   }
@@ -69,8 +67,8 @@ const PaddingLineChart = ({
         <Line
           type="monotone"
           dataKey="rating"
-          name="Average movie rating over the years"
-          stroke={lineColor}
+          name={data.length ? 'Average movies rating' : 'No data'}
+          stroke={data.length ? lineColor : 'white'}
           activeDot={{ r: 8 }}
         />
       </LineChart>

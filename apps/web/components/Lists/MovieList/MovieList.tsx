@@ -7,8 +7,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import MovieModalContainer from 'containers/MovieModalContainer';
 import { Skeleton } from '@mui/material';
 import Link from 'next/link';
-import { useRouter } from "next/router";
-
+import { useRouter } from 'next/router';
 
 interface MovieListProps {
   movies: Movie.Movie[];
@@ -46,13 +45,18 @@ const MovieList = ({ movies, buttonColor }: MovieListProps) => {
                 scroll={false}
               >
                 <Styles.MovieCardWrapper key={movie.id}>
+                  <Link href={`?movieId=${movie.id}`} scroll={false} passHref>
+                    <a>
+                      <MovieCard
+                        key={movie.id}
+                        title={movie.title}
+                        rating={movie.vote_average}
+                        posterUrl={movie.poster_path}
+                      />
+                    </a>
+                  </Link>
 
-                  <MovieCard
-                    key={movie.id}
-                    title={movie.title}
-                    rating={movie.vote_average}
-                    posterUrl={movie.poster_path}
-                  />
+
                 </Styles.MovieCardWrapper>
               </Link>
             ))
