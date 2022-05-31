@@ -10,7 +10,7 @@ export const handler: CustomMessageTriggerHandler = async (
 
   const baseUrl =
     process.env.STAGE === 'dev'
-      ? 'http://localhost:3000'
+      ? 'https://sep-6-six.vercel.app/'
       : 'https://sep-6-six.vercel.app/';
 
   const forgotPasswordMessage = `
