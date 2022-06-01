@@ -9,7 +9,7 @@ export const handler: PostConfirmationTriggerHandler = async (
   context,
   callback,
 ) => {
-  const { sub, email, name, picture } = event.request.userAttributes;
+  const { sub, email, name, picture, profile } = event.request.userAttributes;
   const currentUnixTime = Date.now().toString();
 
   const params = {
@@ -17,7 +17,7 @@ export const handler: PostConfirmationTriggerHandler = async (
     Item: {
       id: sub,
       email,
-      name,
+      name: name ?? profile,
       picture,
       createdAt: currentUnixTime,
       updatedAt: currentUnixTime,
@@ -34,7 +34,7 @@ export const handler: PostConfirmationTriggerHandler = async (
       userId: sub,
       createdAt: currentUnixTime,
       updatedAt: currentUnixTime,
-    }
+    },
   }).promise();
 
   await DynamoDB.put({
@@ -45,7 +45,7 @@ export const handler: PostConfirmationTriggerHandler = async (
       userId: sub,
       createdAt: currentUnixTime,
       updatedAt: currentUnixTime,
-    }
+    },
   }).promise();
 
   callback(null, event);
