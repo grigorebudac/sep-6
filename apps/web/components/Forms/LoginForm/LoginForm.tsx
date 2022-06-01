@@ -1,21 +1,21 @@
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { Box, Typography } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Box, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
-import { User } from "types";
-import { TextFieldController } from "components/Controllers/TextFieldController";
-import { AuthenticationSection } from "components/Sections/AuthenticationSection";
+import { User } from 'types';
+import { TextFieldController } from 'components/Controllers/TextFieldController';
+import { AuthenticationSection } from 'components/Sections/AuthenticationSection';
 
 type LoginFormProps = {
   onSubmit: (credentials: User.LoginInput) => void;
 };
 
 const schema = yup.object().shape({
-  email: yup.string().email().required("This field is required"),
-  password: yup.string().min(8).required("This field is required"),
+  email: yup.string().email().required('This field is required'),
+  password: yup.string().min(8).required('This field is required'),
 });
 
 const LoginForm = (props: LoginFormProps) => {
@@ -26,8 +26,8 @@ const LoginForm = (props: LoginFormProps) => {
   } = useForm<User.LoginInput>({
     resolver: yupResolver(schema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -37,6 +37,8 @@ const LoginForm = (props: LoginFormProps) => {
         title="Sign in."
         description={
           <span>
+            Remember to confirm your account before logging-in!
+            <br />
             Need to create account? <Link href="/register">Sign up here.</Link>
           </span>
         }
@@ -75,7 +77,7 @@ const LoginForm = (props: LoginFormProps) => {
             textAlign="center"
             marginTop="1rem"
           >
-            Forgot your password?{" "}
+            Forgot your password?{' '}
             <Link href="/forgot-password">Click here</Link> to reset it.
           </Typography>
         </Box>
