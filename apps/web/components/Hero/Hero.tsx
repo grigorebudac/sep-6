@@ -108,7 +108,9 @@ const Hero = ({ data }: HeroProps) => {
 
         <VideoModal
           open={openModal}
-          videoId={video.data?.results?.[0]?.key || ''}
+          videoId={
+            video?.data?.results?.find((v) => v.type === 'Trailer')?.key || ''
+          }
           onClose={() => setOpenModal(false)}
         />
       </Styles.MovieList>
