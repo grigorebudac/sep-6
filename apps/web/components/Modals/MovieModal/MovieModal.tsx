@@ -16,6 +16,7 @@ import AddToPlayListModal from 'components/Modals/AddToPlayListModal';
 import ReviewsContainer from 'containers/ReviewsContainer';
 import { useGetWatchListsQuery } from 'redux/endpoints/watch-lists.endpoints';
 import MovieCreditsSection from 'components/Sections/MovieCreditsSection';
+import { useGetReviewsQuery } from 'redux/endpoints/review.endpoints';
 
 interface MovieModalProps {
   open: DialogProps['open'];
@@ -28,6 +29,10 @@ interface MovieModalProps {
 
 const MovieModal = ({ movie, videoId, ...props }: MovieModalProps) => {
   const { data } = useGetWatchListsQuery();
+  const { data: reviews, isLoading } = useGetReviewsQuery({
+    movieId: movie?.id || 0,
+  });
+
   const [openModal, setOpenModal] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -81,6 +86,34 @@ const MovieModal = ({ movie, videoId, ...props }: MovieModalProps) => {
       <Styles.Content>
         <Grid container gap={2}>
           <Grid item xs={12} sm={8}>
+            <Grid container gap={4} marginBottom={2}>
+              <Box>
+                <Typography fontWeight="bold">Rating</Typography>
+                <Typography>{movie?.vote_average}</Typography>
+              </Box>
+              <Box>
+                <Typography fontWeight="bold">Budget</Typography>
+                <Typography>{movie?.budget / 1000000} M</Typography>
+              </Box>
+              <Box>
+                <Typography fontWeight="bold">Revenue</Typography>
+                <Typography>{movie?.revenue / 1000000} M</Typography>
+              </Box>
+              <Box>
+                <Typography fontWeight="bold">Profit</Typography>
+                <Typography>{movie?.revenue - movie?.budget}</Typography>
+              </Box>
+              <Box>
+                <Typography fontWeight="bold">Reviews</Typography>
+                <Typography>
+                  {isLoading
+                    ? 'Loading...'
+                    : reviews?.length === 0
+                    ? 'No reviews'
+                    : reviews?.length}
+                </Typography>
+              </Box>
+            </Grid>
             <SimpleTextSection title="Overview" subtitle={movie?.overview} />
           </Grid>
 
@@ -117,7 +150,11 @@ const MovieModal = ({ movie, videoId, ...props }: MovieModalProps) => {
 
       {movie != null && (
         <Styles.Content>
-          <ReviewsContainer movieId={movie?.id} />
+          <ReviewsContainer
+            movieId={movie?.id}
+            reviews={reviews}
+            isLoading={isLoading}
+          />
         </Styles.Content>
       )}
       <AddToPlayListModal

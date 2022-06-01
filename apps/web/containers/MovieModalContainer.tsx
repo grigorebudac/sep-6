@@ -50,7 +50,7 @@ const MovieModalContainer = () => {
       onClose={handleClose}
       movie={movieData.data}
       credits={creditsData.data}
-      videoId={video.data?.results?.[0]?.key}
+      videoId={video?.data?.results?.find((v) => v.type === 'Trailer')?.key}
       isLoading={movieData.isLoading && creditsData.isLoading}
     />
   );
