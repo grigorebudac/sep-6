@@ -15,7 +15,7 @@ const OAuthButtonsSection = (props: OAuthButtonsSectionProps) => {
       <Styles.OAuthButton startIcon={<GoogleIcon />} onClick={props.onClickGoogle}>
         Login with Google
       </Styles.OAuthButton>
-      <Styles.OAuthButton startIcon={<FacebookIcon />} onClick={props.onClickFacebook}>
+      <Styles.OAuthButton startIcon={<FacebookIcon />} onClick={props.onClickFacebook} disabled>
         Login with Facebook
       </Styles.OAuthButton>
     </Box>
