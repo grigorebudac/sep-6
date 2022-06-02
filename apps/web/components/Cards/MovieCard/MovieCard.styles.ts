@@ -13,6 +13,7 @@ export const Container = styled.div`
   border-radius: 1rem;
   overflow: hidden;
   width: 100%;
+  cursor: pointer;
 `;
 
 export const Content = styled.div`

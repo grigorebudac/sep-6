@@ -16,6 +16,7 @@ import { SidebarMinimiseIcon } from 'assets/animated-icons/SidebarMinimiseIcon';
 import * as Styles from './PrimarySidebar.styles';
 import { Auth } from '@aws-amplify/auth';
 import { useDispatch } from 'react-redux';
+import Link from 'next/link';
 
 type PrimarySidebarProps = {
   isExpanded: boolean;
@@ -73,12 +74,16 @@ const PrimarySidebar = (props: PrimarySidebarProps) => {
   return (
     <Styles.Drawer open={props.isExpanded} variant="permanent">
       <Styles.BrokerContainer>
-        <Image
-          src="https://images.unsplash.com/photo-1485846234645-a62644f84728?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100"
-          layout="fill"
-          objectFit="cover"
-          alt="SEP6"
-        />
+        <Link
+          href="/"
+        >
+          <Image
+            src="https://images.unsplash.com/photo-1485846234645-a62644f84728?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100"
+            layout="fill"
+            objectFit="cover"
+            alt="SEP6"
+          />
+        </Link>
       </Styles.BrokerContainer>
 
       <Styles.Divider />
@@ -108,20 +113,6 @@ const PrimarySidebar = (props: PrimarySidebarProps) => {
             </Styles.ListItemIcon>
             <Styles.ListItemText primary="Minimise" />
           </Styles.ListItemButton>
-
-          {ACTION_LINKS.map((actionLink) => {
-            return (
-              <Styles.ListItemButton
-                key={actionLink.title}
-                isActive={history.pathname === actionLink.href}
-                onClick={() => handleNavigate(actionLink.href)}
-              >
-                <Styles.ListItemIcon>{actionLink.icon}</Styles.ListItemIcon>
-                <Styles.ListItemText primary={actionLink.title} />
-              </Styles.ListItemButton>
-            );
-          })}
-
           <Styles.ListItemButton onClick={handleSignOut}>
             <Styles.ListItemIcon>
               <PowerSettingsNewIcon />
